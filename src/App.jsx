@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback } from 'react'
 import CanvasPreview from './components/CanvasPreview'
 import { useExport } from './hooks/useExport'
 import { COLORS, DIMENSIONS, BACKGROUNDS, TEMPLATES, PILL_PRESETS, COVER_EMOJIS } from './constants/brand'
@@ -7,7 +7,6 @@ const T = { bg:'#FFFFFF', bgPage:'#F3F4F5', bgSurface:'#FFFFFF', bgInput:'#FFFFF
 
 const emptyPerson = () => ({ name:'', title:'', company:'', photo:'' })
 
-// Default fields per template — realistic placeholder content
 const TEMPLATE_DEFAULTS = {
   headline: { pill:'New Product Feature', headline:'Introducing OneSignal Events', subheadline:'Act on every moment that matters', cta:'Learn more about Events', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
   stat:     { pill:'', headline:'', subheadline:'An eye-opening look at what happens when you stop emailing disengaged users', cta:'Read the case study', stat:'+67%', statLabel:'Boost in email opens', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
@@ -102,14 +101,12 @@ export default function App() {
   const [template, setTemplate] = useState('headline')
   const [dimensionId, setDimensionId] = useState('square')
   const [backgroundId, setBackgroundId] = useState('white')
-  const [pixelOverlay, setPixelOverlay] = useState(false)
   const [logoAlign, setLogoAlign] = useState('left')
   const [slideIndex, setSlideIndex] = useState(0)
   const [newHireSlides, setNewHireSlides] = useState([[emptyPerson(),emptyPerson(),emptyPerson()]])
   const [exporting, setExporting] = useState(false)
-
-  // Per-template fields state — each starts with defaults, preserves edits
   const [allFields, setAllFields] = useState({ ...TEMPLATE_DEFAULTS })
+
   const fields = allFields[template]
   const update = useCallback((k, v) => {
     setAllFields(prev => ({ ...prev, [template]: { ...prev[template], [k]: v } }))
@@ -119,14 +116,9 @@ export default function App() {
   const allBgs = [...BACKGROUNDS.solids, ...BACKGROUNDS.gradients]
   const background = allBgs.find(b=>b.id===backgroundId)||BACKGROUNDS.solids[4]
   const totalSlides = template==='newhire'?newHireSlides.length+1:1
-  const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay, newHireSlides, isDark: background.isDark })
+  const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay: false, newHireSlides, isDark: background.isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
-
-  const handleTemplateSwitch = (id) => {
-    setTemplate(id)
-    setSlideIndex(0)
-  }
-
+  const handleTemplateSwitch = (id) => { setTemplate(id); setSlideIndex(0) }
   const tmplBtn = (active) => ({ background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'10px', cursor:'pointer', textAlign:'left', transition:'all 0.15s' })
   const btnBase = (active) => ({ display:'flex', alignItems:'center', justifyContent:'space-between', background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'9px 12px', cursor:'pointer', transition:'all 0.15s', width:'100%' })
 
@@ -156,7 +148,6 @@ export default function App() {
             <div style={{fontSize:11,color:T.textMuted,marginBottom:6,fontFamily:"'Nunito Sans', sans-serif"}}>Gradient</div>
             <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:10}}>{BACKGROUNDS.gradients.map(bg=><button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{width:30,height:30,borderRadius:6,cursor:'pointer',border:`2px solid ${backgroundId===bg.id?T.purple:'transparent'}`,outline:`1px solid ${backgroundId===bg.id?T.purple:T.border}`,...bg.style,flexShrink:0}}/>)}</div>
           </div>
-          <Toggle label="Pixel overlay" checked={pixelOverlay} onChange={setPixelOverlay}/>
           <Divider/>
           <SectionLabel>Logo Placement</SectionLabel>
           <div style={{display:'flex',gap:4,marginBottom:14}}>
@@ -175,14 +166,13 @@ export default function App() {
         </div>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
-        <div style={{height:44,borderBottom:`1px solid ${T.border}`,background:T.bgSurface,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 20px',flexShrink:0}}>
+        <div style={{height:44,borderBottom:`1px solid ${T.border}`,background:T.bgSurface,display:'flex',alignItems:'center',padding:'0 20px',flexShrink:0}}>
           <div style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>
             {TEMPLATES.find(t=>t.id===template)?.label}<span style={{margin:'0 6px',color:T.border}}>·</span>{dimension.sublabel}<span style={{margin:'0 6px',color:T.border}}>·</span>{background.label}
           </div>
-          {template==='newhire'&&totalSlides>1&&<div style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:4,padding:'3px 10px'}}>Slide {slideIndex+1} / {totalSlides}</div>}
         </div>
-        <CanvasPreview template={template} fields={fields} dimension={dimension} background={background} pixelOverlay={pixelOverlay} logoAlign={logoAlign} slideIndex={slideIndex} newHireSlides={newHireSlides} setSlideIndex={setSlideIndex} totalSlides={totalSlides}/>
+        <CanvasPreview template={template} fields={fields} dimension={dimension} background={background} pixelOverlay={false} logoAlign={logoAlign} slideIndex={slideIndex} newHireSlides={newHireSlides} setSlideIndex={setSlideIndex} totalSlides={totalSlides}/>
       </div>
     </div>
   )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                     }
