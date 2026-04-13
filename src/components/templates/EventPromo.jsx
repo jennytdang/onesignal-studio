@@ -38,7 +38,7 @@ export default function EventPromo({ fields, dimension, isDark }) {
   if (isLandscape && hasSpeakers) return (
     <div style={{ width, height, display: 'flex', fontFamily: "'Epilogue', sans-serif" }}>
       <div style={{ flex: '0 0 58%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: pad }}>
-        <OsLogo color={fg} height={Math.round(height * 0.045)} />
+        <OsLogo color={fg} height={Math.round(height * 0.045)} useImg={true} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: Math.round(height * 0.028) }}>
           {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 999, padding: `${Math.round(height * 0.012)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
           <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
@@ -55,7 +55,7 @@ export default function EventPromo({ fields, dimension, isDark }) {
 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: pad, fontFamily: "'Epilogue', sans-serif" }}>
-      <OsLogo color={fg} height={Math.round(height * 0.034)} />
+      <OsLogo color={fg} height={Math.round(height * 0.034)} useImg={true} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: Math.round(height * 0.028) }}>
         {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 999, padding: `${Math.round(height * 0.009)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
         <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
