@@ -1,11 +1,20 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import CanvasPreview from './components/CanvasPreview'
 import { useExport } from './hooks/useExport'
 import { COLORS, DIMENSIONS, BACKGROUNDS, TEMPLATES, PILL_PRESETS, COVER_EMOJIS } from './constants/brand'
 
 const T = { bg:'#FFFFFF', bgPage:'#F3F4F5', bgSurface:'#FFFFFF', bgInput:'#FFFFFF', bgHover:'#F3F4F5', border:'#E5E7E9', borderFocus:'#4E50D1', text:'#051B2C', textSub:'#59626B', textMuted:'#98A1A9', purple:'#4E50D1', purple50:'#F3F3FC', white:'#FFFFFF' }
-const emptyFields = () => ({ pill:'', headline:'', subheadline:'', cta:'', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' })
+
 const emptyPerson = () => ({ name:'', title:'', company:'', photo:'' })
+
+// Default fields per template — realistic placeholder content
+const TEMPLATE_DEFAULTS = {
+  headline: { pill:'New Product Feature', headline:'Introducing OneSignal Events', subheadline:'Act on every moment that matters', cta:'Learn more about Events', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
+  stat:     { pill:'', headline:'', subheadline:'An eye-opening look at what happens when you stop emailing disengaged users', cta:'Read the case study', stat:'+67%', statLabel:'Boost in email opens', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
+  quote:    { pill:'', headline:'We were able to generate more engagement with the product and were able to attribute some transactional messages to these campaigns, which we consider a huge success.', subheadline:'', cta:'', stat:'', statLabel:'', authorName:'Daria Dovzhikova', authorTitle:'Growth Product Manager', authorCompany:'Bitcoin.com', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
+  event:    { pill:'Webinar', headline:'The 2026 State of Customer Engagement', subheadline:'', cta:'Save your spot now', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'Thursday, March 26 @ 9:00AM PDT', eventLocation:'', speakers:[{name:'Baris Girgin',title:'Associate Director UA',company:'Zynga',photo:''},{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
+  newhire:  { pill:'', headline:'Meet our newest members!', subheadline:'', cta:'', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
+}
 
 function SectionLabel({ children }) {
   return <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:T.textMuted, fontFamily:"'Epilogue', sans-serif", marginBottom:8 }}>{children}</div>
@@ -95,36 +104,44 @@ export default function App() {
   const [backgroundId, setBackgroundId] = useState('white')
   const [pixelOverlay, setPixelOverlay] = useState(false)
   const [logoAlign, setLogoAlign] = useState('left')
-  const [fields, setFields] = useState(emptyFields())
   const [slideIndex, setSlideIndex] = useState(0)
   const [newHireSlides, setNewHireSlides] = useState([[emptyPerson(),emptyPerson(),emptyPerson()]])
   const [exporting, setExporting] = useState(false)
+
+  // Per-template fields state — each starts with defaults, preserves edits
+  const [allFields, setAllFields] = useState({ ...TEMPLATE_DEFAULTS })
+  const fields = allFields[template]
+  const update = useCallback((k, v) => {
+    setAllFields(prev => ({ ...prev, [template]: { ...prev[template], [k]: v } }))
+  }, [template])
+
   const dimension = DIMENSIONS[dimensionId]
   const allBgs = [...BACKGROUNDS.solids, ...BACKGROUNDS.gradients]
   const background = allBgs.find(b=>b.id===backgroundId)||BACKGROUNDS.solids[4]
-  const update = useCallback((k,v)=>setFields(f=>({...f,[k]:v})),[])
   const totalSlides = template==='newhire'?newHireSlides.length+1:1
   const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay, newHireSlides, isDark: background.isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
 
-  const btnBase = (active) => ({ display:'flex', alignItems:'center', justifyContent:'space-between', background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'9px 12px', cursor:'pointer', transition:'all 0.15s', width:'100%' })
+  const handleTemplateSwitch = (id) => {
+    setTemplate(id)
+    setSlideIndex(0)
+  }
+
   const tmplBtn = (active) => ({ background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'10px', cursor:'pointer', textAlign:'left', transition:'all 0.15s' })
+  const btnBase = (active) => ({ display:'flex', alignItems:'center', justifyContent:'space-between', background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'9px 12px', cursor:'pointer', transition:'all 0.15s', width:'100%' })
 
   return (
     <div style={{display:'flex',height:'100vh',overflow:'hidden',fontFamily:"'Epilogue', sans-serif",background:T.bgPage}}>
-      {/* Sidebar */}
       <div style={{width:280,flexShrink:0,display:'flex',flexDirection:'column',background:T.bgSurface,borderRight:`1px solid ${T.border}`,height:'100vh',overflow:'hidden'}}>
-        {/* Header */}
         <div style={{padding:'14px 16px',borderBottom:`1px solid ${T.border}`,display:'flex',alignItems:'center',gap:10}}>
           <img src="/OneSignal-Logo-Black.png" alt="OneSignal" style={{height:20,width:'auto',display:'block'}}/>
           <div style={{width:1,height:18,background:T.border,flexShrink:0}}/>
           <div style={{fontSize:12,fontWeight:600,color:T.textSub,letterSpacing:'0.02em'}}>Studio</div>
         </div>
-        {/* Scrollable content */}
         <div className="sidebar-scroll" style={{flex:1,overflowY:'auto',padding:'14px 14px 24px'}}>
           <SectionLabel>Template</SectionLabel>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,marginBottom:16}}>
-            {TEMPLATES.map(t=><button key={t.id} onClick={()=>{setTemplate(t.id);setSlideIndex(0)}} style={tmplBtn(template===t.id)}><div style={{fontSize:11,fontWeight:600,color:template===t.id?T.purple:T.textSub,marginBottom:2}}>{t.label}</div><div style={{fontSize:10,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",lineHeight:1.3}}>{t.description}</div></button>)}
+            {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={tmplBtn(template===t.id)}><div style={{fontSize:11,fontWeight:600,color:template===t.id?T.purple:T.textSub,marginBottom:2}}>{t.label}</div><div style={{fontSize:10,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",lineHeight:1.3}}>{t.description}</div></button>)}
           </div>
           <Divider/>
           <SectionLabel>Canvas Size</SectionLabel>
@@ -148,7 +165,6 @@ export default function App() {
           <Divider/>
           <FieldsPanel template={template} fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
         </div>
-        {/* Export */}
         <div style={{padding:14,borderTop:`1px solid ${T.border}`}}>
           <button onClick={handleExport} disabled={exporting}
             style={{width:'100%',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:8,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',transition:'all 0.2s'}}
@@ -158,7 +174,6 @@ export default function App() {
           <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px · JPG`}</div>
         </div>
       </div>
-      {/* Canvas area */}
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
         <div style={{height:44,borderBottom:`1px solid ${T.border}`,background:T.bgSurface,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 20px',flexShrink:0}}>
           <div style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>
@@ -170,4 +185,4 @@ export default function App() {
       </div>
     </div>
   )
-        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }
