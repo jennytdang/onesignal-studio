@@ -3,7 +3,7 @@ import CanvasPreview from './components/CanvasPreview'
 import { useExport } from './hooks/useExport'
 import { COLORS, DIMENSIONS, BACKGROUNDS, TEMPLATES, PILL_PRESETS, COVER_EMOJIS } from './constants/brand'
 
-const T = { bg:'#FFFFFF', bgPage:'#F3F4F5', bgSurface:'#FFFFFF', bgInput:'#FFFFFF', bgHover:'#F3F4F5', bgSelected:'#F3F3FC', border:'#E5E7E9', borderFocus:'#4E50D1', text:'#051B2C', textSub:'#59626B', textMuted:'#98A1A9', purple:'#4E50D1', purple50:'#F3F3FC', purple100:'#E5E6F8', white:'#FFFFFF' }
+const T = { bg:'#FFFFFF', bgPage:'#F3F4F5', bgSurface:'#FFFFFF', bgInput:'#FFFFFF', bgHover:'#F3F4F5', border:'#E5E7E9', borderFocus:'#4E50D1', text:'#051B2C', textSub:'#59626B', textMuted:'#98A1A9', purple:'#4E50D1', purple50:'#F3F3FC', purple100:'#E5E6F8', white:'#FFFFFF' }
 const emptyFields = () => ({ pill:'', headline:'', subheadline:'', cta:'', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', showCompanyLogo:false, eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' })
 const emptyPerson = () => ({ name:'', title:'', company:'', photo:'' })
 
@@ -65,10 +65,10 @@ function StatFields({ fields, update }) { return (<><CommonFields fields={fields
 function QuoteFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Quote *" value={fields.headline} onChange={v=>update('headline',v)} placeholder="The quote text goes here…" multiline rows={4}/><Divider/><SectionLabel>Attribution</SectionLabel><Toggle label="Show headshot" checked={fields.showHeadshot} onChange={v=>update('showHeadshot',v)}/>{fields.showHeadshot&&<PhotoUpload label="Headshot" value={fields.headshotUrl} onChange={v=>update('headshotUrl',v)}/>}<Input label="Author Name" value={fields.authorName} onChange={v=>update('authorName',v)} placeholder="Jane Smith"/><Input label="Author Title" value={fields.authorTitle} onChange={v=>update('authorTitle',v)} placeholder="VP of Marketing"/><Input label="Company" value={fields.authorCompany} onChange={v=>update('authorCompany',v)} placeholder="Acme Corp"/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read case study"/></>) }
 
 function EventFields({ fields, update }) {
-  const upd = (i,k,v)=>{const s=[...(fields.speakers||[])];s[i]={...s[i],[k]:v};update('speakers',s)}
-  const add = ()=>{if((fields.speakers||[]).length>=6)return;update('speakers',[...(fields.speakers||[]),emptyPerson()])}
-  const rem = i=>{const s=[...(fields.speakers||[])];s.splice(i,1);update('speakers',s)}
-  const spk = fields.speakers||[]
+  const upd=(i,k,v)=>{const s=[...(fields.speakers||[])];s[i]={...s[i],[k]:v};update('speakers',s)}
+  const add=()=>{if((fields.speakers||[]).length>=6)return;update('speakers',[...(fields.speakers||[]),emptyPerson()])}
+  const rem=i=>{const s=[...(fields.speakers||[])];s.splice(i,1);update('speakers',s)}
+  const spk=fields.speakers||[]
   return (<><CommonFields fields={fields} update={update}/><Input label="Headline *" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Event title"/><Divider/><SectionLabel>Event Details</SectionLabel><Input label="Date & Time" value={fields.eventDate} onChange={v=>update('eventDate',v)} placeholder="Thursday, March 26 @ 9:00AM PDT"/><Input label="Location" value={fields.eventLocation} onChange={v=>update('eventLocation',v)} placeholder="Virtual / San Francisco, CA"/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="Save your spot now"/><Divider/><SectionLabel>Speakers</SectionLabel>{spk.map((s,i)=><div key={i} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:8,padding:12,marginBottom:10}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Speaker {i+1}</span>{spk.length>1&&<button onClick={()=>rem(i)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16,padding:0}}>×</button>}</div><PhotoUpload value={s.photo} onChange={v=>upd(i,'photo',v)}/><Input value={s.name} onChange={v=>upd(i,'name',v)} placeholder="Name"/><Input value={s.title} onChange={v=>upd(i,'title',v)} placeholder="Title"/><Input value={s.company} onChange={v=>upd(i,'company',v)} placeholder="Company"/></div>)}{spk.length<6&&<button onClick={add} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:8,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif"}}>+ Add speaker</button>}</>)
 }
 
@@ -78,6 +78,16 @@ function NewHireFields({ fields, update, newHireSlides, setNewHireSlides }) {
   const addP=()=>{const sl=[...newHireSlides];const last=[...sl[sl.length-1]];if(last.length<9){last.push(emptyPerson());sl[sl.length-1]=last}else{sl.push([emptyPerson()])};setNewHireSlides(sl)}
   const total=newHireSlides.flat().filter(p=>p.name).length
   return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!"/><div style={{marginBottom:12}}><div style={{fontSize:12,color:T.textSub,marginBottom:5,fontFamily:"'Nunito Sans', sans-serif"}}>Emoji</div><div style={{display:'flex',gap:8,flexWrap:'wrap'}}>{COVER_EMOJIS.map(e=><button key={e} onClick={()=>update('emoji',e)} style={{width:36,height:36,fontSize:20,borderRadius:8,cursor:'pointer',background:fields.emoji===e?T.purple50:T.bgPage,border:fields.emoji===e?`1px solid ${T.purple}`:`1px solid ${T.border}`}}>{e}</button>)}</div></div><Divider/><SectionLabel>New Hires ({total})</SectionLabel>{newHireSlides.map((slide,si)=><div key={si}>{newHireSlides.length>1&&<div style={{fontSize:11,color:T.textMuted,marginBottom:8,fontFamily:"'Epilogue', sans-serif",textTransform:'uppercase',letterSpacing:'0.08em'}}>Grid Slide {si+1}</div>}{slide.map((p,pi)=><div key={pi} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:8,padding:12,marginBottom:8}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Person {pi+1}</span><button onClick={()=>remP(si,pi)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16}}>×</button></div><PhotoUpload value={p.photo} onChange={v=>updP(si,pi,'photo',v)}/><Input value={p.name} onChange={v=>updP(si,pi,'name',v)} placeholder="Full name"/><Input value={p.title} onChange={v=>updP(si,pi,'title',v)} placeholder="Job title"/></div>)}</div>)}{newHireSlides.flat().length<45&&<button onClick={addP} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:8,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif",marginBottom:8}}>+ Add person</button>}</>)
+}
+
+// FieldsPanel is OUTSIDE App() — this is the key fix for the typing bug
+function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides, setSlideIndex }) {
+  if (template === 'headline') return <HeadlineFields fields={fields} update={update}/>
+  if (template === 'stat')     return <StatFields fields={fields} update={update}/>
+  if (template === 'quote')    return <QuoteFields fields={fields} update={update}/>
+  if (template === 'event')    return <EventFields fields={fields} update={update}/>
+  if (template === 'newhire')  return <NewHireFields fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
+  return null
 }
 
 export default function App() {
@@ -97,7 +107,6 @@ export default function App() {
   const totalSlides = template==='newhire'?newHireSlides.length+1:1
   const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay, newHireSlides, isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
-  const FieldsPanel=()=>{if(template==='headline')return<HeadlineFields fields={fields} update={update}/>;if(template==='stat')return<StatFields fields={fields} update={update}/>;if(template==='quote')return<QuoteFields fields={fields} update={update}/>;if(template==='event')return<EventFields fields={fields} update={update}/>;if(template==='newhire')return<NewHireFields fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>;return null}
 
   return (
     <div style={{display:'flex',height:'100vh',overflow:'hidden',fontFamily:"'Epilogue', sans-serif",background:T.bgPage}}>
@@ -127,10 +136,14 @@ export default function App() {
           </div>
           <Toggle label="Pixel overlay" checked={pixelOverlay} onChange={setPixelOverlay}/>
           <Divider/>
-          <FieldsPanel/>
+          <FieldsPanel template={template} fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides} setSlideIndex={setSlideIndex}/>
         </div>
         <div style={{padding:16,borderTop:`1px solid ${T.border}`,background:T.bgSurface}}>
-          <button onClick={handleExport} disabled={exporting} style={{width:'100%',background:exporting?T.border:T.purple,color:exporting?T.textMuted:'#fff',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',transition:'all 0.2s'}} onMouseEnter={e=>{if(!exporting)e.currentTarget.style.background='#3B3DC9'}} onMouseLeave={e=>{if(!exporting)e.currentTarget.style.background=T.purple}}>
+          <button onClick={handleExport} disabled={exporting}
+            style={{width:'100%',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',transition:'all 0.2s'}}
+            onMouseEnter={e=>{if(!exporting)e.currentTarget.style.background='#0D2D44'}}
+            onMouseLeave={e=>{if(!exporting)e.currentTarget.style.background='#051B2C'}}
+          >
             {exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}
           </button>
           <div style={{textAlign:'center',marginTop:8,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px · JPG`}</div>
@@ -147,4 +160,4 @@ export default function App() {
       </div>
     </div>
   )
-}
+              }
