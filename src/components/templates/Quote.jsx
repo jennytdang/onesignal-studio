@@ -1,7 +1,15 @@
-import OsLogo from '../OsLogo'
 import { COLORS } from '../../constants/brand'
 
-export default function Quote({ fields, dimension, isDark }) {
+function CanvasLogo({ isDark, height = 60, align = 'left' }) {
+  const src = isDark ? '/OneSignal-Logo-White.png' : '/OneSignal-Logo-Black.png'
+  return (
+    <div style={{ display: 'flex', justifyContent: align === 'center' ? 'center' : 'flex-start' }}>
+      <img src={src} alt="OneSignal" style={{ height, width: 'auto', display: 'block' }} />
+    </div>
+  )
+}
+
+export default function Quote({ fields, dimension, isDark, logoAlign = 'left' }) {
   const { pill, headline: quoteText, authorName, authorTitle, authorCompany, showHeadshot, headshotUrl, cta } = fields
   const { width, height } = dimension
   const isLandscape = width > height
@@ -15,14 +23,15 @@ export default function Quote({ fields, dimension, isDark }) {
   const pad = Math.round(width * 0.074)
   const quoteSize = height > 1400 ? Math.round(width * 0.052) : isLandscape ? Math.round(height * 0.056) : Math.round(width * 0.052)
   const avatarSize = Math.round(width * 0.1)
+  const logoH = Math.round(height * 0.055)
 
   return (
-    <div style={{ width, height, position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: pad, fontFamily: "'Epilogue', sans-serif" }}>
-      <OsLogo color={fg} height={Math.round(height * 0.034)} />
+    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.04) }}>
+      <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: Math.round(height * 0.04) }}>
-        {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 999, padding: `${Math.round(height * 0.009)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
+        {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.009)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
         <div style={{ position: 'relative' }}>
-          <div style={{ position: 'absolute', top: -Math.round(height * 0.04), left: -Math.round(width * 0.01), fontSize: Math.round(width * 0.22), lineHeight: 1, color: quoteMark, fontFamily: 'Georgia, serif', fontWeight: 700, userSelect: 'none', zIndex: 0 }}>"</div>
+          <div style={{ position: 'absolute', top: -Math.round(height * 0.04), left: -Math.round(width * 0.01), fontSize: Math.round(width * 0.22), lineHeight: 1, color: quoteMark, fontFamily: 'Georgia, serif', fontWeight: 700, userSelect: 'none', zIndex: 0 }}>“</div>
           <div style={{ position: 'relative', zIndex: 1, fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontStyle: 'italic', fontWeight: 400, lineHeight: 1.5, color: fg, maxWidth: isLandscape ? '75%' : '100%' }}>{quoteText || 'Add your quote text here.'}</div>
         </div>
         <div style={{ display: 'flex', flexDirection: isLandscape ? 'row' : 'column', alignItems: isLandscape ? 'center' : 'flex-start', gap: Math.round(width * 0.025) }}>
@@ -37,7 +46,7 @@ export default function Quote({ fields, dimension, isDark }) {
               {(authorTitle || authorCompany) && <div style={{ fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: 2 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
             </div>
           </div>
-          {cta && <div style={{ display: 'inline-flex', marginLeft: isLandscape ? 'auto' : 0, backgroundColor: ctaBg, color: ctaText, borderRadius: 999, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: Math.round(width * 0.024), fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
+          {cta && <div style={{ display: 'inline-flex', marginLeft: isLandscape ? 'auto' : 0, backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: Math.round(width * 0.024), fontWeight: 700 }}>{cta}</div>}
         </div>
       </div>
     </div>
