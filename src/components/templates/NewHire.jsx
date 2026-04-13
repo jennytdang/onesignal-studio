@@ -1,24 +1,32 @@
-import OsLogo from '../OsLogo'
-import { OsIcon } from '../OsLogo'
 import { COLORS } from '../../constants/brand'
 
-export function NewHireCover({ fields, dimension, isDark }) {
-  const { headline, emoji } = fields
-  const { width, height } = dimension
-  const fg = isDark ? COLORS.white : COLORS.black
+function CanvasLogo({ isDark, height = 60, align = 'left' }) {
+  const src = isDark ? '/OneSignal-Logo-White.png' : '/OneSignal-Logo-Black.png'
   return (
-    <div style={{ width, height, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: `${Math.round(height * 0.06)}px ${Math.round(width * 0.074)}px`, fontFamily: "'Epilogue', sans-serif", textAlign: 'center' }}>
-      <OsLogo color={fg} height={Math.round(height * 0.04)} useImg={true} />
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: Math.round(height * 0.04) }}>
-        <div style={{ fontSize: Math.round(width * 0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.03em' }}>{headline || 'Meet our newest members!'}</div>
-        {emoji && <div style={{ fontSize: Math.round(width * 0.14) }}>{emoji}</div>}
-      </div>
-      <div />
+    <div style={{ display: 'flex', justifyContent: align === 'center' ? 'center' : 'flex-start' }}>
+      <img src={src} alt="OneSignal" style={{ height, width: 'auto', display: 'block' }} />
     </div>
   )
 }
 
-export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides }) {
+export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) {
+  const { headline, emoji } = fields
+  const { width, height } = dimension
+  const fg = isDark ? COLORS.white : COLORS.black
+  const logoH = Math.round(height * 0.055)
+
+  return (
+    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${Math.round(height * 0.06)}px ${Math.round(width * 0.074)}px`, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.05) }}>
+      <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: logoAlign === 'center' ? 'center' : 'flex-start', justifyContent: 'center', gap: Math.round(height * 0.04), textAlign: logoAlign === 'center' ? 'center' : 'left' }}>
+        <div style={{ fontSize: Math.round(width * 0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.03em' }}>{headline || 'Meet our newest members!'}</div>
+        {emoji && <div style={{ fontSize: Math.round(width * 0.14) }}>{emoji}</div>}
+      </div>
+    </div>
+  )
+}
+
+export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left' }) {
   const { width, height } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
   const nameColor = isDark ? COLORS.cyan300 : COLORS.blue400
@@ -27,7 +35,8 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const cols = 3
   const rows = Math.ceil(validPeople.length / cols)
   const pad = Math.round(width * 0.074)
-  const gridTop = Math.round(height * 0.12)
+  const logoH = Math.round(height * 0.055)
+  const gridTop = Math.round(height * 0.16)
   const gridBottom = Math.round(height * 0.06)
   const cellHeight = (height - gridTop - gridBottom) / rows
   const cellWidth = (width - pad * 2) / cols
@@ -35,17 +44,20 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
 
   return (
     <div style={{ width, height, position: 'relative', fontFamily: "'Epilogue', sans-serif" }}>
-      <div style={{ position: 'absolute', top: Math.round(height * 0.04), right: Math.round(width * 0.05) }}>
-        <OsIcon color={fg} size={Math.round(height * 0.05)} useImg={true} />
+      <div style={{ position: 'absolute', top: Math.round(height * 0.045), left: pad, right: pad }}>
+        <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
       </div>
       <div style={{ position: 'absolute', top: gridTop, left: pad, right: pad, bottom: gridBottom, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`, gap: Math.round(height * 0.02) }}>
         {validPeople.map((person, i) => (
           <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: Math.round(height * 0.012) }}>
-            <div style={{ width: photoSize, height: photoSize, borderRadius: 12, overflow: 'hidden', backgroundColor: COLORS.purple100, flexShrink: 0 }}>
-              {person.photo ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(photoSize * 0.35), color: COLORS.purple600, fontWeight: 700, backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : COLORS.purple50 }}>{person.name.charAt(0).toUpperCase()}</div>}
+            <div style={{ width: photoSize, height: photoSize, borderRadius: 8, overflow: 'hidden', backgroundColor: COLORS.purple100, flexShrink: 0 }}>
+              {person.photo
+                ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(photoSize * 0.35), color: COLORS.purple600, fontWeight: 700, backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : COLORS.purple50 }}>{person.name.charAt(0).toUpperCase()}</div>
+              }
             </div>
             <div style={{ fontSize: Math.round(width * 0.024), fontWeight: 700, color: nameColor, textAlign: 'center', lineHeight: 1.2 }}>{person.name}</div>
-            {person.title && <div style={{ fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, textAlign: 'center', lineHeight: 1.3 }}>{person.title}</div>}
+            {person.title && <div style={{ fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", color: fgSub, textAlign: 'center', lineHeight: 1.3 }}>{person.title}</div>}
           </div>
         ))}
       </div>
