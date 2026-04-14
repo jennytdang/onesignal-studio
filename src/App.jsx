@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import CanvasPreview from './components/CanvasPreview'
 import { useExport } from './hooks/useExport'
 import { COLORS, DIMENSIONS, BACKGROUNDS, TEMPLATES, PILL_PRESETS, COVER_EMOJIS } from './constants/brand'
@@ -15,12 +15,57 @@ const TEMPLATE_DEFAULTS = {
   newhire:  { pill:'', headline:'Meet our newest members!', subheadline:'', cta:'', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
 }
 
+// Pixel trail export button
+const PX_COLS = 12, PX_ROWS = 4, PX_MAX_DELAY = 250
+function usePixelTrail() {
+  const btnRef = useRef(null)
+  const cellEls = useRef([])
+  const gridRef = useRef(null)
+  useEffect(() => {
+    const btn = btnRef.current
+    const grid = gridRef.current
+    if (!btn || !grid) return
+    const cells = []
+    for (let r = 0; r < PX_ROWS; r++) {
+      for (let c = 0; c < PX_COLS; c++) {
+        const el = document.createElement('div')
+        el.style.cssText = 'background:#4E50D1;opacity:0;transition-property:opacity;transition-duration:0s;transition-delay:0s;'
+        grid.appendChild(el)
+        cells.push({ el, cx:(c+0.5)/PX_COLS, cy:(r+0.5)/PX_ROWS })
+      }
+    }
+    cellEls.current = cells
+    const onEnter = (e) => {
+      const rect = btn.getBoundingClientRect()
+      const ex = (e.clientX - rect.left) / rect.width
+      const ey = (e.clientY - rect.top) / rect.height
+      const dists = cells.map(({cx,cy}) => Math.sqrt((cx-ex)**2+(cy-ey)**2))
+      const maxD = Math.max(...dists)
+      cells.forEach(({el},i) => {
+        const base = (dists[i]/maxD) * PX_MAX_DELAY
+        const noise = (Math.random()-0.5) * PX_MAX_DELAY * 0.5
+        const delay = Math.max(0, Math.min(PX_MAX_DELAY+30, base+noise))
+        el.style.transitionDelay = delay.toFixed(1)+'ms'
+        el.style.transitionDuration = '0s'
+        el.style.opacity = '1'
+      })
+    }
+    const onLeave = () => {
+      cells.forEach(({el}) => { el.style.transitionDelay='0s'; el.style.transitionDuration='0s'; el.style.opacity='0' })
+    }
+    btn.addEventListener('mouseenter', onEnter)
+    btn.addEventListener('mouseleave', onLeave)
+    return () => { btn.removeEventListener('mouseenter', onEnter); btn.removeEventListener('mouseleave', onLeave) }
+  }, [])
+  return { btnRef, gridRef }
+}
+
 function SectionLabel({ children }) {
   return <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:T.textMuted, fontFamily:"'Epilogue', sans-serif", marginBottom:8 }}>{children}</div>
 }
 function Input({ label, value, onChange, placeholder, multiline, rows=3 }) {
   const [focused, setFocused] = useState(false)
-  const style = { width:'100%', background:T.bgInput, border:`1px solid ${focused?T.borderFocus:T.border}`, borderRadius:6, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
+  const style = { width:'100%', background:T.bgInput, border:`1px solid ${focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
   return (
     <div style={{marginBottom:12}}>
       {label && <div style={{fontSize:12,color:T.textSub,marginBottom:5,fontFamily:"'Nunito Sans', sans-serif"}}>{label}</div>}
@@ -43,7 +88,7 @@ function PhotoUpload({ label, value, onChange }) {
   return (
     <div style={{marginBottom:12}}>
       {label && <div style={{fontSize:12,color:T.textSub,marginBottom:5,fontFamily:"'Nunito Sans', sans-serif"}}>{label}</div>}
-      <label style={{display:'flex',alignItems:'center',gap:10,cursor:'pointer',background:T.bgPage,border:`1px dashed ${T.border}`,borderRadius:6,padding:'10px 12px'}}>
+      <label style={{display:'flex',alignItems:'center',gap:10,cursor:'pointer',background:T.bgPage,border:`1px dashed ${T.border}`,borderRadius:2,padding:'10px 12px'}}>
         {value ? <img src={value} alt="" style={{width:32,height:32,borderRadius:'50%',objectFit:'cover'}}/> : <div style={{width:32,height:32,borderRadius:'50%',background:T.border,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:T.textMuted}}>+</div>}
         <span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{value?'Change photo':'Upload photo'}</span>
         <input type="file" accept="image/*" onChange={handleFile} style={{display:'none'}}/>
@@ -59,8 +104,8 @@ function CommonFields({ fields, update }) {
     <div style={{marginBottom:12}}>
       <div style={{fontSize:12,color:T.textSub,marginBottom:5,fontFamily:"'Nunito Sans', sans-serif"}}>Pre-pill <span style={{color:T.textMuted}}>(optional)</span></div>
       <div style={{position:'relative'}}>
-        <input type="text" value={fields.pill} onChange={e=>update('pill',e.target.value)} placeholder="e.g. Webinar, New Feature…" onFocus={()=>setPillOpen(true)} onBlur={()=>setTimeout(()=>setPillOpen(false),150)} style={{width:'100%',background:T.bgInput,border:`1px solid ${T.border}`,borderRadius:6,padding:'9px 12px',color:T.text,fontSize:13,fontFamily:"'Nunito Sans', sans-serif",outline:'none',boxSizing:'border-box'}}/>
-        {pillOpen && <div style={{position:'absolute',top:'100%',left:0,right:0,zIndex:50,background:T.bgSurface,border:`1px solid ${T.border}`,borderRadius:6,marginTop:4,overflow:'hidden',boxShadow:'0 4px 16px rgba(5,27,44,0.08)'}}>
+        <input type="text" value={fields.pill} onChange={e=>update('pill',e.target.value)} placeholder="e.g. Webinar, New Feature…" onFocus={()=>setPillOpen(true)} onBlur={()=>setTimeout(()=>setPillOpen(false),150)} style={{width:'100%',background:T.bgInput,border:`1px solid ${T.border}`,borderRadius:2,padding:'9px 12px',color:T.text,fontSize:13,fontFamily:"'Nunito Sans', sans-serif",outline:'none',boxSizing:'border-box'}}/>
+        {pillOpen && <div style={{position:'absolute',top:'100%',left:0,right:0,zIndex:50,background:T.bgSurface,border:`1px solid ${T.border}`,borderRadius:2,marginTop:4,overflow:'hidden',boxShadow:'0 4px 16px rgba(5,27,44,0.08)'}}>
           {PILL_PRESETS.filter(p=>!fields.pill||p.toLowerCase().includes(fields.pill.toLowerCase())).map(p=><div key={p} onMouseDown={()=>update('pill',p)} style={{padding:'9px 12px',fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}} onMouseEnter={e=>e.currentTarget.style.background=T.bgHover} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>{p}</div>)}
         </div>}
       </div>
@@ -77,7 +122,7 @@ function EventFields({ fields, update }) {
   const add=()=>{if((fields.speakers||[]).length>=6)return;update('speakers',[...(fields.speakers||[]),emptyPerson()])}
   const rem=i=>{const s=[...(fields.speakers||[])];s.splice(i,1);update('speakers',s)}
   const spk=fields.speakers||[]
-  return (<><CommonFields fields={fields} update={update}/><Input label="Headline *" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Event title"/><Divider/><SectionLabel>Event Details</SectionLabel><Input label="Date & Time" value={fields.eventDate} onChange={v=>update('eventDate',v)} placeholder="March 26 @ 9:00AM PDT"/><Input label="Location" value={fields.eventLocation} onChange={v=>update('eventLocation',v)} placeholder="Virtual / San Francisco, CA"/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="Save your spot now"/><Divider/><SectionLabel>Speakers</SectionLabel>{spk.map((s,i)=><div key={i} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:6,padding:12,marginBottom:10}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Speaker {i+1}</span>{spk.length>1&&<button onClick={()=>rem(i)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16,padding:0}}>×</button>}</div><PhotoUpload value={s.photo} onChange={v=>upd(i,'photo',v)}/><Input value={s.name} onChange={v=>upd(i,'name',v)} placeholder="Name"/><Input value={s.title} onChange={v=>upd(i,'title',v)} placeholder="Title"/><Input value={s.company} onChange={v=>upd(i,'company',v)} placeholder="Company"/></div>)}{spk.length<6&&<button onClick={add} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:6,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif"}}>+ Add speaker</button>}</>)
+  return (<><CommonFields fields={fields} update={update}/><Input label="Headline *" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Event title"/><Divider/><SectionLabel>Event Details</SectionLabel><Input label="Date & Time" value={fields.eventDate} onChange={v=>update('eventDate',v)} placeholder="March 26 @ 9:00AM PDT"/><Input label="Location" value={fields.eventLocation} onChange={v=>update('eventLocation',v)} placeholder="Virtual / San Francisco, CA"/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="Save your spot now"/><Divider/><SectionLabel>Speakers</SectionLabel>{spk.map((s,i)=><div key={i} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:2,padding:12,marginBottom:10}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Speaker {i+1}</span>{spk.length>1&&<button onClick={()=>rem(i)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16,padding:0}}>×</button>}</div><PhotoUpload value={s.photo} onChange={v=>upd(i,'photo',v)}/><Input value={s.name} onChange={v=>upd(i,'name',v)} placeholder="Name"/><Input value={s.title} onChange={v=>upd(i,'title',v)} placeholder="Title"/><Input value={s.company} onChange={v=>upd(i,'company',v)} placeholder="Company"/></div>)}{spk.length<6&&<button onClick={add} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:2,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif"}}>+ Add speaker</button>}</>)
 }
 
 function NewHireFields({ fields, update, newHireSlides, setNewHireSlides }) {
@@ -85,7 +130,7 @@ function NewHireFields({ fields, update, newHireSlides, setNewHireSlides }) {
   const remP=(si,pi)=>{const sl=newHireSlides.map((s,i)=>i!==si?s:s.filter((_,j)=>j!==pi)).filter(s=>s.length>0);setNewHireSlides(sl)}
   const addP=()=>{const sl=[...newHireSlides];const last=[...sl[sl.length-1]];if(last.length<9){last.push(emptyPerson());sl[sl.length-1]=last}else{sl.push([emptyPerson()])};setNewHireSlides(sl)}
   const total=newHireSlides.flat().filter(p=>p.name).length
-  return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!"/><div style={{marginBottom:12}}><div style={{fontSize:12,color:T.textSub,marginBottom:5,fontFamily:"'Nunito Sans', sans-serif"}}>Emoji</div><div style={{display:'flex',gap:8,flexWrap:'wrap'}}>{COVER_EMOJIS.map(e=><button key={e} onClick={()=>update('emoji',e)} style={{width:36,height:36,fontSize:20,borderRadius:6,cursor:'pointer',background:fields.emoji===e?T.purple50:'transparent',border:fields.emoji===e?`1px solid ${T.purple}`:`1px solid ${T.border}`}}>{e}</button>)}</div></div><Divider/><SectionLabel>New Hires ({total})</SectionLabel>{newHireSlides.map((slide,si)=><div key={si}>{newHireSlides.length>1&&<div style={{fontSize:11,color:T.textMuted,marginBottom:8,textTransform:'uppercase',letterSpacing:'0.08em'}}>Grid Slide {si+1}</div>}{slide.map((p,pi)=><div key={pi} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:6,padding:12,marginBottom:8}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Person {pi+1}</span><button onClick={()=>remP(si,pi)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16}}>×</button></div><PhotoUpload value={p.photo} onChange={v=>updP(si,pi,'photo',v)}/><Input value={p.name} onChange={v=>updP(si,pi,'name',v)} placeholder="Full name"/><Input value={p.title} onChange={v=>updP(si,pi,'title',v)} placeholder="Job title"/></div>)}</div>)}{newHireSlides.flat().length<45&&<button onClick={addP} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:6,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif",marginBottom:8}}>+ Add person</button>}</>)
+  return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!"/><div style={{marginBottom:12}}><div style={{fontSize:12,color:T.textSub,marginBottom:5,fontFamily:"'Nunito Sans', sans-serif"}}>Emoji</div><div style={{display:'flex',gap:8,flexWrap:'wrap'}}>{COVER_EMOJIS.map(e=><button key={e} onClick={()=>update('emoji',e)} style={{width:36,height:36,fontSize:20,borderRadius:2,cursor:'pointer',background:fields.emoji===e?T.purple50:'transparent',border:fields.emoji===e?`1px solid ${T.purple}`:`1px solid ${T.border}`}}>{e}</button>)}</div></div><Divider/><SectionLabel>New Hires ({total})</SectionLabel>{newHireSlides.map((slide,si)=><div key={si}>{newHireSlides.length>1&&<div style={{fontSize:11,color:T.textMuted,marginBottom:8,textTransform:'uppercase',letterSpacing:'0.08em'}}>Grid Slide {si+1}</div>}{slide.map((p,pi)=><div key={pi} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:2,padding:12,marginBottom:8}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Person {pi+1}</span><button onClick={()=>remP(si,pi)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16}}>×</button></div><PhotoUpload value={p.photo} onChange={v=>updP(si,pi,'photo',v)}/><Input value={p.name} onChange={v=>updP(si,pi,'name',v)} placeholder="Full name"/><Input value={p.title} onChange={v=>updP(si,pi,'title',v)} placeholder="Job title"/></div>)}</div>)}{newHireSlides.flat().length<45&&<button onClick={addP} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:2,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif",marginBottom:8}}>+ Add person</button>}</>)
 }
 
 function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides }) {
@@ -106,6 +151,7 @@ export default function App() {
   const [newHireSlides, setNewHireSlides] = useState([[emptyPerson(),emptyPerson(),emptyPerson()]])
   const [exporting, setExporting] = useState(false)
   const [allFields, setAllFields] = useState({ ...TEMPLATE_DEFAULTS })
+  const { btnRef, gridRef } = usePixelTrail()
 
   const fields = allFields[template]
   const update = useCallback((k, v) => {
@@ -116,17 +162,21 @@ export default function App() {
   const allBgs = [...BACKGROUNDS.solids, ...BACKGROUNDS.gradients]
   const background = allBgs.find(b=>b.id===backgroundId)||BACKGROUNDS.solids[4]
   const totalSlides = template==='newhire'?newHireSlides.length+1:1
-  const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay: false, newHireSlides, isDark: background.isDark })
+  const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay:false, newHireSlides, isDark: background.isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
   const handleTemplateSwitch = (id) => { setTemplate(id); setSlideIndex(0) }
-  const tmplBtn = (active) => ({ background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'10px', cursor:'pointer', textAlign:'left', transition:'all 0.15s' })
-  const btnBase = (active) => ({ display:'flex', alignItems:'center', justifyContent:'space-between', background: active ? T.purple50 : 'transparent', border:`1px solid ${active ? T.purple : T.border}`, borderRadius:6, padding:'9px 12px', cursor:'pointer', transition:'all 0.15s', width:'100%' })
+
+  // 2px radius for sidebar buttons
+  const tmplBtn = (active) => ({ background: active?T.purple50:'transparent', border:`1px solid ${active?T.purple:T.border}`, borderRadius:2, padding:'10px', cursor:'pointer', textAlign:'left', transition:'all 0.15s' })
+
+  const isDark = background?.isDark ?? false
 
   return (
     <div style={{display:'flex',height:'100vh',overflow:'hidden',fontFamily:"'Epilogue', sans-serif",background:T.bgPage}}>
-      <div style={{width:280,flexShrink:0,display:'flex',flexDirection:'column',background:T.bgSurface,borderRight:`1px solid ${T.border}`,height:'100vh',overflow:'hidden'}}>
-        <div style={{padding:'14px 16px',borderBottom:`1px solid ${T.border}`,display:'flex',alignItems:'center',gap:10}}>
-          <img src="/OneSignal-Logo-Black.png" alt="OneSignal" style={{height:20,width:'auto',display:'block'}}/>
+      <div style={{width:252,flexShrink:0,display:'flex',flexDirection:'column',background:T.bgSurface,borderRight:`1px solid ${T.border}`,height:'100vh',overflow:'hidden'}}>
+        {/* Header — 44px matching topbar */}
+        <div style={{height:44,padding:'0 16px',borderBottom:`1px solid ${T.border}`,display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+          <img src={isDark?'/OneSignal-Logo-White.png':'/OneSignal-Logo-Black.png'} alt="OneSignal" style={{height:20,width:'auto',display:'block'}}/>
           <div style={{width:1,height:18,background:T.border,flexShrink:0}}/>
           <div style={{fontSize:12,fontWeight:600,color:T.textSub,letterSpacing:'0.02em'}}>Studio</div>
         </div>
@@ -136,32 +186,50 @@ export default function App() {
             {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={tmplBtn(template===t.id)}><div style={{fontSize:11,fontWeight:600,color:template===t.id?T.purple:T.textSub,marginBottom:2}}>{t.label}</div><div style={{fontSize:10,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",lineHeight:1.3}}>{t.description}</div></button>)}
           </div>
           <Divider/>
+          {/* Canvas Size — 2x2 grid */}
           <SectionLabel>Canvas Size</SectionLabel>
-          <div style={{display:'flex',flexDirection:'column',gap:4,marginBottom:14}}>
-            {Object.values(DIMENSIONS).map(d=><button key={d.id} onClick={()=>setDimensionId(d.id)} style={btnBase(dimensionId===d.id)}><span style={{fontSize:13,fontWeight:dimensionId===d.id?600:400,color:dimensionId===d.id?T.purple:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>{d.sublabel}</span><span style={{fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{d.label}</span></button>)}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:4,marginBottom:14}}>
+            {Object.values(DIMENSIONS).map(d=><button key={d.id} onClick={()=>setDimensionId(d.id)} style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:'10px 6px',border:`1px solid ${dimensionId===d.id?T.purple:T.border}`,background:dimensionId===d.id?T.purple50:'transparent',borderRadius:2,cursor:'pointer',textAlign:'center',transition:'all 0.15s'}}><span style={{fontSize:12,fontWeight:dimensionId===d.id?600:400,color:dimensionId===d.id?T.purple:T.text,fontFamily:"'Epilogue', sans-serif"}}>{d.sublabel}</span><span style={{fontSize:10,color:dimensionId===d.id?T.purple:T.textMuted,opacity:0.8,fontFamily:"'Nunito Sans', sans-serif"}}>{d.label}</span></button>)}
           </div>
           <Divider/>
+          {/* Background — fluid grid, filled, 2px radius, option A selection */}
           <SectionLabel>Background</SectionLabel>
           <div style={{marginBottom:10}}>
             <div style={{fontSize:11,color:T.textMuted,marginBottom:6,fontFamily:"'Nunito Sans', sans-serif"}}>Solid</div>
-            <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:10}}>{BACKGROUNDS.solids.map(bg=><button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{width:30,height:30,borderRadius:6,cursor:'pointer',border:`2px solid ${backgroundId===bg.id?T.purple:'transparent'}`,outline:`1px solid ${backgroundId===bg.id?T.purple:T.border}`,...bg.style,flexShrink:0}}/>)}</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:4,marginBottom:10}}>
+              {BACKGROUNDS.solids.map(bg=>{
+                const selected = backgroundId===bg.id
+                const isLight = bg.id==='white'||bg.id==='lavender'
+                return <button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{aspectRatio:'1',borderRadius:2,cursor:'pointer',...bg.style,border:'none',outline:selected?'1px solid #4E50D1':isLight?'0.5px solid #E5E7E9':'none',outlineOffset:selected?'1px':'0',boxSizing:'border-box'}}/>
+              })}
+            </div>
             <div style={{fontSize:11,color:T.textMuted,marginBottom:6,fontFamily:"'Nunito Sans', sans-serif"}}>Gradient</div>
-            <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:10}}>{BACKGROUNDS.gradients.map(bg=><button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{width:30,height:30,borderRadius:6,cursor:'pointer',border:`2px solid ${backgroundId===bg.id?T.purple:'transparent'}`,outline:`1px solid ${backgroundId===bg.id?T.purple:T.border}`,...bg.style,flexShrink:0}}/>)}</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:4,marginBottom:10}}>
+              {BACKGROUNDS.gradients.map(bg=>{
+                const selected = backgroundId===bg.id
+                return <button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{aspectRatio:'1',borderRadius:2,cursor:'pointer',...bg.style,border:'none',outline:selected?'1px solid #4E50D1':'none',outlineOffset:selected?'1px':'0',boxSizing:'border-box'}}/>
+              })}
+            </div>
           </div>
           <Divider/>
           <SectionLabel>Logo Placement</SectionLabel>
           <div style={{display:'flex',gap:4,marginBottom:14}}>
-            {['left','center'].map(a=><button key={a} onClick={()=>setLogoAlign(a)} style={{flex:1,padding:'8px',borderRadius:6,border:`1px solid ${logoAlign===a?T.purple:T.border}`,background:logoAlign===a?T.purple50:'transparent',cursor:'pointer',fontSize:12,fontWeight:logoAlign===a?600:400,color:logoAlign===a?T.purple:T.textSub,fontFamily:"'Epilogue', sans-serif",textTransform:'capitalize'}}>{a}</button>)}
+            {['left','center'].map(a=><button key={a} onClick={()=>setLogoAlign(a)} style={{flex:1,padding:'8px',borderRadius:2,border:`1px solid ${logoAlign===a?T.purple:T.border}`,background:logoAlign===a?T.purple50:'transparent',cursor:'pointer',fontSize:12,fontWeight:logoAlign===a?600:400,color:logoAlign===a?T.purple:T.textSub,fontFamily:"'Epilogue', sans-serif",textTransform:'capitalize'}}>{a}</button>)}
           </div>
           <Divider/>
           <FieldsPanel template={template} fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
         </div>
+        {/* Export button with pixel trail */}
         <div style={{padding:14,borderTop:`1px solid ${T.border}`}}>
-          <button onClick={handleExport} disabled={exporting}
-            style={{width:'100%',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:8,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',transition:'all 0.2s'}}
-            onMouseEnter={e=>{if(!exporting)e.currentTarget.style.background='#0D2D44'}}
-            onMouseLeave={e=>{if(!exporting)e.currentTarget.style.background='#051B2C'}}
-          >{exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</button>
+          <button
+            ref={btnRef}
+            onClick={exporting?undefined:handleExport}
+            disabled={exporting}
+            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
+          >
+            <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
+            <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</span>
+          </button>
           <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px · JPG`}</div>
         </div>
       </div>
@@ -175,4 +243,4 @@ export default function App() {
       </div>
     </div>
   )
-                                                                                                                                                                                                                                                                     }
+}
