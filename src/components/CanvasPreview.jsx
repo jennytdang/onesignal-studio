@@ -71,7 +71,7 @@ export default function CanvasPreview({
       gap: 16, minHeight: 0, padding: 32, position: 'relative',
       background: '#F3F4F5',
       backgroundImage: 'radial-gradient(circle, #C7CCD1 1px, transparent 1px)',
-      backgroundSize: '24px 24px',
+      backgroundSize: '12px 12px',
       overflow: 'auto',
     }}>
       {/* Zoom controls */}
