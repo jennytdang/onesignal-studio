@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import CanvasPreview from './components/CanvasPreview'
+import StudioLogo from './components/StudioLogo'
 import { useExport } from './hooks/useExport'
 import { COLORS, DIMENSIONS, BACKGROUNDS, TEMPLATES, PILL_PRESETS, COVER_EMOJIS } from './constants/brand'
 
@@ -15,7 +16,6 @@ const TEMPLATE_DEFAULTS = {
   newhire:  { pill:'', headline:'Meet our newest members!', subheadline:'', cta:'', stat:'', statLabel:'', authorName:'', authorTitle:'', authorCompany:'', showHeadshot:false, headshotUrl:'', eventDate:'', eventLocation:'', speakers:[{name:'',title:'',company:'',photo:''}], emoji:'🎉' },
 }
 
-// Pixel trail export button
 const PX_COLS = 12, PX_ROWS = 4, PX_MAX_DELAY = 250
 function usePixelTrail() {
   const btnRef = useRef(null)
@@ -165,20 +165,13 @@ export default function App() {
   const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay:false, newHireSlides, isDark: background.isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
   const handleTemplateSwitch = (id) => { setTemplate(id); setSlideIndex(0) }
-
-  // 2px radius for sidebar buttons
   const tmplBtn = (active) => ({ background: active?T.purple50:'transparent', border:`1px solid ${active?T.purple:T.border}`, borderRadius:2, padding:'10px', cursor:'pointer', textAlign:'left', transition:'all 0.15s' })
-
-  const isDark = background?.isDark ?? false
 
   return (
     <div style={{display:'flex',height:'100vh',overflow:'hidden',fontFamily:"'Epilogue', sans-serif",background:T.bgPage}}>
       <div style={{width:252,flexShrink:0,display:'flex',flexDirection:'column',background:T.bgSurface,borderRight:`1px solid ${T.border}`,height:'100vh',overflow:'hidden'}}>
-        {/* Header — 44px matching topbar */}
-        <div style={{height:44,padding:'0 16px',borderBottom:`1px solid ${T.border}`,display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
-          <img src={isDark?'/OneSignal-Logo-White.png':'/OneSignal-Logo-Black.png'} alt="OneSignal" style={{height:20,width:'auto',display:'block'}}/>
-          <div style={{width:1,height:18,background:T.border,flexShrink:0}}/>
-          <div style={{fontSize:12,fontWeight:600,color:T.textSub,letterSpacing:'0.02em'}}>Studio</div>
+        <div style={{height:44,padding:'0 16px',borderBottom:`1px solid ${T.border}`,display:'flex',alignItems:'center',flexShrink:0}}>
+          <StudioLogo height={20} />
         </div>
         <div className="sidebar-scroll" style={{flex:1,overflowY:'auto',padding:'14px 14px 24px'}}>
           <SectionLabel>Template</SectionLabel>
@@ -186,13 +179,11 @@ export default function App() {
             {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={tmplBtn(template===t.id)}><div style={{fontSize:11,fontWeight:600,color:template===t.id?T.purple:T.textSub,marginBottom:2}}>{t.label}</div><div style={{fontSize:10,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",lineHeight:1.3}}>{t.description}</div></button>)}
           </div>
           <Divider/>
-          {/* Canvas Size — 2x2 grid */}
           <SectionLabel>Canvas Size</SectionLabel>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:4,marginBottom:14}}>
             {Object.values(DIMENSIONS).map(d=><button key={d.id} onClick={()=>setDimensionId(d.id)} style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:'10px 6px',border:`1px solid ${dimensionId===d.id?T.purple:T.border}`,background:dimensionId===d.id?T.purple50:'transparent',borderRadius:2,cursor:'pointer',textAlign:'center',transition:'all 0.15s'}}><span style={{fontSize:12,fontWeight:dimensionId===d.id?600:400,color:dimensionId===d.id?T.purple:T.text,fontFamily:"'Epilogue', sans-serif"}}>{d.sublabel}</span><span style={{fontSize:10,color:dimensionId===d.id?T.purple:T.textMuted,opacity:0.8,fontFamily:"'Nunito Sans', sans-serif"}}>{d.label}</span></button>)}
           </div>
           <Divider/>
-          {/* Background — fluid grid, filled, 2px radius, option A selection */}
           <SectionLabel>Background</SectionLabel>
           <div style={{marginBottom:10}}>
             <div style={{fontSize:11,color:T.textMuted,marginBottom:6,fontFamily:"'Nunito Sans', sans-serif"}}>Solid</div>
@@ -219,7 +210,6 @@ export default function App() {
           <Divider/>
           <FieldsPanel template={template} fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
         </div>
-        {/* Export button with pixel trail */}
         <div style={{padding:14,borderTop:`1px solid ${T.border}`}}>
           <button
             ref={btnRef}
@@ -243,4 +233,4 @@ export default function App() {
       </div>
     </div>
   )
-}
+                                                                                                  }
