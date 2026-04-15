@@ -1,4 +1,4 @@
-export default function StudioLogo({ height = 22 }) {
+export default function StudioLogo({ height = 32 }) {
   const w = Math.round((378 / 81) * height)
   return (
     <svg width={w} height={height} viewBox="0 0 378 81" fill="none" xmlns="http://www.w3.org/2000/svg">
