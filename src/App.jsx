@@ -191,7 +191,7 @@ export default function App() {
     <div style={{display:'flex',height:'100vh',overflow:'hidden',fontFamily:"'Epilogue', sans-serif",background:T.bgPage}}>
       <div style={{width:252,flexShrink:0,display:'flex',flexDirection:'column',background:T.bgSurface,borderRight:`1px solid ${T.border}`,height:'100vh',overflow:'hidden'}}>
         <div style={{height:44,padding:'0 16px',borderBottom:`1px solid ${T.border}`,display:'flex',alignItems:'center',flexShrink:0}}>
-          <img src="/OneSignal-Studio-Logo.png" height={36} style={{display:'block'}} />
+          <img src="/OneSignal-Studio-Logo.png" height={22} style={{display:'block'}} />
         </div>
         <div className="sidebar-scroll" style={{flex:1,overflowY:'auto',padding:'14px 14px 24px'}}>
           <SectionLabel>Template</SectionLabel>
