@@ -70,7 +70,7 @@ export default function CanvasPreview({
       alignItems: 'center', justifyContent: 'center',
       gap: 16, minHeight: 0, padding: 32, position: 'relative',
       background: '#F3F4F5',
-      backgroundImage: 'radial-gradient(circle, #C7CCD1 1px, transparent 1px)',
+      backgroundImage: 'radial-gradient(circle, #DDE0E3 1px, transparent 1px)',
       backgroundSize: '12px 12px',
       overflow: 'auto',
     }}>
