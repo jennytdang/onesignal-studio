@@ -18,21 +18,21 @@ export const BACKGROUNDS = {
     { id: 'white',    label: 'White',      isDark: false, style: { backgroundColor: '#FFFFFF' } },
   ],
   gradients: [
-    { id: 'grad-1', label: 'Aurora Mist',   isDark: true,  useImage: true, src: '/onesignal-gradient-1.png', style: { backgroundImage: 'url(/onesignal-gradient-1.png)', backgroundSize: 'cover', backgroundPosition: 'center' } },
+    { id: 'grad-1', label: 'Aurora Mist',   isDark: false, useImage: true, src: '/onesignal-gradient-1.png', style: { backgroundImage: 'url(/onesignal-gradient-1.png)', backgroundSize: 'cover', backgroundPosition: 'center' } },
     { id: 'grad-2', label: 'Tropical Flux', isDark: true,  useImage: true, src: '/onesignal-gradient-2.png', style: { backgroundImage: 'url(/onesignal-gradient-2.png)', backgroundSize: 'cover', backgroundPosition: 'center' } },
     { id: 'grad-3', label: 'Ocean Dusk',    isDark: true,  useImage: true, src: '/onesignal-gradient-3.png', style: { backgroundImage: 'url(/onesignal-gradient-3.png)', backgroundSize: 'cover', backgroundPosition: 'center' } },
-    { id: 'grad-4', label: 'Indigo Drift',  isDark: false, useImage: true, src: '/onesignal-gradient-4.png', style: { backgroundImage: 'url(/onesignal-gradient-4.png)', backgroundSize: 'cover', backgroundPosition: 'center' } },
+    { id: 'grad-4', label: 'Indigo Drift',  isDark: true,  useImage: true, src: '/onesignal-gradient-4.png', style: { backgroundImage: 'url(/onesignal-gradient-4.png)', backgroundSize: 'cover', backgroundPosition: 'center' } },
   ],
 }
 
 export const LOGO_ALIGN = { left: 'left', center: 'center' }
 
 export const TEMPLATES = [
-  { id: 'headline', label: 'Headline',      icon: '✦', description: 'Bold statement, minimal layout' },
-  { id: 'stat',     label: 'Stat Callout',  icon: '2×', description: 'Big number with supporting copy' },
-  { id: 'quote',    label: 'Quote',         icon: '"', description: 'Customer or internal quote' },
-  { id: 'event',    label: 'Event / Webinar',icon: '◷', description: 'Date, speakers, CTA' },
-  { id: 'newhire',  label: 'New Hire',      icon: '✦', description: 'Team welcome carousel' },
+  { id: 'headline', label: 'Headline',       icon: '✦', description: 'Bold statement, minimal layout' },
+  { id: 'stat',     label: 'Stat Callout',   icon: '2×', description: 'Big number with supporting copy' },
+  { id: 'quote',    label: 'Quote',          icon: '"', description: 'Customer or internal quote' },
+  { id: 'event',    label: 'Event / Webinar', icon: '◷', description: 'Date, speakers, CTA' },
+  { id: 'newhire',  label: 'New Hire',       icon: '✦', description: 'Team welcome carousel' },
 ]
 
 export const PILL_PRESETS = [
