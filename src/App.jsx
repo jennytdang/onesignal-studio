@@ -219,13 +219,13 @@ export default function App() {
             <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
             <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting\u2026':template==='newhire'?'\u2193 Export PDF Carousel':'\u2193 Export JPG'}</span>
           </button>
-          <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides \u00b7 LinkedIn carousel`:`${dimension.width} \u00d7 ${dimension.height}px \u00b7 JPG`}</div>
+          <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides ✦ LinkedIn carousel`:`${dimension.width} \u00d7 ${dimension.height}px ✦ JPG`}</div>
         </div>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
         <div style={{height:44,borderBottom:`1px solid ${T.border}`,background:T.bgSurface,display:'flex',alignItems:'center',padding:'0 20px',flexShrink:0}}>
           <div style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>
-            {TEMPLATES.find(t=>t.id===template)?.label}<span style={{margin:'0 6px',color:T.border}}>\u00b7</span>{dimension.sublabel}<span style={{margin:'0 6px',color:T.border}}>\u00b7</span>{background.label}
+            {TEMPLATES.find(t=>t.id===template)?.label}<span style={{margin:'0 6px',color:T.border}}>✦</span>{dimension.sublabel}<span style={{margin:'0 6px',color:T.border}}>✦</span>{background.label}
           </div>
         </div>
         <CanvasPreview template={template} fields={fields} dimension={dimension} background={background} pixelOverlay={false} logoAlign={logoAlign} slideIndex={slideIndex} newHireSlides={newHireSlides} setSlideIndex={setSlideIndex} totalSlides={totalSlides}/>
