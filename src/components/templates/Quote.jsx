@@ -45,6 +45,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
   const quoteGap     = S.quoteGap(width, height)
   const gap          = Math.round(S.gap(width, height))
 
+  // Attribution for regular quote mode (stacked with optional headshot)
   const attribution = (
     <div style={{ display: 'flex', alignItems: 'center', gap: Math.round(width * 0.025), flexShrink: 0 }}>
       {showHeadshot && (
@@ -57,10 +58,19 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
       )}
       <div>
         {authorName && <div style={{ fontSize: authorNameSz, fontWeight: 700, color: fg, letterSpacing: '-0.01em', fontFamily: "'Epilogue', sans-serif" }}>{authorName}</div>}
-        {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: 7 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
+        {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: 2 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
       </div>
     </div>
   )
+
+  // Attribution for block quote mode — single inline line with em dash
+  const blockAttribution = (authorName || authorTitle || authorCompany) ? (
+    <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, lineHeight: 1.4 }}>
+      {'— '}
+      <span style={{ fontWeight: 700, color: fg, fontFamily: "'Epilogue', sans-serif", fontSize: authorNameSz }}>{authorName}</span>
+      {(authorTitle || authorCompany) && <span>{', ' + [authorTitle, authorCompany].filter(Boolean).join(', ')}</span>}
+    </div>
+  ) : null
 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.04) }}>
@@ -74,15 +84,15 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
           <div style={{ display: 'flex', gap: quoteGap, width: '100%' }}>
             <div style={{ width: borderWidth, background: borderColor, borderRadius: 2, flexShrink: 0, alignSelf: 'stretch' }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap }}>
-              <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontStyle: 'normal', fontWeight: 600, lineHeight: 1.2, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{quoteText || 'Add your quote text here.'}</div>
-              {attribution}
+              <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontStyle: 'italic', fontWeight: 400, lineHeight: 1.5, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{quoteText || 'Add your quote text here.'}</div>
+              {blockAttribution}
               {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
             </div>
           </div>
         ) : (
           <>
             <QuoteMarkIcon size={iconSize} isDark={isDark} />
-            <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontStyle: 'normal', fontWeight: 600, lineHeight: 1.2, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', width: '100%' }}>{quoteText || 'Add your quote text here.'}</div>
+            <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontStyle: 'italic', fontWeight: 400, lineHeight: 1.5, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', width: '100%' }}>{quoteText || 'Add your quote text here.'}</div>
             {attribution}
             {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
           </>
