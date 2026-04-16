@@ -3,10 +3,81 @@ export const COLORS = { purple600: '#4E50D1', purple500: '#7274DA', purple400: '
 export const FONTS = { heading: "'Epilogue', sans-serif", body: "'Nunito Sans', sans-serif" }
 
 export const DIMENSIONS = {
-  square:    { id: 'square',    label: '1080 × 1080', sublabel: 'Square',    width: 1080, height: 1080 },
-  portrait:  { id: 'portrait',  label: '1080 × 1350', sublabel: 'Portrait',  width: 1080, height: 1350 },
-  story:     { id: 'story',     label: '1080 × 1920', sublabel: 'Story',     width: 1080, height: 1920 },
-  landscape: { id: 'landscape', label: '1920 × 1080', sublabel: 'Landscape', width: 1920, height: 1080 },
+  square:    { id: 'square',    label: '1080 Ã 1080', sublabel: 'Square',    width: 1080, height: 1080 },
+  portrait:  { id: 'portrait',  label: '1080 Ã 1350', sublabel: 'Portrait',  width: 1080, height: 1350 },
+  story:     { id: 'story',     label: '1080 Ã 1920', sublabel: 'Story',     width: 1080, height: 1920 },
+  landscape: { id: 'landscape', label: '1920 Ã 1080', sublabel: 'Landscape', width: 1920, height: 1080 },
+}
+
+export const SCALE = {
+  square: {
+    headline:    (w, h) => w * 0.088,
+    sub:         (w, h) => w * 0.026,
+    pill:        (w, h) => w * 0.022,
+    cta:         (w, h) => w * 0.025,
+    avatar:      (w, h) => w * 0.10,
+    authorName:  (w, h) => w * 0.028,
+    authorTitle: (w, h) => w * 0.022,
+    logo:        (w, h) => h * 0.055,
+    pad:         (w, h) => w * 0.074,
+    gap:         (w, h) => h * 0.030,
+    quoteSize:   (w, h) => w * 0.052,
+    quoteIcon:   (w, h) => w * 0.075,
+    quoteBorder: (w, h) => 4,
+    quoteGap:    (w, h) => Math.round(w * 0.022),
+    statSize:    (w, h) => w * 0.26,
+  },
+  portrait: {
+    headline:    (w, h) => w * 0.082,
+    sub:         (w, h) => w * 0.024,
+    pill:        (w, h) => w * 0.020,
+    cta:         (w, h) => w * 0.023,
+    avatar:      (w, h) => w * 0.11,
+    authorName:  (w, h) => w * 0.026,
+    authorTitle: (w, h) => w * 0.020,
+    logo:        (w, h) => h * 0.050,
+    pad:         (w, h) => w * 0.074,
+    gap:         (w, h) => h * 0.028,
+    quoteSize:   (w, h) => w * 0.048,
+    quoteIcon:   (w, h) => w * 0.070,
+    quoteBorder: (w, h) => 4,
+    quoteGap:    (w, h) => Math.round(w * 0.022),
+    statSize:    (w, h) => w * 0.26,
+  },
+  story: {
+    headline:    (w, h) => w * 0.105,
+    sub:         (w, h) => w * 0.032,
+    pill:        (w, h) => w * 0.026,
+    cta:         (w, h) => w * 0.029,
+    avatar:      (w, h) => w * 0.13,
+    authorName:  (w, h) => w * 0.032,
+    authorTitle: (w, h) => w * 0.026,
+    logo:        (w, h) => h * 0.038,
+    pad:         (w, h) => w * 0.080,
+    gap:         (w, h) => h * 0.022,
+    quoteSize:   (w, h) => w * 0.060,
+    quoteIcon:   (w, h) => w * 0.090,
+    quoteBorder: (w, h) => 5,
+    quoteGap:    (w, h) => Math.round(w * 0.026),
+    statSize:    (w, h) => w * 0.26,
+  },
+  landscape: {
+    headline:    (w, h) => h * 0.095,
+    sub:         (w, h) => h * 0.030,
+    pill:        (w, h) => h * 0.024,
+    cta:         (w, h) => h * 0.026,
+    avatar:      (w, h) => h * 0.115,
+    authorName:  (w, h) => h * 0.028,
+    authorTitle: (w, h) => h * 0.022,
+    logo:        (w, h) => h * 0.060,
+    pad:         (w, h) => h * 0.074,
+    gap:         (w, h) => h * 0.028,
+    quoteSize:   (w, h) => h * 0.056,
+    quoteIcon:   (w, h) => h * 0.085,
+    quoteBorder: (w, h) => 6,
+    quoteGap:    (w, h) => Math.round(h * 0.022),
+    statSize:    (w, h) => h * 0.28,
+  },
 }
 
 export const BACKGROUNDS = {
@@ -28,11 +99,11 @@ export const BACKGROUNDS = {
 export const LOGO_ALIGN = { left: 'left', center: 'center' }
 
 export const TEMPLATES = [
-  { id: 'headline', label: 'Headline',       icon: '✦', description: 'Bold statement, minimal layout' },
-  { id: 'stat',     label: 'Stat Callout',   icon: '2×', description: 'Big number with supporting copy' },
+  { id: 'headline', label: 'Headline',       icon: 'â¦', description: 'Bold statement, minimal layout' },
+  { id: 'stat',     label: 'Stat Callout',   icon: '2Ã', description: 'Big number with supporting copy' },
   { id: 'quote',    label: 'Quote',          icon: '"', description: 'Customer or internal quote' },
-  { id: 'event',    label: 'Event / Webinar', icon: '◷', description: 'Date, speakers, CTA' },
-  { id: 'newhire',  label: 'New Hire',       icon: '✦', description: 'Team welcome carousel' },
+  { id: 'event',    label: 'Event / Webinar', icon: 'â·', description: 'Date, speakers, optional CTA' },
+  { id: 'newhire',  label: 'New Hire',       icon: 'â¦', description: 'Team welcome carousel' },
 ]
 
 export const PILL_PRESETS = [
@@ -40,4 +111,4 @@ export const PILL_PRESETS = [
   'Case Study', 'Partnership', 'Announcement', 'Blog',
 ]
 
-export const COVER_EMOJIS = ['🎉', '🙌', '👋', '🚀', '✨', '🎊', '💜', '⚡']
+export const COVER_EMOJIS = ['ð', 'ð', 'ð', 'ð', 'â¨', 'ð', 'ð', 'â¡']
