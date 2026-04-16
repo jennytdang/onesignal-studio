@@ -3,10 +3,10 @@ export const COLORS = { purple600: '#4E50D1', purple500: '#7274DA', purple400: '
 export const FONTS = { heading: "'Epilogue', sans-serif", body: "'Nunito Sans', sans-serif" }
 
 export const DIMENSIONS = {
-  square:    { id: 'square',    label: '1080 Ã 1080', sublabel: 'Square',    width: 1080, height: 1080 },
-  portrait:  { id: 'portrait',  label: '1080 Ã 1350', sublabel: 'Portrait',  width: 1080, height: 1350 },
-  story:     { id: 'story',     label: '1080 Ã 1920', sublabel: 'Story',     width: 1080, height: 1920 },
-  landscape: { id: 'landscape', label: '1920 Ã 1080', sublabel: 'Landscape', width: 1920, height: 1080 },
+  square:    { id: 'square',    label: '1080 × 1080', sublabel: 'Square',    width: 1080, height: 1080 },
+  portrait:  { id: 'portrait',  label: '1080 × 1350', sublabel: 'Portrait',  width: 1080, height: 1350 },
+  story:     { id: 'story',     label: '1080 × 1920', sublabel: 'Story',     width: 1080, height: 1920 },
+  landscape: { id: 'landscape', label: '1920 × 1080', sublabel: 'Landscape', width: 1920, height: 1080 },
 }
 
 export const SCALE = {
@@ -99,11 +99,11 @@ export const BACKGROUNDS = {
 export const LOGO_ALIGN = { left: 'left', center: 'center' }
 
 export const TEMPLATES = [
-  { id: 'headline', label: 'Headline',       icon: 'â¦', description: 'Bold statement, minimal layout' },
-  { id: 'stat',     label: 'Stat Callout',   icon: '2Ã', description: 'Big number with supporting copy' },
+  { id: 'headline', label: 'Headline',       icon: '✦', description: 'Bold statement, minimal layout' },
+  { id: 'stat',     label: 'Stat Callout',   icon: '2×', description: 'Big number with supporting copy' },
   { id: 'quote',    label: 'Quote',          icon: '"', description: 'Customer or internal quote' },
-  { id: 'event',    label: 'Event / Webinar', icon: 'â·', description: 'Date, speakers, optional CTA' },
-  { id: 'newhire',  label: 'New Hire',       icon: 'â¦', description: 'Team welcome carousel' },
+  { id: 'event',    label: 'Event / Webinar', icon: '◷', description: 'Date, speakers, optional CTA' },
+  { id: 'newhire',  label: 'New Hire',       icon: '✦', description: 'Team welcome carousel' },
 ]
 
 export const PILL_PRESETS = [
@@ -111,4 +111,4 @@ export const PILL_PRESETS = [
   'Case Study', 'Partnership', 'Announcement', 'Blog',
 ]
 
-export const COVER_EMOJIS = ['ð', 'ð', 'ð', 'ð', 'â¨', 'ð', 'ð', 'â¡']
+export const COVER_EMOJIS = ['🎉', '🙌', '👋', '🚀', '✨', '🎊', '💜', '⚡']
