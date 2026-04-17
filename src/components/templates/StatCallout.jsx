@@ -55,7 +55,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             </>
           )}
         </div>
-        <div style={{ maxWidth: '80%', display: 'flex', flexDirection: 'column', alignItems: align }}>
+        <div style={{ maxWidth: logoAlign==='center'?'100%':'80%', display: 'flex', flexDirection: 'column', alignItems: align }}>
           {subheadline && (
             <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign==='center'?'center':'left' }}>{subheadline}</div>
           )}
