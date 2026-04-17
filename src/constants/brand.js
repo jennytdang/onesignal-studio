@@ -84,12 +84,12 @@ export const BACKGROUNDS = {
   solids: [
     { id: 'black',    label: 'Black',      isDark: true,  sources: { square: '/black_1080x1080.png',        portrait: '/black_1080x1350.png',        story: '/black_1080x1920.png',        landscape: '/black_1920x1080.png'        } },
     { id: 'purple600',label: 'Purple',     isDark: true,  sources: { square: '/purple-600_1080x1080.png',   portrait: '/purple-600_1080x1350.png',   story: '/purple-600_1080x1920.png',   landscape: '/purple-600_1920x1080.png'   } },
-    { id: 'purple500',label: 'Purple 500', isDark: true,  sources: { square: '/purple-500__1080x1080.png',  portrait: '/purple-500_1080x1350.png',   story: '/purple-500_.png',            landscape: '/purple-500_1920x1080.png'   } },
+    { id: 'purple500',label: 'Purple 500', isDark: true,  sources: { square: '/purple-500_1080x1080.png',  portrait: '/purple-500_1080x1350.png',   story: '/purple-500_1080x1920.png',            landscape: '/purple-500_1920x1080.png'   } },
     { id: 'white',    label: 'White',      isDark: false, sources: { square: '/white_1080x1080.png',        portrait: '/white_1080x1350.png',        story: '/white_1080x1920.png',        landscape: '/white_1920x1080.png'        } },
   ],
   gradients: [
     { id: 'grad-1', label: 'Aurora Mist',   isDark: false, sources: { square: '/grad-1_1080x1080.png',        portrait: '/grad-1_1080x1350.png',        story: '/grad-1_1080x1920.png',        landscape: '/grad-1_1920x1080.png'        } },
-    { id: 'grad-2', label: 'Tropical Flux', isDark: true,  sources: { square: '/grad-2_black_1080x1080.png',  portrait: '/grad-2_1080x1350.png',        story: '/grad-2_1080x1920.png',        landscape: '/grad-2_1920x1080.png'        } },
+    { id: 'grad-2', label: 'Tropical Flux', isDark: true,  sources: { square: '/grad-2_1080x1080.png',  portrait: '/grad-2_1080x1350.png',        story: '/grad-2_1080x1920.png',        landscape: '/grad-2_1920x1080.png'        } },
     { id: 'grad-3', label: 'Ocean Dusk',    isDark: true,  sources: { square: '/grad-3_1080x1080.png',        portrait: '/grad-3_1080x1350.png',        story: '/grad-3_1080x1920.png',        landscape: '/grad-3_1920x1080.png'        } },
     { id: 'grad-4', label: 'Indigo Drift',  isDark: true,  sources: { square: '/grad-4_1080x1080.png',        portrait: '/grad-4_1080x1350.png',        story: '/grad-4_1080x1920.png',        landscape: '/grad-4_1920x1080.png'        } },
   ],
