@@ -8,33 +8,36 @@ function CanvasLogo({ isDark, height = 60, align = 'left' }) {
     </div>
   )
 }
+function CanvasLogomark({ height = 40 }) {
+  return <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height, width: 'auto', display: 'block' }} />
+}
 
 export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) {
-  const { headline, emoji } = fields
-  const { width, height } = dimension
+  const { headline, subheadline } = fields
+  const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
   const logoH = Math.round(height * 0.055)
 
   return (
-    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${Math.round(height * 0.06)}px ${Math.round(width * 0.074)}px`, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.05) }}>
+    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${id==='landscape'?Math.round(height*0.0926):id==='story'?Math.round(height*0.052):Math.round(height*0.074)}px ${id==='landscape'?Math.round(width*0.052):id==='story'?Math.round(width*0.0815):Math.round(width*0.074)}px`, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.05) }}>
       <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: logoAlign === 'center' ? 'center' : 'flex-start', justifyContent: 'center', gap: Math.round(height * 0.04), textAlign: logoAlign === 'center' ? 'center' : 'left' }}>
-        <div style={{ fontSize: Math.round(width * 0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.03em' }}>{headline || 'Meet our newest members!'}</div>
-        {emoji && <div style={{ fontSize: Math.round(width * 0.14) }}>{emoji}</div>}
+        <div style={{ fontSize: id==='landscape'?Math.round(width*0.074):Math.round(width*0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.03em' }}>{headline || 'Meet our newest members!'}</div>
+        {subheadline && <div style={{ fontSize: Math.round(width * 0.032), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.5, color: fg, opacity: 0.75 }}>{subheadline}</div>}
       </div>
     </div>
   )
 }
 
 export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left' }) {
-  const { width, height } = dimension
+  const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
   const nameColor = isDark ? COLORS.cyan300 : COLORS.blue400
   const fgSub = isDark ? 'rgba(255,255,255,0.7)' : COLORS.gray600
   const validPeople = people.filter(p => p.name)
   const cols = 3
   const rows = Math.ceil(validPeople.length / cols)
-  const pad = Math.round(width * 0.074)
+  const pad = id==='landscape' ? Math.round(width*0.052) : id==='story' ? Math.round(width*0.0815) : Math.round(width*0.074)
   const logoH = Math.round(height * 0.055)
   const gridTop = Math.round(height * 0.16)
   const gridBottom = Math.round(height * 0.06)
@@ -44,8 +47,8 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
 
   return (
     <div style={{ width, height, position: 'relative', fontFamily: "'Epilogue', sans-serif" }}>
-      <div style={{ position: 'absolute', top: Math.round(height * 0.045), left: pad, right: pad }}>
-        <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
+      <div style={{ position: 'absolute', top: Math.round(height * 0.045), left: pad }}>
+        <CanvasLogomark height={logoH} />
       </div>
       <div style={{ position: 'absolute', top: gridTop, left: pad, right: pad, bottom: gridBottom, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`, gap: Math.round(height * 0.02) }}>
         {validPeople.map((person, i) => (
