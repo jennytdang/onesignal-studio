@@ -28,8 +28,11 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
   const fgSub       = isDark ? 'rgba(255,255,255,0.65)' : COLORS.gray600
   const pillBorder  = isDark ? '#ffffff' : COLORS.purple600
   const pillText    = isDark ? '#ffffff' : COLORS.purple600
-  const ctaBg       = isDark ? COLORS.white : COLORS.black
-  const ctaText     = isDark ? COLORS.black : COLORS.white
+  const ctaBg       = backgroundId === 'purple600' || backgroundId === 'purple500' ? COLORS.black
+    : backgroundId === 'black' ? COLORS.purple600
+    : isDark ? COLORS.white : COLORS.black
+  const ctaText     = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' ? COLORS.white
+    : isDark ? COLORS.black : COLORS.white
   const borderColor = (() => {
     const darkBgs = ['purple-600','purple-500','grad-2','grad-3']
     const gradBgs = ['black','white']
