@@ -26,8 +26,8 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const pad          = Math.round(S.pad(width, height))
   const logoH        = Math.round(S.logo(width, height))
   const pillSize     = Math.round(S.pill(width, height))
-  const subSize      = Math.round(S.sub(width, height))
-  const ctaSize      = Math.round(S.cta(width, height))
+  const subSize      = id==='square'?32:id==='portrait'?38:id==='story'?44:44
+  const ctaSize      = id==='square'?32:id==='portrait'?38:id==='story'?44:44
   const gap          = Math.round(S.gap(width, height))
   const statFontSize = Math.round(S.statSize(width, height))
   const ctaPadV = id==='square'?28:id==='portrait'?32:38
