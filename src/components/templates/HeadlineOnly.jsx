@@ -29,7 +29,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
   const pillSize      = Math.round(S.pill(width, height))
   const ctaSize       = Math.round(S.cta(width, height))
   const gap           = Math.round(S.gap(width, height))
-  const ctaPadV = id==='square'?28:id==='portrait'?32:id==='story'?38:8
+  const ctaPadV = id==='square'?28:id==='portrait'?32:id==='story'?38:38
   const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
   return (
