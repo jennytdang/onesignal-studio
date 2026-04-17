@@ -197,7 +197,7 @@ export default function App() {
 
   const dimension = DIMENSIONS[dimensionId]
   const allBgs = [...BACKGROUNDS.solids, ...BACKGROUNDS.gradients]
-  const background = allBgs.find(b=>b.id===backgroundId)||BACKGROUNDS.solids[4]
+  const background = allBgs.find(b=>b.id===backgroundId)||BACKGROUNDS.solids[3]
   const totalSlides = template==='newhire'?newHireSlides.length+1:1
   const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay:false, newHireSlides, isDark: background.isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
@@ -224,18 +224,18 @@ export default function App() {
           <SectionLabel>Background</SectionLabel>
           <div style={{marginBottom:10}}>
             <div style={{fontSize:11,color:T.textMuted,marginBottom:6,fontFamily:"'Nunito Sans', sans-serif"}}>Solid</div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:4,marginBottom:10}}>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:4,marginBottom:10}}>
               {BACKGROUNDS.solids.map(bg=>{
                 const selected = backgroundId===bg.id
-                const isLight = bg.id==='white'||bg.id==='lavender'
-                return <button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{aspectRatio:'1',borderRadius:2,cursor:'pointer',...bg.style,border:'none',outline:selected?'1px solid #4E50D1':isLight?'0.5px solid #E5E7E9':'none',outlineOffset:selected?'1px':'0',boxSizing:'border-box'}}/>
+                const isLight = !bg.isDark
+                return <button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{aspectRatio:'1',borderRadius:2,cursor:'pointer',backgroundImage:bg.sources?`url(${bg.sources.square})`:'none',backgroundSize:'cover',backgroundPosition:'center',border:'none',outline:selected?'1px solid #4E50D1':isLight?'0.5px solid #E5E7E9':'none',outlineOffset:selected?'1px':'0',boxSizing:'border-box'}}/>
               })}
             </div>
             <div style={{fontSize:11,color:T.textMuted,marginBottom:6,fontFamily:"'Nunito Sans', sans-serif"}}>Gradient</div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:4,marginBottom:10}}>
               {BACKGROUNDS.gradients.map(bg=>{
                 const selected = backgroundId===bg.id
-                return <button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{aspectRatio:'1',borderRadius:2,cursor:'pointer',...bg.style,border:'none',outline:selected?'1px solid #4E50D1':'none',outlineOffset:selected?'1px':'0',boxSizing:'border-box'}}/>
+                return <button key={bg.id} onClick={()=>setBackgroundId(bg.id)} title={bg.label} style={{aspectRatio:'1',borderRadius:2,cursor:'pointer',backgroundImage:bg.sources?`url(${bg.sources.square})`:'none',backgroundSize:'cover',backgroundPosition:'center',border:'none',outline:selected?'1px solid #4E50D1':'none',outlineOffset:selected?'1px':'0',boxSizing:'border-box'}}/>
               })}
             </div>
           </div>
