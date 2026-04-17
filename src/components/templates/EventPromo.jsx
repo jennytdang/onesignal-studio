@@ -33,6 +33,8 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const isStory = height > 1400
   const fg = isDark ? COLORS.white : COLORS.black
   const dateColor = (backgroundId === 'grad-1' || backgroundId === 'grad-4') ? '#24272B' : (backgroundId === 'grad-2' || backgroundId === 'grad-3') ? '#D7D8F5' : isDark ? COLORS.cyan300 : COLORS.purple600
+  const ctaPadV = isLandscape ? 24 : isStory ? 32 : 22
+  const pillPadH = isLandscape ? 32 : Math.round(width * 0.022)
   const pillBorder = isDark ? 'rgba(255,255,255,0.5)' : COLORS.purple600
   const pillText = isDark ? COLORS.white : COLORS.purple600
   const ctaBg = isDark ? COLORS.white : COLORS.black
@@ -49,10 +51,10 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
       <div style={{ flex: '0 0 58%', display: 'flex', flexDirection: 'column', padding: pad, gap: Math.round(height * 0.035) }}>
         <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: Math.round(height * 0.028) }}>
-          {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.012)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
+          {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `10px ${pillPadH}px`, color: pillText, fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
           <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
           {eventDate && <div style={{ fontSize: Math.round(width * 0.022), fontWeight: 700, color: dateColor, fontFamily: "'Nunito Sans', sans-serif" }}>{eventDate}{eventLocation ? ` · ${eventLocation}` : ''}</div>}
-          {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.022)}px ${Math.round(width * 0.036)}px`, fontSize: Math.round(width * 0.022), fontWeight: 700 }}>{cta}</div>}
+          {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px 32px`, fontSize: Math.round(width * 0.022), fontWeight: 700 }}>{cta}</div>}
         </div>
       </div>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${pad}px ${pad}px ${pad}px ${Math.round(width * 0.04)}px`, gap: Math.round(height * 0.045), borderLeft: `1px solid ${dividerColor}` }}>
@@ -65,11 +67,11 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.035) }}>
       <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: Math.round(height * 0.028) }}>
-        {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.009)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
+        {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.009)}px ${pillPadH}px`, color: pillText, fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
         <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
         {eventDate && <div style={{ fontSize: Math.round(width * 0.028), fontWeight: 700, color: dateColor, fontFamily: "'Nunito Sans', sans-serif" }}>{eventDate}{eventLocation ? ` · ${eventLocation}` : ''}</div>}
-        {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.02)}px ${Math.round(width * 0.044)}px`, fontSize: Math.round(width * 0.027), fontWeight: 700 }}>{cta}</div>}
-        {hasSpeakers && <div><div style={{ height: 1, backgroundColor: dividerColor, margin: `${Math.round(height * 0.01)}px 0 ${Math.round(height * 0.028)}px` }} /><div style={{ display: 'grid', gridTemplateColumns: `repeat(${!isStory && validSpeakers.length > 2 ? 2 : 1}, 1fr)`, gap: Math.round(height * 0.028) }}>{validSpeakers.map((s, i) => <SpeakerCard key={i} speaker={s} size={width} isDark={isDark} />)}</div></div>}
+        {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${isStory?44:32}px`, fontSize: Math.round(width * 0.027), fontWeight: 700 }}>{cta}</div>}
+        {hasSpeakers && <div><div style={{ height: 0 }} /><div style={{ display: 'grid', gridTemplateColumns: `repeat(${!isStory && validSpeakers.length > 2 ? 2 : 1}, 1fr)`, gap: Math.round(height * 0.028) }}>{validSpeakers.map((s, i) => <SpeakerCard key={i} speaker={s} size={width} isDark={isDark} />)}</div></div>}
       </div>
     </div>
   )
