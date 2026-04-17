@@ -9,7 +9,7 @@ function CanvasLogo({ isDark, height = 60, align = 'left' }) {
   )
 }
 
-export default function StatCallout({ fields, dimension, isDark, logoAlign = 'left' }) {
+export default function StatCallout({ fields, dimension, isDark, logoAlign = 'left', backgroundId }) {
   const { pill, stat, statLabel, subheadline, cta } = fields
   const { width, height, id } = dimension
   const S = SCALE[id] || SCALE.square
@@ -19,8 +19,11 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const accentColor = isDark ? COLORS.cyan300 : COLORS.purple600
   const pillBorder  = isDark ? '#ffffff' : COLORS.purple600
   const pillText    = isDark ? '#ffffff' : COLORS.purple600
-  const ctaBg       = isDark ? COLORS.white : COLORS.black
-  const ctaText     = isDark ? COLORS.black : COLORS.white
+  const ctaBg       = backgroundId === 'purple600' || backgroundId === 'purple500' ? COLORS.black
+    : backgroundId === 'black' ? COLORS.purple600
+    : isDark ? COLORS.white : COLORS.black
+  const ctaText     = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' ? COLORS.white
+    : isDark ? COLORS.black : COLORS.white
   const align       = logoAlign === 'center' ? 'center' : 'flex-start'
 
   const pad          = Math.round(S.pad(width, height))
