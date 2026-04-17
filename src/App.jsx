@@ -17,6 +17,8 @@ const TEMPLATE_DEFAULTS = {
 
 const PILL_LIMIT = 30
 const CTA_LIMIT  = 40
+const STAT_LIMIT = 8
+const STAT_LABEL_LIMIT = 35
 
 const PX_COLS = 12, PX_ROWS = 4, PX_MAX_DELAY = 250
 function usePixelTrail() {
