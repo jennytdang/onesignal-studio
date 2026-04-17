@@ -150,7 +150,7 @@ function QuoteFields({ fields, update }) {
     <Input label="Author Name" value={fields.authorName} onChange={v=>update('authorName',v)} placeholder="Jane Smith"/>
     <Input label="Author Title" value={fields.authorTitle} onChange={v=>update('authorTitle',v)} placeholder="VP of Marketing"/>
     <Input label="Company" value={fields.authorCompany} onChange={v=>update('authorCompany',v)} placeholder="Acme Corp"/>
-    <Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read case study" limit={CTA_LIMIT}/>
+    
   </>)
 }
 
@@ -239,7 +239,7 @@ export default function App() {
               })}
             </div>
           </div>
-          {template !== 'quote' && (<>
+          {template !== 'quote' && template !== 'event' && (<>
             <Divider/>
             <SectionLabel>Placement</SectionLabel>
             <div style={{display:'flex',gap:5,marginBottom:14}}>
