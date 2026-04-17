@@ -17,7 +17,19 @@ export function useExport({ template, fields, dimension, background, pixelOverla
     container.style.cssText = `position: fixed; top: -99999px; left: -99999px; width: ${width}px; height: ${height}px; overflow: hidden;`
     document.body.appendChild(container)
 
-    const bgStyle = background?.style || { backgroundColor: '#FFFFFF' }
+    // Build bgStyle from sources (new system) or legacy style
+    const bgStyle = (() => {
+      if (background?.sources) {
+        const src = background.sources[dimension.id] || background.sources.square
+        return { backgroundImage: `url(${src})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+      }
+      return background?.style || { backgroundColor: '#FFFFFF' }
+    })()
+    // Preload background image so html2canvas captures it
+    if (background?.sources) {
+      const src = background.sources[dimension.id] || background.sources.square
+      await new Promise(resolve => { const img = new Image(); img.crossOrigin = 'anonymous'; img.onload = resolve; img.onerror = resolve; img.src = src })
+    }
 
     let slideEl
     if (template === 'newhire') {
