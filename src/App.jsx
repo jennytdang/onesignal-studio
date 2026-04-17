@@ -214,7 +214,7 @@ export default function App() {
           <SectionLabel>Template ({TEMPLATES.length})</SectionLabel>
           <div style={{display:'flex',gap:6,overflowX:'auto',paddingBottom:4,scrollSnapType:'x mandatory',msOverflowStyle:'none',scrollbarWidth:'none',WebkitOverflowScrolling:'touch',marginBottom:14}}>
             <style>{'div::-webkit-scrollbar{display:none}'}</style>
-            {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={{flexShrink:0,width:88,border:template===t.id?`1px solid ${T.purple}`:`1px solid ${T.border}`,borderRadius:4,overflow:'hidden',cursor:'pointer',padding:0,background:'none',scrollSnapAlign:'start'}}>
+            {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={{flexShrink:0,width:88,border:template===t.id?`1px solid ${T.purple}`:`1px solid ${T.border}`,borderRadius:4,overflow:'hidden',cursor:'pointer',padding:0,background:'none',scrollSnapAlign:'start',opacity:template===t.id?1:0.75,transition:'opacity 0.15s ease,border-color 0.15s ease'}} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=template===t.id?'1':'0.75'}>
               <div style={{width:88,height:88,background:template===t.id?T.purple50:T.bgPage,display:'flex',alignItems:'center',justifyContent:'center'}}>
                 {t.thumb ? <img src={t.thumb} style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/> : <div style={{width:40,height:40,borderRadius:2,background:T.border}}/>}
               </div>
