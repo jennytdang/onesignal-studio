@@ -211,7 +211,7 @@ export default function App() {
           <img src="/OneSignal-Studio-Logo.png" height={22} style={{display:'block'}} />
         </div>
         <div className="sidebar-scroll" style={{flex:1,overflowY:'auto',padding:'14px 14px 24px'}}>
-          <SectionLabel>Template</SectionLabel>
+          <SectionLabel>Template ({TEMPLATES.length})</SectionLabel>
           <div style={{display:'flex',gap:6,overflowX:'auto',paddingBottom:4,scrollSnapType:'x mandatory',msOverflowStyle:'none',scrollbarWidth:'none',WebkitOverflowScrolling:'touch',marginBottom:14}}>
             <style>{'div::-webkit-scrollbar{display:none}'}</style>
             {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={{flexShrink:0,width:88,border:template===t.id?`1px solid ${T.purple}`:`1px solid ${T.border}`,borderRadius:4,overflow:'hidden',cursor:'pointer',padding:0,background:'none',scrollSnapAlign:'start'}}>
