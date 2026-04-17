@@ -101,7 +101,7 @@ export const TEMPLATES = [
   { id: 'headline', label: 'Headline',       icon: '✦', description: 'Bold statement, minimal layout' },
   { id: 'stat',     label: 'Stat Callout',   icon: '2×', description: 'Big number with supporting copy' },
   { id: 'quote',    label: 'Quote',          icon: '"', description: 'Customer or internal quote' },
-  { id: 'event',    label: 'Event / Webinar', icon: '◷', description: 'Date, speakers, optional CTA' },
+  { id: 'event',    label: 'Event', icon: '◷', description: 'Date, speakers, optional CTA' },
   { id: 'newhire',  label: 'New Hire',       icon: '✦', description: 'Team welcome carousel' },
 ]
 
