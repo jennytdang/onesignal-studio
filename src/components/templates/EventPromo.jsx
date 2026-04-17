@@ -26,13 +26,13 @@ function SpeakerCard({ speaker, size, isDark, compact }) {
   )
 }
 
-export default function EventPromo({ fields, dimension, isDark, logoAlign = 'left' }) {
+export default function EventPromo({ fields, dimension, isDark, logoAlign = 'left', backgroundId }) {
   const { pill, headline, eventDate, eventLocation, cta, speakers = [] } = fields
   const { width, height } = dimension
   const isLandscape = width > height
   const isStory = height > 1400
   const fg = isDark ? COLORS.white : COLORS.black
-  const dateColor = isDark ? COLORS.cyan300 : COLORS.purple600
+  const dateColor = (backgroundId === 'grad-1' || backgroundId === 'grad-4') ? '#24272B' : (backgroundId === 'grad-2' || backgroundId === 'grad-3') ? '#D7D8F5' : isDark ? COLORS.cyan300 : COLORS.purple600
   const pillBorder = isDark ? 'rgba(255,255,255,0.5)' : COLORS.purple600
   const pillText = isDark ? COLORS.white : COLORS.purple600
   const ctaBg = isDark ? COLORS.white : COLORS.black
