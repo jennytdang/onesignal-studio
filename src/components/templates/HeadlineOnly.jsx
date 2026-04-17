@@ -42,7 +42,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
           <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.55, color: fgSub, maxWidth: '90%', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign === 'center' ? 'center' : 'left' }}>{subheadline}</div>
         )}
         {cta && (
-          <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.018)}px ${Math.round(width * 0.044)}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
+          <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
         )}
       </div>
     </div>
