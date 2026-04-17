@@ -111,3 +111,4 @@ export const PILL_PRESETS = [
 ]
 
 export const COVER_EMOJIS = ['🎉', '🙌', '👋', '🚀', '✨', '🎊', '💜', '⚡']
+
