@@ -44,6 +44,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
   const borderWidth  = S.quoteBorder(width, height)
   const quoteGap     = S.quoteGap(width, height)
   const gap          = Math.round(S.gap(width, height))
+  const ctaPadV = id==='square'?22:id==='portrait'?24:id==='story'?32:24
 
   // Block quote attribution: stacked, no headshot, no dash
   const blockAttribution = (
