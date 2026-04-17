@@ -37,17 +37,18 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const validPeople = people.filter(p => p.name)
   const cols = 3
   const rows = Math.ceil(validPeople.length / cols)
-  const pad = id==='landscape' ? Math.round(width*0.052) : id==='story' ? Math.round(width*0.0815) : Math.round(width*0.074)
+  const pad  = id==='landscape' ? Math.round(width*0.052) : id==='story' ? Math.round(width*0.0815) : Math.round(width*0.074)
+  const padV = id==='landscape' ? Math.round(height*0.0926) : id==='story' ? Math.round(height*0.052) : Math.round(height*0.074)
   const logoH = Math.round(height * 0.055)
-  const gridTop = Math.round(height * 0.16)
-  const gridBottom = Math.round(height * 0.06)
+  const gridTop = padV + logoH + Math.round(height * 0.03)
+  const gridBottom = padV
   const cellHeight = (height - gridTop - gridBottom) / rows
   const cellWidth = (width - pad * 2) / cols
   const photoSize = Math.min(Math.round(cellHeight * 0.52), Math.round(cellWidth * 0.55))
 
   return (
     <div style={{ width, height, position: 'relative', fontFamily: "'Epilogue', sans-serif" }}>
-      <div style={{ position: 'absolute', top: Math.round(height * 0.045), left: pad }}>
+      <div style={{ position: 'absolute', top: padV, left: pad }}>
         <CanvasLogomark height={logoH} />
       </div>
       <div style={{ position: 'absolute', top: gridTop, left: pad, right: pad, bottom: gridBottom, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`, gap: Math.round(height * 0.02) }}>
