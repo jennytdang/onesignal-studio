@@ -9,7 +9,7 @@ function CanvasLogo({ isDark, height = 60, align = 'left' }) {
   )
 }
 
-export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'left' }) {
+export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'left', backgroundId }) {
   const { pill, headline, subheadline, cta } = fields
   const { width, height, id } = dimension
   const S = SCALE[id] || SCALE.square
@@ -18,8 +18,11 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
   const fgSub = isDark ? 'rgba(255,255,255,0.75)' : COLORS.gray600
   const pillBorder = isDark ? '#ffffff' : COLORS.purple600
   const pillText   = isDark ? '#ffffff' : COLORS.purple600
-  const ctaBg  = isDark ? COLORS.white : COLORS.black
-  const ctaText = isDark ? COLORS.black : COLORS.white
+  const ctaBg  = backgroundId === 'purple600' || backgroundId === 'purple500' ? COLORS.black
+    : backgroundId === 'black' ? COLORS.purple600
+    : isDark ? COLORS.white : COLORS.black
+  const ctaText = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' ? COLORS.white
+    : isDark ? COLORS.black : COLORS.white
   const align  = logoAlign === 'center' ? 'center' : 'flex-start'
 
   const pad           = Math.round(S.pad(width, height))
