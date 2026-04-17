@@ -31,7 +31,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
   const ctaBg       = isDark ? COLORS.white : COLORS.black
   const ctaText     = isDark ? COLORS.black : COLORS.white
   const borderColor = (() => {
-    const darkBgs = ['purple600','purple500','grad-2','grad-3']
+    const darkBgs = ['purple-600','purple-500','grad-2','grad-3']
     const gradBgs = ['black','white']
     if (darkBgs.includes(backgroundId)) return '#FFFFFF'
     if (gradBgs.includes(backgroundId)) return 'linear-gradient(to bottom, #7274DA, #4DA6EF)'
