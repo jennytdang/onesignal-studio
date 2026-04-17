@@ -98,7 +98,7 @@ export const BACKGROUNDS = {
 export const LOGO_ALIGN = { left: 'left', center: 'center' }
 
 export const TEMPLATES = [
-  { id: 'headline', label: 'Headline',       icon: '✦', description: 'Bold statement, minimal layout' },
+  { id: 'headline', label: 'Announce',       icon: '✦', description: 'Bold statement, minimal layout' },
   { id: 'stat',     label: 'Stat Callout',   icon: '2×', description: 'Big number with supporting copy' },
   { id: 'quote',    label: 'Quote',          icon: '"', description: 'Customer or internal quote' },
   { id: 'event',    label: 'Event', icon: '◷', description: 'Date, speakers, optional CTA' },
