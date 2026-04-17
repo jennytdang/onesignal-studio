@@ -85,7 +85,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
             <div style={{ display: 'flex', flexDirection: 'column', gap }}>
               <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 700, lineHeight: 1.2, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{quoteText || 'Add your quote text here.'}</div>
               {blockAttribution}
-              {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
+              {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
             </div>
           </div>
         ) : (
@@ -93,7 +93,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
             <QuoteMarkIcon size={iconSize} isDark={isDark} />
             <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 700, lineHeight: 1.2, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', width: '100%' }}>{quoteText || 'Add your quote text here.'}</div>
             {attribution}
-            {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
+            {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
           </>
         )}
       </div>
