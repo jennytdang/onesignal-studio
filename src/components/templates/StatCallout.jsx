@@ -30,7 +30,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const ctaSize      = Math.round(S.cta(width, height))
   const gap          = Math.round(S.gap(width, height))
   const statFontSize = Math.round(S.statSize(width, height))
-  const ctaPadV = id==='square'?22:id==='portrait'?24:id==='story'?32:24
+  const ctaPadV = id==='square'?28:id==='portrait'?32:38
   const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
   return (
@@ -43,7 +43,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
           )}
           <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'nowrap' }}>{stat || '2\u00d7'}</div>
           {statLabel && (
-            <div style={{ fontSize: Math.round(width * 0.028), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em' }}>{statLabel}</div>
+            <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left' }}>{statLabel}</div>
           )}
         </div>
         <div style={{ maxWidth: '80%', display: 'flex', flexDirection: 'column', alignItems: align }}>
@@ -51,7 +51,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{subheadline}</div>
           )}
           {cta && (
-            <div style={{ display: 'inline-flex', marginTop: Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
+            <div style={{ display: 'inline-flex', marginTop: Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
           )}
         </div>
       </div>
