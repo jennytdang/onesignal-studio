@@ -247,7 +247,7 @@ export default function App() {
               })}
             </div>
           </div>
-          {template !== 'quote' && template !== 'event' && (<>
+          {template !== 'quote' && template !== 'event' && template !== 'newhire' && (<>
             <Divider/>
             <SectionLabel>Placement</SectionLabel>
             <div style={{display:'flex',gap:5,marginBottom:14}}>
