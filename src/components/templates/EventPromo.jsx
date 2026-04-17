@@ -36,8 +36,11 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const dateColor = (backgroundId === 'grad-1' || backgroundId === 'grad-4') ? '#24272B' : (backgroundId === 'grad-2' || backgroundId === 'grad-3') ? '#D7D8F5' : isDark ? COLORS.cyan300 : COLORS.purple600
   const pillBorder = isDark ? 'rgba(255,255,255,0.5)' : COLORS.purple600
   const pillText = isDark ? COLORS.white : COLORS.purple600
-  const ctaBg = isDark ? COLORS.white : COLORS.black
-  const ctaText = isDark ? COLORS.black : COLORS.white
+  const ctaBg = backgroundId === 'purple600' || backgroundId === 'purple500' ? COLORS.black
+    : backgroundId === 'black' ? COLORS.purple600
+    : isDark ? COLORS.white : COLORS.black
+  const ctaText = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' ? COLORS.white
+    : isDark ? COLORS.black : COLORS.white
   const dividerColor = isDark ? 'rgba(255,255,255,0.12)' : COLORS.gray100
 
   const pad = isLandscape ? Math.round(height * 0.0926) : Math.round(width * 0.074)
@@ -49,14 +52,14 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
     : id === 'portrait' ? Math.round(width * 0.0852)
     : Math.round(width * 0.0778)
 
-  const dateSize = id === 'landscape' ? Math.round(height * 0.0389)
+  const dateSize = id === 'landscape' ? Math.round(height * 0.0370)
     : id === 'story'   ? Math.round(width * 0.0407)
     : id === 'portrait' ? Math.round(width * 0.0352)
     : Math.round(width * 0.0296)
 
-  const ctaFontSize = id === 'landscape' ? 42 : id === 'story' ? 44 : id === 'portrait' ? 38 : 32
-  const ctaPadV     = id === 'landscape' ? 36 : id === 'story' ? 38 : id === 'portrait' ? 32 : 28
-  const ctaPadH     = id === 'landscape' ? 42 : id === 'portrait' ? 48 : id === 'square' ? 40 : 44
+  const ctaFontSize = id === 'landscape' ? 40 : id === 'story' ? 44 : id === 'portrait' ? 38 : 32
+  const ctaPadV     = id === 'landscape' ? 34 : id === 'story' ? 38 : id === 'portrait' ? 32 : 28
+  const ctaPadH     = id === 'landscape' ? 40 : id === 'portrait' ? 48 : id === 'square' ? 40 : 44
 
   const avatarSz          = id === 'landscape' ? 148 : 112
   const speakerNameSize   = id === 'landscape' || id === 'story' ? 38 : id === 'portrait' ? 34 : 30
