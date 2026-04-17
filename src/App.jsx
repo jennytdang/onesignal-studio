@@ -74,7 +74,7 @@ function SectionLabel({ children }) {
 
 function Input({ label, value, onChange, placeholder, multiline, rows=3, limit }) {
   const [focused, setFocused] = useState(false)
-  const style = { width:'100%', background:T.bgInput, border:`1px solid ${focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
+  const style = { width:'100%', background:T.bgInput, border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
   return (
     <div style={{marginBottom:12}}>
       {label && (
@@ -134,7 +134,7 @@ function CommonFields({ fields, update }) {
 }
 
 function HeadlineFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Headline *" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Your bold headline"/><Input label="Subheadline" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Supporting copy" multiline rows={2}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Learn more" limit={CTA_LIMIT}/></>) }
-function StatFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Stat / Number *" value={fields.stat} onChange={v=>update('stat',v)} placeholder="e.g. 2×, 98%, 10M"/><Input label="Stat Label" value={fields.statLabel} onChange={v=>update('statLabel',v)} placeholder="e.g. faster delivery"/><Input label="Supporting Copy" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Context for the stat…" multiline rows={3}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read the report" limit={CTA_LIMIT}/></>) }
+function StatFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Stat / Number *" value={fields.stat} onChange={v=>update('stat',v)} placeholder="e.g. 2×, 98%, 10M" limit={STAT_LIMIT}/><Input label="Stat Label" value={fields.statLabel} onChange={v=>update('statLabel',v)} placeholder="e.g. faster delivery" limit={STAT_LABEL_LIMIT}/><Input label="Supporting Copy" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Context for the stat…" multiline rows={3}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read the report" limit={CTA_LIMIT}/></>) }
 
 function QuoteFields({ fields, update }) {
   return (<>
