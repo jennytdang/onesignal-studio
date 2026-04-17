@@ -19,7 +19,7 @@ function QuoteMarkIcon({ size, isDark }) {
   )
 }
 
-export default function Quote({ fields, dimension, isDark, logoAlign = 'left' }) {
+export default function Quote({ fields, dimension, isDark, logoAlign = 'left', backgroundId }) {
   const { pill, headline: quoteText, authorName, authorTitle, authorCompany, showHeadshot, headshotUrl, cta, quoteBlock } = fields
   const { width, height, id } = dimension
   const S = SCALE[id] || SCALE.square
@@ -30,7 +30,13 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left' })
   const pillText    = isDark ? '#ffffff' : COLORS.purple600
   const ctaBg       = isDark ? COLORS.white : COLORS.black
   const ctaText     = isDark ? COLORS.black : COLORS.white
-  const borderColor = isDark ? COLORS.purple400 : COLORS.purple600
+  const borderColor = (() => {
+    const darkBgs = ['purple-600','purple-500','grad-2','grad-3']
+    const gradBgs = ['black','white']
+    if (darkBgs.includes(backgroundId)) return '#FFFFFF'
+    if (gradBgs.includes(backgroundId)) return 'linear-gradient(to bottom, #7274DA, #4DA6EF)'
+    return isDark ? COLORS.purple400 : COLORS.purple600
+  })()
 
   const pad          = Math.round(S.pad(width, height))
   const logoH        = Math.round(S.logo(width, height))
