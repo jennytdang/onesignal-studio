@@ -30,6 +30,8 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const ctaSize      = Math.round(S.cta(width, height))
   const gap          = Math.round(S.gap(width, height))
   const statFontSize = Math.round(S.statSize(width, height))
+  const ctaPadV = id==='square'?22:id==='portrait'?24:id==='story'?32:24
+  const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.04) }}>
@@ -37,7 +39,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: align, gap, justifyContent: 'center', overflow: 'hidden', minHeight: 0 }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: align }}>
           {pill && (
-            <div style={{ display: 'inline-flex', marginBottom: Math.round(height * 0.02), background: 'transparent', border: `1px solid ${pillBorder}`, borderRadius: 99, padding: `${Math.round(height * 0.009)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: pillSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>
+            <div style={{ display: 'inline-flex', marginBottom: Math.round(height * 0.02), background: 'transparent', border: `1px solid ${pillBorder}`, borderRadius: 99, padding: `${Math.round(height * 0.009)}px ${pillPadH}px`, color: pillText, fontSize: pillSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>
           )}
           <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'nowrap' }}>{stat || '2\u00d7'}</div>
           {statLabel && (
@@ -49,7 +51,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{subheadline}</div>
           )}
           {cta && (
-            <div style={{ display: 'inline-flex', marginTop: Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${Math.round(height * 0.016)}px ${Math.round(width * 0.04)}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
+            <div style={{ display: 'inline-flex', marginTop: Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
           )}
         </div>
       </div>
