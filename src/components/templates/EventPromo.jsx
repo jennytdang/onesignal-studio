@@ -42,7 +42,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const dividerColor = isDark ? 'rgba(255,255,255,0.12)' : COLORS.gray100
   const pad = Math.round(width * 0.074)
   const headlineSize = isStory ? Math.round(width * 0.082) : isLandscape ? Math.round(height * 0.088) : Math.round(width * 0.082)
-  const logoH = Math.round(height * 0.055)
+  const logoH = isLandscape ? 80 : Math.round(height * 0.055)
   const validSpeakers = speakers.filter(s => s.name)
   const hasSpeakers = validSpeakers.length > 0
 
