@@ -21,9 +21,9 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${id==='landscape'?Math.round(height*0.0926):id==='story'?Math.round(height*0.052):Math.round(height*0.074)}px ${id==='landscape'?Math.round(width*0.052):id==='story'?Math.round(width*0.0815):Math.round(width*0.074)}px`, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.05) }}>
       <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: logoAlign === 'center' ? 'center' : 'flex-start', justifyContent: 'center', gap: Math.round(height * 0.04), textAlign: logoAlign === 'center' ? 'center' : 'left' }}>
-        <div style={{ fontSize: id==='landscape'?Math.round(width*0.074):Math.round(width*0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.03em' }}>{headline || 'Meet our newest members!'}</div>
-        {subheadline && <div style={{ fontSize: Math.round(width * 0.032), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.5, color: fg, opacity: 0.75 }}>{subheadline}</div>}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: logoAlign === 'center' ? 'center' : 'flex-start', justifyContent: 'center', gap: id==='story'?Math.round(height*0.025):Math.round(height*0.04), textAlign: logoAlign === 'center' ? 'center' : 'left' }}>
+        <div style={{ fontSize: id==='landscape'?Math.round(width*0.074):id==='story'?Math.round(width*0.1222):Math.round(width*0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.03em' }}>{headline || 'Meet our newest members!'}</div>
+        {subheadline && <div style={{ fontSize: id==='story'?Math.round(width*0.0463):Math.round(width*0.032), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.5, color: fg, opacity: 0.75 }}>{subheadline}</div>}
       </div>
     </div>
   )
