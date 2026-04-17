@@ -76,7 +76,7 @@ export const SCALE = {
     quoteIcon:   (w, h) => h * 0.085,
     quoteBorder: (w, h) => 8,
     quoteGap:    (w, h) => Math.round(h * 0.044),
-    statSize:    (w, h) => h * 0.2593,
+    statSize:    (w, h) => h * 0.2037,
   },
 }
 
