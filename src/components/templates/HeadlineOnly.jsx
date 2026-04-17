@@ -29,6 +29,8 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
   const pillSize      = Math.round(S.pill(width, height))
   const ctaSize       = Math.round(S.cta(width, height))
   const gap           = Math.round(S.gap(width, height))
+  const ctaPadV = id==='square'?22:id==='portrait'?24:id==='story'?32:24
+  const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.035) }}>
