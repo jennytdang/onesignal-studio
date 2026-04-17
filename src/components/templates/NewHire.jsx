@@ -16,7 +16,7 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) 
   const { headline, subheadline } = fields
   const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
-  const logoH = Math.round(height * 0.055)
+  const logoH = id === 'landscape' ? 80 : Math.round(height * 0.055)
 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${id==='landscape'?Math.round(height*0.0926):id==='story'?Math.round(height*0.052):Math.round(height*0.074)}px ${id==='landscape'?Math.round(width*0.052):id==='story'?Math.round(width*0.0815):Math.round(width*0.074)}px`, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.05) }}>
@@ -39,7 +39,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const rows = Math.ceil(validPeople.length / cols)
   const pad  = id==='landscape' ? Math.round(width*0.052) : id==='story' ? Math.round(width*0.0815) : Math.round(width*0.074)
   const padV = id==='landscape' ? Math.round(height*0.0926) : id==='story' ? Math.round(height*0.052) : Math.round(height*0.074)
-  const logoH = Math.round(height * 0.055)
+  const logoH = id === 'landscape' ? 80 : Math.round(height * 0.055)
   const gridTop = padV + logoH + Math.round(height * 0.03)
   const gridBottom = padV
   const cellHeight = (height - gridTop - gridBottom) / rows
