@@ -212,8 +212,14 @@ export default function App() {
         </div>
         <div className="sidebar-scroll" style={{flex:1,overflowY:'auto',padding:'14px 14px 24px'}}>
           <SectionLabel>Template</SectionLabel>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,marginBottom:16}}>
-            {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={tmplBtn(template===t.id)}><div style={{fontSize:11,fontWeight:600,color:template===t.id?T.purple:T.textSub,marginBottom:2}}>{t.label}</div><div style={{fontSize:10,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",lineHeight:1.3}}>{t.description}</div></button>)}
+          <div style={{display:'flex',gap:6,overflowX:'auto',paddingBottom:4,scrollSnapType:'x mandatory',msOverflowStyle:'none',scrollbarWidth:'none',WebkitOverflowScrolling:'touch',marginBottom:14}}>
+            <style>{'div::-webkit-scrollbar{display:none}'}</style>
+            {TEMPLATES.map(t=><button key={t.id} onClick={()=>handleTemplateSwitch(t.id)} style={{flexShrink:0,width:88,border:template===t.id?`1px solid ${T.purple}`:`1px solid ${T.border}`,borderRadius:4,overflow:'hidden',cursor:'pointer',padding:0,background:'none',scrollSnapAlign:'start'}}>
+              <div style={{width:88,height:88,background:template===t.id?T.purple50:T.bgPage,display:'flex',alignItems:'center',justifyContent:'center'}}>
+                {t.thumb ? <img src={t.thumb} style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/> : <div style={{width:40,height:40,borderRadius:2,background:T.border}}/>}
+              </div>
+              <div style={{padding:'5px 4px 6px',fontSize:11,fontWeight:500,color:template===t.id?T.purple:T.text,textAlign:'center',lineHeight:1.25,borderTop:`0.5px solid ${T.border}`,fontFamily:"'Epilogue', sans-serif"}}>{t.label}</div>
+            </button>)}
           </div>
           <Divider/>
           <SectionLabel>Canvas Size</SectionLabel>
