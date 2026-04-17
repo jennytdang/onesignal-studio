@@ -29,7 +29,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
   const pillSize      = Math.round(S.pill(width, height))
   const ctaSize       = Math.round(S.cta(width, height))
   const gap           = Math.round(S.gap(width, height))
-  const ctaPadV = id==='square'?22:id==='portrait'?24:id==='story'?32:24
+  const ctaPadV = id==='square'?28:id==='portrait'?32:id==='story'?38:8
   const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
   return (
@@ -44,7 +44,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
           <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.55, color: fgSub, maxWidth: '90%', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign === 'center' ? 'center' : 'left' }}>{subheadline}</div>
         )}
         {cta && (
-          <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
+          <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
         )}
       </div>
     </div>
