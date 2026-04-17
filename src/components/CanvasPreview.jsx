@@ -5,8 +5,8 @@ import Quote from './templates/Quote'
 import EventPromo from './templates/EventPromo'
 import { NewHireCover, NewHireGrid } from './templates/NewHire'
 
-function TemplateRenderer({ template, fields, dimension, isDark, logoAlign, slideIndex, newHireSlides }) {
-  const props = { fields, dimension, isDark, logoAlign }
+function TemplateRenderer({ template, fields, dimension, isDark, logoAlign, slideIndex, newHireSlides, backgroundId }) {
+  const props = { fields, dimension, isDark, logoAlign, backgroundId }
   if (template === 'headline') return <HeadlineOnly {...props} />
   if (template === 'stat')     return <StatCallout {...props} />
   if (template === 'quote')    return <Quote {...props} />
@@ -77,7 +77,7 @@ export default function CanvasPreview({
       backgroundSize: '12px 12px', overflow: 'auto',
     }}>
       <div style={{ position: 'absolute', top: 12, right: 16, display: 'flex', alignItems: 'center', gap: 6, zIndex: 10, background: '#fff', border: '1px solid #E5E7E9', borderRadius: 6, padding: '4px 8px' }}>
-        <button onClick={() => setZoom(z => Math.max(0.25, z - 0.25))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: '#051B2C', lineHeight: 1, padding: '0 4px' }} title="Zoom out">⊒</button>
+        <button onClick={() => setZoom(z => Math.max(0.25, z - 0.25))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: '#051B2C', lineHeight: 1, padding: '0 4px' }} title="Zoom out">−</button>
         <span style={{ fontSize: 12, color: '#59626B', fontFamily: "'Nunito Sans', sans-serif", minWidth: 40, textAlign: 'center' }}>{Math.round(zoom * 100)}%</span>
         <button onClick={() => setZoom(z => Math.min(2, z + 0.25))} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: '#051B2C', lineHeight: 1, padding: '0 4px' }} title="Zoom in">+</button>
         <button onClick={() => setZoom(1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: '#98A1A9', fontFamily: "'Nunito Sans', sans-serif", padding: '0 2px' }} title="Reset">↺</button>
@@ -86,7 +86,7 @@ export default function CanvasPreview({
       <div style={{ width: cw * effectiveScale, height: ch * effectiveScale, position: 'relative', flexShrink: 0, borderRadius: 4, overflow: 'hidden', boxShadow: '0 4px 24px rgba(5,27,44,0.1), 0 1px 4px rgba(5,27,44,0.08)' }}>
         <div id="canvas-root" className="canvas-root" style={{ width: cw, height: ch, transformOrigin: 'top left', transform: `scale(${effectiveScale})`, position: 'relative', overflow: 'hidden', ...bgStyle }}>
           <div style={{ position: 'relative', zIndex: 2, width: '100%', height: '100%' }}>
-            <TemplateRenderer template={template} fields={fields} dimension={dimension} isDark={isDark} logoAlign={logoAlign} slideIndex={slideIndex} newHireSlides={newHireSlides} />
+            <TemplateRenderer template={template} fields={fields} dimension={dimension} isDark={isDark} logoAlign={logoAlign} slideIndex={slideIndex} newHireSlides={newHireSlides} backgroundId={dimId && background?.id} />
           </div>
         </div>
       </div>
