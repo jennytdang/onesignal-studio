@@ -8,8 +8,8 @@ function CanvasLogo({ isDark, height = 60, align = 'left' }) {
     </div>
   )
 }
-function CanvasLogomark({ height = 40 }) {
-  return <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height, width: 'auto', display: 'block' }} />
+function CanvasLogomark({ height = 40, isDark = false }) {
+  return <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height, width: 'auto', display: 'block', filter: isDark ? 'brightness(0) invert(1)' : 'none' }} />
 }
 
 export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) {
@@ -49,19 +49,21 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   return (
     <div style={{ width, height, position: 'relative', fontFamily: "'Epilogue', sans-serif" }}>
       <div style={{ position: 'absolute', top: padV, left: pad }}>
-        <CanvasLogomark height={logoH} />
+        <CanvasLogomark height={logoH} isDark={isDark} />
       </div>
-      <div style={{ position: 'absolute', top: gridTop, left: pad, right: pad, bottom: gridBottom, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`, gap: Math.round(height * 0.02) }}>
+      <div style={{ position: 'absolute', top: gridTop, left: pad, right: pad, bottom: gridBottom, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`, gap: Math.round(height * 0.012), justifyContent: 'center', alignContent: 'center' }}>
         {validPeople.map((person, i) => (
-          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: Math.round(height * 0.012) }}>
+          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: Math.round(height * 0.020) }}>
             <div style={{ width: photoSize, height: photoSize, borderRadius: 8, overflow: 'hidden', backgroundColor: COLORS.purple100, flexShrink: 0 }}>
               {person.photo
                 ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(photoSize * 0.35), color: COLORS.purple600, fontWeight: 700, backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : COLORS.purple50 }}>{person.name.charAt(0).toUpperCase()}</div>
               }
             </div>
-            <div style={{ fontSize: Math.round(width * 0.024), fontWeight: 700, color: nameColor, textAlign: 'center', lineHeight: 1.2 }}>{person.name}</div>
-            {person.title && <div style={{ fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", color: fgSub, textAlign: 'center', lineHeight: 1.3 }}>{person.title}</div>}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: Math.round(height * 0.004) }}>
+                <div style={{ fontSize: Math.round(width * 0.024), fontWeight: 700, color: nameColor, textAlign: 'center', lineHeight: 1.2 }}>{person.name}</div>
+                {person.title && <div style={{ fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", color: fgSub, textAlign: 'center', lineHeight: 1.3 }}>{person.title}</div>}
+              </div>
           </div>
         ))}
       </div>
