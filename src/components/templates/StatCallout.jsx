@@ -37,18 +37,18 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.04) }}>
       <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: align, gap, justifyContent: 'center', overflow: 'hidden', minHeight: 0 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: align }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: align, maxWidth: '100%' }}>
           {pill && (
             <div style={{ display: 'inline-flex', marginBottom: Math.round(height * 0.02), background: 'transparent', border: `1px solid ${pillBorder}`, borderRadius: 99, padding: `${Math.round(height * 0.009)}px ${pillPadH}px`, color: pillText, fontSize: pillSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>
           )}
-          <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'nowrap' }}>{stat || '2\u00d7'}</div>
+          <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', textAlign: logoAlign==='center'?'center':'left' }}>{stat || '2\u00d7'}</div>
           {statLabel && (
-            <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left' }}>{statLabel}</div>
+            <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left', maxWidth: '100%', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{statLabel}</div>
           )}
         </div>
         <div style={{ maxWidth: '80%', display: 'flex', flexDirection: 'column', alignItems: align }}>
           {subheadline && (
-            <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{subheadline}</div>
+            <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign==='center'?'center':'left' }}>{subheadline}</div>
           )}
           {cta && (
             <div style={{ display: 'inline-flex', marginTop: Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
