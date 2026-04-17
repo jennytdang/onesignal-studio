@@ -42,7 +42,7 @@ export function useExport({ template, fields, dimension, background, pixelOverla
     } else {
       const componentMap = { headline: HeadlineOnly, stat: StatCallout, quote: Quote, event: EventPromo }
       const Comp = componentMap[template]
-      slideEl = Comp ? React.createElement(Comp, { fields, dimension, isDark }) : null
+      slideEl = Comp ? React.createElement(Comp, { fields, dimension, isDark, backgroundId: background?.id }) : null
     }
 
     const wrapper = document.createElement('div')
