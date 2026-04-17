@@ -25,7 +25,7 @@ export const SCALE = {
     quoteIcon:   (w, h) => w * 0.075,
     quoteBorder: (w, h) => 8,
     quoteGap:    (w, h) => Math.round(w * 0.044),
-    statSize:    (w, h) => w * 0.26,
+    statSize:    (w, h) => w * 0.1852,
   },
   portrait: {
     headline:    (w, h) => w * 0.082,
@@ -42,7 +42,7 @@ export const SCALE = {
     quoteIcon:   (w, h) => w * 0.070,
     quoteBorder: (w, h) => 8,
     quoteGap:    (w, h) => Math.round(w * 0.044),
-    statSize:    (w, h) => w * 0.26,
+    statSize:    (w, h) => w * 0.2148,
   },
   story: {
     headline:    (w, h) => w * 0.105,
@@ -59,7 +59,7 @@ export const SCALE = {
     quoteIcon:   (w, h) => w * 0.090,
     quoteBorder: (w, h) => 8,
     quoteGap:    (w, h) => Math.round(w * 0.044),
-    statSize:    (w, h) => w * 0.26,
+    statSize:    (w, h) => w * 0.2259,
   },
   landscape: {
     headline:    (w, h) => h * 0.095,
@@ -69,14 +69,14 @@ export const SCALE = {
     avatar:      (w, h) => h * 0.115,
     authorName:  (w, h) => h * 0.035,
     authorTitle: (w, h) => h * 0.024,
-    logo:        (w, h) => h * 0.060,
+    logo:        (w, h) => h * 0.074,
     pad:         (w, h) => h * 0.0926,
     gap:         (w, h) => h * 0.028,
     quoteSize:   (w, h) => h * 0.056,
     quoteIcon:   (w, h) => h * 0.085,
     quoteBorder: (w, h) => 8,
     quoteGap:    (w, h) => Math.round(h * 0.044),
-    statSize:    (w, h) => h * 0.28,
+    statSize:    (w, h) => h * 0.2593,
   },
 }
 
