@@ -93,6 +93,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     : n <= 2 ? Math.round(height * 0.21)
     : n <= 3 ? Math.round(height * 0.17)
     : n <= 4 ? Math.round(height * 0.15)
+    : (n === 5 || n === 6) && !isLandscape ? 224
     : Infinity
 
   // Avatar constrained by: height binary search + proportional height cap + card width
