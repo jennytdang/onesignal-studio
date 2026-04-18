@@ -88,10 +88,10 @@ export const BACKGROUNDS = {
     { id: 'white',    label: 'White',      isDark: false, sources: { square: '/white_1080x1080.png',        portrait: '/white_1080x1350.png',        story: '/white_1080x1920.png',        landscape: '/white_1920x1080.png'        } },
   ],
   gradients: [
-    { id: 'grad-1', label: 'Aurora Mist',   isDark: false, sources: { square: '/grad-1_1080x1080.png',        portrait: '/grad-1_1080x1350.png',        story: '/grad-1_1080x1920.png',        landscape: '/grad-1_1920x1080.png'        } },
-    { id: 'grad-2', label: 'Tropical Flux', isDark: true,  sources: { square: '/grad-2_1080x1080.png',  portrait: '/grad-2_1080x1350.png',        story: '/grad-2_1080x1920.png',        landscape: '/grad-2_1920x1080.png'        } },
-    { id: 'grad-3', label: 'Ocean Dusk',    isDark: true,  sources: { square: '/grad-3_1080x1080.png',        portrait: '/grad-3_1080x1350.png',        story: '/grad-3_1080x1920.png',        landscape: '/grad-3_1920x1080.png'        } },
-    { id: 'grad-4', label: 'Indigo Drift',  isDark: false,  sources: { square: '/grad-4_1080x1080.png',        portrait: '/grad-4_1080x1350.png',        story: '/grad-4_1080x1920.png',        landscape: '/grad-4_1920x1080.png'        } },
+    { id: 'grad-1', label: 'Teal Blend',   isDark: false, sources: { square: '/grad-1_1080x1080.png',        portrait: '/grad-1_1080x1350.png',        story: '/grad-1_1080x1920.png',        landscape: '/grad-1_1920x1080.png'        } },
+    { id: 'grad-2', label: 'Indigo Gradient', isDark: true,  sources: { square: '/grad-2_1080x1080.png',  portrait: '/grad-2_1080x1350.png',        story: '/grad-2_1080x1920.png',        landscape: '/grad-2_1920x1080.png'        } },
+    { id: 'grad-3', label: 'Spectrum Mix',    isDark: true,  sources: { square: '/grad-3_1080x1080.png',        portrait: '/grad-3_1080x1350.png',        story: '/grad-3_1080x1920.png',        landscape: '/grad-3_1920x1080.png'        } },
+    { id: 'grad-4', label: 'Blue Wash',  isDark: false,  sources: { square: '/grad-4_1080x1080.png',        portrait: '/grad-4_1080x1350.png',        story: '/grad-4_1080x1920.png',        landscape: '/grad-4_1920x1080.png'        } },
   ],
 }
 
