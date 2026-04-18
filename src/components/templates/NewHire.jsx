@@ -101,26 +101,37 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap, cardWidth)))
 
   // For n=1, use exact per-dimension values
-  const oneSpec = (n === 1 || n === 2 || n === 3) ? (
+  const oneSpec = (n >= 1 && n <= 6) ? (
     n === 1 ? (
-      id === 'square'    ? { av: 300, ns: 32, tg: 28, ts: 28, lg: 8 } :
-      id === 'portrait'  ? { av: 418, ns: 48, tg: 48, ts: 36, lg: 8 } :
-      id === 'landscape' ? { av: 428, ns: 50, tg: 48, ts: 42, lg: 8 } :
-      id === 'story'     ? { av: 500, ns: 56, tg: 48, ts: 48, lg: 8 } : null
+      id === 'square'    ? { av: 300, ns: 32, tg: 28, ts: 28, lg: 8,  lh: 1.5  } :
+      id === 'portrait'  ? { av: 418, ns: 48, tg: 48, ts: 36, lg: 8,  lh: 1.5  } :
+      id === 'landscape' ? { av: 428, ns: 50, tg: 48, ts: 42, lg: 8,  lh: 1.5  } :
+      id === 'story'     ? { av: 500, ns: 56, tg: 48, ts: 48, lg: 8,  lh: 1.5  } : null
     ) : n === 2 ? (
-      id === 'square'    ? { av: 300, ns: 32, tg: 32, ts: 24, lg: 8 } :
-      id === 'portrait'  ? { av: 418, ns: 34, tg: 32, ts: 28, lg: 8 } :
-      id === 'landscape' ? { av: 428, ns: 44, tg: 32, ts: 36, lg: 8 } :
-      id === 'story'     ? { av: 380, ns: 40, tg: 48, ts: 36, lg: 8 } : null
+      id === 'square'    ? { av: 300, ns: 32, tg: 32, ts: 24, lg: 8,  lh: 1.5  } :
+      id === 'portrait'  ? { av: 418, ns: 34, tg: 32, ts: 28, lg: 8,  lh: 1.5  } :
+      id === 'landscape' ? { av: 428, ns: 44, tg: 32, ts: 36, lg: 8,  lh: 1.5  } :
+      id === 'story'     ? { av: 380, ns: 40, tg: 48, ts: 36, lg: 8,  lh: 1.5  } : null
+    ) : n === 3 ? (
+      id === 'square'    ? { av: 260, ns: 28, tg: 24, ts: 22, lg: 8,  lh: 1.5  } :
+      id === 'portrait'  ? { av: 230, ns: 30, tg: 32, ts: 26, lg: 8,  lh: 1.5  } :
+      id === 'landscape' ? { av: 360, ns: 42, tg: 48, ts: 34, lg: 8,  lh: 1.5  } :
+      id === 'story'     ? { av: 260, ns: 38, tg: 48, ts: 34, lg: 8,  lh: 1.5  } : null
+    ) : n === 4 ? (
+      id === 'square'    ? { av: 200, ns: 24, tg: 30, ts: 20, lg: 6,  lh: 1.35 } :
+      id === 'portrait'  ? { av: 230, ns: 32, tg: 36, ts: 26, lg: 6,  lh: 1.35 } :
+      id === 'landscape' ? { av: 380, ns: 38, tg: 32, ts: 32, lg: 6,  lh: 1.35 } :
+      id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
     ) : (
-      id === 'square'    ? { av: 260, ns: 28, tg: 24, ts: 22, lg: 8 } :
-      id === 'portrait'  ? { av: 230, ns: 30, tg: 32, ts: 26, lg: 8 } :
-      id === 'landscape' ? { av: 360, ns: 42, tg: 48, ts: 34, lg: 8 } :
-      id === 'story'     ? { av: 260, ns: 38, tg: 48, ts: 34, lg: 8 } : null
+      id === 'square'    ? { av: 200, ns: 24, tg: 30, ts: 20, lg: 6,  lh: 1.35 } :
+      id === 'portrait'  ? null :
+      id === 'landscape' ? { av: 380, ns: 38, tg: 32, ts: 32, lg: 6,  lh: 1.35 } :
+      id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
     )
   ) : null
 
   const finalAv = oneSpec ? oneSpec.av : av
+  const lineH = oneSpec?.lh ?? 1.5
   const tg = oneSpec ? oneSpec.tg : Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
   const ns = oneSpec ? oneSpec.ns : Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
   const ts = oneSpec ? oneSpec.ts : Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
@@ -157,8 +168,8 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
                           : <div style={{ width: '100%', height: '100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(finalAv * 0.35), fontWeight: 700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily: "'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
                         }
                       </div>
-                      <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: 1.5, marginTop: tg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{person.name}</div>
-                      <div style={{ color: fgSub, fontSize: ts, fontFamily: "'Nunito Sans', sans-serif", lineHeight: 1.5, marginTop: lg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
+                      <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: lineH, marginTop: tg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{person.name}</div>
+                      <div style={{ color: fgSub, fontSize: ts, fontFamily: "'Nunito Sans', sans-serif", lineHeight: lineH, marginTop: lg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
                     </div>
                   )
                 })}
