@@ -172,7 +172,7 @@ function NewHireFields({ fields, update, newHireSlides, setNewHireSlides, dimens
   return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!"/><Input label="Subheadline" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Welcome to the team!"/><Divider/><SectionLabel>New Hires ({total})</SectionLabel>{newHireSlides.map((slide,si)=><div key={si}>{newHireSlides.length>1&&<div style={{fontSize:11,color:T.textMuted,marginBottom:8,textTransform:'uppercase',letterSpacing:'0.08em'}}>Grid Slide {si+1}</div>}{slide.map((p,pi)=><div key={pi} style={{background:T.bgPage,border:`1px solid ${T.border}`,borderRadius:2,padding:12,marginBottom:8}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>Person {pi+1}</span><button onClick={()=>remP(si,pi)} style={{background:'none',border:'none',color:T.textMuted,cursor:'pointer',fontSize:16}}>î</button></div><PhotoUpload value={p.photo} onChange={v=>updP(si,pi,'photo',v)}/><Input value={p.name} onChange={v=>updP(si,pi,'name',v)} placeholder="Full name"/><Input value={p.title} onChange={v=>updP(si,pi,'title',v)} placeholder="Job title"/></div>)}</div>)}{newHireSlides.flat().filter(p=>p.name).length<(dimension?.id==='landscape'?8:6)&&<button onClick={addP} style={{width:'100%',background:'none',border:`1px dashed ${T.border}`,borderRadius:2,padding:'9px',color:T.textMuted,cursor:'pointer',fontSize:13,fontFamily:"'Nunito Sans', sans-serif",marginBottom:8}}>+ Add person</button>}{newHireSlides.flat().filter(p=>p.name).length>=(dimension?.id==='landscape'?8:6)&&<div style={{fontSize:11,color:T.textMuted,textAlign:'center',padding:'6px 0',fontFamily:"'Nunito Sans', sans-serif"}}>{dimension?.id==='landscape'?'Max 8 people':'Max 6 people'}</div>}</>)
 }
 
-function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides }) {
+function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides, dimension }) {
   if (template === 'headline') return <HeadlineFields fields={fields} update={update}/>
   if (template === 'stat')     return <StatFields fields={fields} update={update}/>
   if (template === 'quote')    return <QuoteFields fields={fields} update={update}/>
@@ -315,7 +315,7 @@ export default function App() {
             </div>
           </>)}
           <Divider/>
-          <FieldsPanel template={template} fields={fields} update={update} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
+          <FieldsPanel template={template} fields={fields} update={update} dimension={dimension} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
         </div>
         <div style={{padding:14,borderTop:`1px solid ${T.border}`}}>
           <button
