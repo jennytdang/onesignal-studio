@@ -39,7 +39,8 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     : isDark ? COLORS.cyan300 : COLORS.blue400
   const logomarkFilter = isDark ? 'brightness(0) invert(1)' : 'none'
 
-  const validPeople = people.filter(p => p.name)
+  const allValid = people.filter(p => p.name)
+  const validPeople = isLandscape ? allValid.slice(0, 8) : allValid
   const n = validPeople.length
 
   // Padding constants (px at full canvas size)
