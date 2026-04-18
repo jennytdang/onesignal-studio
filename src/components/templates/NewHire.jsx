@@ -50,7 +50,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
 
   // Adaptive grid layout
   const maxPerRow = isLandscape ? 4 : 3
-  const maxAv     = isLandscape ? null : (n <= 1 ? 150 : n <= 2 ? 120 : null)
+  const maxAv     = isLandscape ? null : (n <= 1 ? 140 : n <= 2 ? 100 : null)
   const hGap = isLandscape ? Math.round(width * 0.025)  : Math.round(width * 0.022)
   const rowGap = isLandscape ? Math.round(height * 0.04) : Math.round(height * 0.03)
 
@@ -68,7 +68,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
 
   // Available space for the grid
   const availW = width  - pad * 2
-  const availH = height - padV * 2 - logoH - logoMB - Math.round(height * 0.018)  // safety buffer
+  const availH = height - padV * 2 - logoH - logoMB - Math.round(height * 0.055)  // safety buffer
 
   // Single-line card height as function of avatar size (1.5 line-height, no wrapping)
   function cardH(av) {
