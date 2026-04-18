@@ -16,7 +16,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
 
   const fg          = isDark ? COLORS.white : COLORS.black
   const fgSub       = isDark ? 'rgba(255,255,255,0.75)' : COLORS.gray600
-  const accentColor = isDark ? COLORS.cyan300 : COLORS.purple600
+  const accentColor = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' || backgroundId === 'grad-2' || backgroundId === 'grad-3' ? '#D7D8F5' : isDark ? COLORS.cyan300 : COLORS.purple600
   const pillBorder  = isDark ? '#ffffff' : COLORS.purple600
   const pillText    = isDark ? '#ffffff' : COLORS.purple600
   const ctaBg       = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-2' || backgroundId === 'grad-3' ? COLORS.black
