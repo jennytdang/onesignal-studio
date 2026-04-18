@@ -94,9 +94,9 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     : n <= 4 ? Math.round(height * 0.15)
     : Infinity
 
-  // Avatar constrained by height binary search + proportional cap
-  // Card width is SEPARATE — always fills full column width
-  const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap)))
+  // Avatar constrained by: height binary search + proportional height cap + card width
+  // Card width constraint prevents avatar from overflowing its column
+  const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap, cardWidth)))
 
   // Final text metrics derived from avatar size
   const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
