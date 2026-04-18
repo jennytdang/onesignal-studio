@@ -45,7 +45,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <div style={{ display: 'inline-flex', marginBottom: 48, background: 'transparent', border: `1px solid ${pillBorder}`, borderRadius: 99, padding: `${Math.round(height * 0.009)}px ${pillPadH}px`, color: pillText, fontSize: pillSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>
           )}
 {id === 'landscape' ? (
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 56, justifyContent: logoAlign==='center'?'center':'flex-start', width: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 48, justifyContent: logoAlign==='center'?'center':'flex-start', width: '100%' }}>
               <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', flexShrink: 0, textAlign: logoAlign==='center'?'center':'left' }}>{stat || 'XX%'}</div>
               {statLabel && <div style={{ fontSize: id==='story'?56:Math.round(height*0.05), fontWeight: 600, color: accentColor, letterSpacing: '-0.01em', wordBreak: 'break-word', overflowWrap: 'break-word', lineHeight: id==='landscape'?1.25:1.1, flexShrink: 1 }}>{statLabel}</div>}
             </div>
