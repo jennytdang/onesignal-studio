@@ -122,14 +122,15 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
       id === 'portrait'  ? { av: 230, ns: 32, tg: 36, ts: 26, lg: 6,  lh: 1.35 } :
       id === 'landscape' ? { av: 380, ns: 38, tg: 32, ts: 32, lg: 6,  lh: 1.35 } :
       id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
-    ) : (
+    ) : n <= 6 ? (
       id === 'square'    ? { av: 200, ns: 24, tg: 30, ts: 20, lg: 6,  lh: 1.35 } :
       id === 'portrait'  ? { av: 230, ns: 32, tg: 36, ts: 26, lg: 6,  lh: 1.35 } :
       id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } :
       id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
-    ) : n <= 8 ? (
+    ) : (
       id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } : null
-    ) : null
+    )
+  ) : null
   ) : null
 
   const finalAv = oneSpec ? oneSpec.av : av
