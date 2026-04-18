@@ -47,7 +47,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
 {id === 'landscape' ? (
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 56, justifyContent: logoAlign==='center'?'center':'flex-start', width: '100%' }}>
               <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', flexShrink: 0, textAlign: logoAlign==='center'?'center':'left' }}>{stat || 'XX%'}</div>
-              {statLabel && <div style={{ fontSize: Math.round(height*0.05), fontWeight: 600, color: accentColor, letterSpacing: '-0.01em', wordBreak: 'break-word', overflowWrap: 'break-word', lineHeight: 1.1, flexShrink: 1 }}>{statLabel}</div>}
+              {statLabel && <div style={{ fontSize: id==='story'?56:Math.round(height*0.05), fontWeight: 600, color: accentColor, letterSpacing: '-0.01em', wordBreak: 'break-word', overflowWrap: 'break-word', lineHeight: 1.1, flexShrink: 1 }}>{statLabel}</div>}
             </div>
           ) : (
             <>
