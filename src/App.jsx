@@ -191,25 +191,43 @@ function PixelPngButton({ onClick, exporting }) {
     if (!btn || !grid) return
     grid.innerHTML = ''
     const cells = []
-    for (let i = 0; i < PX_COLS * PX_ROWS; i++) {
-      const cell = document.createElement('div')
-      cell.style.cssText = 'background:#4E50D1;opacity:0;transition:opacity 0.1s'
-      grid.appendChild(cell)
-      cells.push(cell)
+    for (let r = 0; r < PX_ROWS; r++) {
+      for (let c = 0; c < PX_COLS; c++) {
+        const el = document.createElement('div')
+        el.style.cssText = 'background:#4E50D1;opacity:0;transition-property:opacity;transition-duration:0s;transition-delay:0s;'
+        grid.appendChild(el)
+        cells.push({ el, cx: (c+0.5)/PX_COLS, cy: (r+0.5)/PX_ROWS })
+      }
     }
-    const handleEnter = () => {
+    const onEnter = (e) => {
+      const rect = btn.getBoundingClientRect()
+      const ex = (e.clientX - rect.left) / rect.width
+      const ey = (e.clientY - rect.top) / rect.height
+      const dists = cells.map(({cx,cy}) => Math.sqrt((cx-ex)**2+(cy-ey)**2))
+      const maxD = Math.max(...dists)
       btn.style.color = '#fff'
       if (iconRef.current) iconRef.current.style.filter = 'brightness(0) invert(1)'
-      cells.forEach(c => { c.style.opacity = '0'; setTimeout(() => { c.style.opacity = String(Math.random() * 0.35 + 0.65) }, Math.random() * 250) })
+      cells.forEach(({el},i) => {
+        const base = (dists[i]/maxD) * PX_MAX_DELAY
+        const noise = (Math.random()-0.5) * PX_MAX_DELAY * 0.5
+        const delay = Math.max(0, Math.min(PX_MAX_DELAY+30, base+noise))
+        el.style.transitionDuration = '80ms'
+        el.style.transitionDelay = delay+'ms'
+        el.style.opacity = '1'
+      })
     }
-    const handleLeave = () => {
+    const onLeave = () => {
       btn.style.color = '#051B2C'
       if (iconRef.current) iconRef.current.style.filter = 'brightness(0)'
-      cells.forEach(c => { c.style.opacity = '0' })
+      cells.forEach(({el}) => {
+        el.style.transitionDuration = '0s'
+        el.style.transitionDelay = '0s'
+        el.style.opacity = '0'
+      })
     }
-    btn.addEventListener('mouseenter', handleEnter)
-    btn.addEventListener('mouseleave', handleLeave)
-    return () => { btn.removeEventListener('mouseenter', handleEnter); btn.removeEventListener('mouseleave', handleLeave) }
+    btn.addEventListener('mouseenter', onEnter)
+    btn.addEventListener('mouseleave', onLeave)
+    return () => { btn.removeEventListener('mouseenter', onEnter); btn.removeEventListener('mouseleave', onLeave) }
   }, [])
   return (
     <button ref={btnRef} onClick={exporting?undefined:onClick} disabled={exporting}
@@ -220,6 +238,7 @@ function PixelPngButton({ onClick, exporting }) {
     </button>
   )
 }
+
 
 export default function App() {
   const [template, setTemplate] = useState('headline')
