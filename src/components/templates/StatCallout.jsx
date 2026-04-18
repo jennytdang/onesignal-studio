@@ -19,10 +19,10 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const accentColor = isDark ? COLORS.cyan300 : COLORS.purple600
   const pillBorder  = isDark ? '#ffffff' : COLORS.purple600
   const pillText    = isDark ? '#ffffff' : COLORS.purple600
-  const ctaBg       = backgroundId === 'purple600' || backgroundId === 'purple500' ? COLORS.black
+  const ctaBg       = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-2' || backgroundId === 'grad-3' ? COLORS.black
     : backgroundId === 'black' ? COLORS.purple600
     : isDark ? COLORS.white : COLORS.black
-  const ctaText     = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' ? COLORS.white
+  const ctaText     = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-2' || backgroundId === 'grad-3' || backgroundId === 'black' ? COLORS.white
     : isDark ? COLORS.black : COLORS.white
   const align       = logoAlign === 'center' ? 'center' : 'flex-start'
 
