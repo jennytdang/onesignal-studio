@@ -152,7 +152,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
                         }
                       </div>
                       <div style={{ color:nameColor, fontWeight:700, fontSize:ns, fontFamily:"'Epilogue', sans-serif", lineHeight:lineH, marginTop:tg, width:cardWidth, textAlign:'center', whiteSpace:'normal', wordBreak:'break-word' }}>{person.name}</div>
-                      <div style={{ color:fgSub, fontSize:ts, fontFamily:"'Nunito Sans', sans-serif", lineHeight:lineH, marginTop:lg, width:cardWidth, textAlign:'center', whiteSpace:'normal', wordBreak:'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
+                      <div style={{ color:fgSub, fontSize:ts, fontFamily:"'Nunito Sans', sans-serif", lineHeight:1.35, marginTop:lg, width:cardWidth, textAlign:'center', whiteSpace:'normal', wordBreak:'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
                     </div>
                   )
                 })}
