@@ -87,12 +87,14 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   }
   const avH = lo
 
-  // Avatar caps: proportion of canvas height for aesthetic scale at low counts
-  const avHeightCap = n <= 1 ? Math.round(height * 0.28)
-    : n <= 2 ? Math.round(height * 0.22)
+  // Avatar caps: proportion of canvas height — prevents single-row layouts from being huge
+  const avHeightCap = n <= 1 ? Math.round(height * 0.25)
+    : n <= 2 ? Math.round(height * 0.21)
+    : n <= 3 ? Math.round(height * 0.17)
+    : n <= 4 ? Math.round(height * 0.15)
     : Infinity
 
-  // Avatar is constrained by height binary search + proportional height cap
+  // Avatar constrained by height binary search + proportional cap
   // Card width is SEPARATE — always fills full column width
   const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap)))
 
