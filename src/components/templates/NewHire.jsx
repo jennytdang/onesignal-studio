@@ -31,51 +31,115 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left', ba
 
 export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left', backgroundId }) {
   const { width, height, id } = dimension
-  const fg = isDark ? COLORS.white : COLORS.black
+  const isLandscape = id === 'landscape'
+  const fg    = isDark ? COLORS.white : COLORS.black
+  const fgSub = isDark ? 'rgba(255,255,255,0.7)' : COLORS.gray600
   const nameColor = backgroundId === 'white' ? '#4E50D1'
     : backgroundId === 'black' || backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-1' || backgroundId === 'grad-2' || backgroundId === 'grad-3' || backgroundId === 'grad-4' ? '#051B2C'
     : isDark ? COLORS.cyan300 : COLORS.blue400
-  const fgSub = isDark ? 'rgba(255,255,255,0.7)' : COLORS.gray600
+  const logomarkFilter = isDark ? 'brightness(0) invert(1)' : 'none'
+
   const validPeople = people.filter(p => p.name)
-  const cols = 3
-  const rows = Math.ceil(validPeople.length / cols)
-  const pad  = id==='landscape' ? Math.round(width*0.052) : id==='story' ? Math.round(width*0.0815) : Math.round(width*0.074)
-  const padV = id==='landscape' ? Math.round(height*0.0926) : id==='story' ? Math.round(height*0.052) : Math.round(height*0.074)
+  const n = validPeople.length
+
+  // Padding constants (px at full canvas size)
+  const pad  = isLandscape ? Math.round(width * 0.052)  : Math.round(width * 0.074)
+  const padV = isLandscape ? Math.round(height * 0.0926) : Math.round(height * 0.074)
   const logoH = id === 'landscape' ? 80 : Math.round(height * 0.055)
-  const gridTop = padV + logoH + Math.round(height * 0.03)
-  const gridBottom = padV
-  const cellHeight = (height - gridTop - gridBottom) / rows
-  const cellWidth = (width - pad * 2) / cols
-  const photoSize = Math.min(Math.round(cellHeight * 0.52), Math.round(cellWidth * 0.55))
+  const logoMB = Math.round(height * 0.025)
+
+  // Adaptive grid layout
+  const maxPerRow = isLandscape ? 4 : 3
+  const maxAv     = isLandscape ? null : (n <= 1 ? 150 : n <= 2 ? 120 : null)
+  const hGap = isLandscape ? Math.round(width * 0.025)  : Math.round(width * 0.022)
+  const rowGap = isLandscape ? Math.round(height * 0.04) : Math.round(height * 0.03)
+
+  // Distribute into rows
+  function makeRows(n, max) {
+    if (n <= max) return [n]
+    const rows = []
+    let left = n
+    while (left > 0) { rows.push(Math.min(max, left)); left -= Math.min(max, left) }
+    return rows
+  }
+  const rowDist = n > 0 ? makeRows(n, maxPerRow) : [1]
+  const nRows   = rowDist.length
+  const maxCols = Math.max(...rowDist)
+
+  // Available space for the grid
+  const availW = width  - pad * 2
+  const availH = height - padV * 2 - logoH - logoMB - Math.round(height * 0.018)  // safety buffer
+
+  // Single-line card height as function of avatar size (1.5 line-height, no wrapping)
+  function cardH(av) {
+    const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
+    const ns = Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
+    const ts = Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
+    const lg = Math.max(Math.round(height * 0.004), Math.round(av * 0.04))
+    return av + tg + Math.ceil(ns * 1.5) + lg + Math.ceil(ts * 1.5)
+  }
+
+  // Width constraint
+  const avW = (availW - (maxCols - 1) * hGap) / maxCols
+
+  // Height constraint via binary search
+  let lo = 20, hi = Math.max(width, height)
+  while (hi - lo > 1) {
+    const mid = Math.floor((lo + hi) / 2)
+    const total = nRows * cardH(mid) + (nRows - 1) * rowGap
+    if (total <= availH) lo = mid; else hi = mid
+  }
+  const avH = lo
+
+  const av = Math.max(36, Math.floor(
+    maxAv ? Math.min(avW, avH, maxAv) : Math.min(avW, avH)
+  ))
+
+  // Final text metrics from chosen av
+  const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
+  const ns = Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
+  const ts = Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
+  const lg = Math.max(Math.round(height * 0.004), Math.round(av * 0.04))
 
   return (
-    <div style={{ width, height, position: 'relative', fontFamily: "'Epilogue', sans-serif" }}>
-      <div style={{ position: 'absolute', top: padV, left: pad }}>
-        <CanvasLogomark height={logoH} isDark={isDark} />
-      </div>
-      <div style={{ position: 'absolute', top: gridTop, left: pad, right: pad, bottom: gridBottom, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)`, gap: Math.round(height * 0.012), justifyContent: 'center', alignContent: 'center' }}>
-        {validPeople.map((person, i) => (
-          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: Math.round(height * 0.020) }}>
-            <div style={{ width: photoSize, height: photoSize, borderRadius: 8, overflow: 'hidden', backgroundColor: COLORS.purple100, flexShrink: 0 }}>
-              {person.photo
-                ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(photoSize * 0.35), color: COLORS.purple600, fontWeight: 700, backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : COLORS.purple50 }}>{person.name.charAt(0).toUpperCase()}</div>
-              }
-            </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: Math.round(height * 0.004) }}>
-                <div style={{ fontSize: Math.round(width * 0.024), fontWeight: 700, color: nameColor, textAlign: 'center', lineHeight: 1.2 }}>{person.name}</div>
-                {person.title && <div style={{ fontSize: Math.round(width * 0.018), fontFamily: "'Nunito Sans', sans-serif", color: fgSub, textAlign: 'center', lineHeight: 1.3 }}>{person.title}</div>}
-              </div>
+    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${padV}px ${pad}px`, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexShrink: 0, marginBottom: logoMB }}>
+        <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height: logoH, width: 'auto', filter: logomarkFilter }} />
+        {totalSlides > 1 && (
+          <div style={{ display: 'flex', gap: Math.round(width * 0.008) }}>
+            {Array.from({ length: totalSlides - 1 }).map((_, i) => (
+              <div key={i} style={{ width: Math.round(width * 0.010), height: Math.round(width * 0.010), borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)', transform: i + 1 === slideIndex ? 'scale(1.3)' : 'scale(1)', transition: 'transform 0.2s' }} />
+            ))}
           </div>
-        ))}
+        )}
       </div>
-      {totalSlides > 1 && (
-        <div style={{ position: 'absolute', bottom: Math.round(height * 0.025), left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8 }}>
-          {Array.from({ length: totalSlides }).map((_, i) => (
-            <div key={i} style={{ width: i === slideIndex ? 20 : 6, height: 6, borderRadius: 3, backgroundColor: i === slideIndex ? (isDark ? COLORS.white : COLORS.purple600) : (isDark ? 'rgba(255,255,255,0.3)' : COLORS.gray400), transition: 'width 0.3s' }} />
-          ))}
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: rowGap }}>
+          {(() => {
+            let idx = 0
+            return rowDist.map((count, ri) => (
+              <div key={ri} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: hGap }}>
+                {Array.from({ length: count }).map((_, ci) => {
+                  const person = validPeople[idx++]
+                  if (!person) return null
+                  return (
+                    <div key={ci} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: av, flexShrink: 0 }}>
+                      <div style={{ width: av, height: av, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}` }}>
+                        {person.photo
+                          ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          : <div style={{ width: '100%', height: '100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(av * 0.35), fontWeight: 700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily: "'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
+                        }
+                      </div>
+                      <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: 1.5, marginTop: tg, width: av, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{person.name}</div>
+                      <div style={{ color: fgSub, fontSize: ts, fontFamily: "'Nunito Sans', sans-serif", lineHeight: 1.5, marginTop: lg, width: av, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
+                    </div>
+                  )
+                })}
+              </div>
+            ))
+          })()}
         </div>
-      )}
+      </div>
     </div>
   )
 }
