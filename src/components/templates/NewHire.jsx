@@ -131,9 +131,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
       id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } : null
     )
   ) : null
-  ) : null
-
-  const finalAv = oneSpec ? oneSpec.av : av
+    const finalAv = oneSpec ? oneSpec.av : av
   const lineH = oneSpec?.lh ?? 1.5
   const tg = oneSpec ? oneSpec.tg : Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
   const ns = oneSpec ? oneSpec.ns : Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
