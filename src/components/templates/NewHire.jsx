@@ -101,7 +101,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap, cardWidth)))
 
   // For n=1, use exact per-dimension values
-  const oneSpec = (n >= 1 && n <= 6) ? (
+  const oneSpec = (n >= 1 && n <= 8) ? (
     n === 1 ? (
       id === 'square'    ? { av: 300, ns: 32, tg: 28, ts: 28, lg: 8,  lh: 1.5  } :
       id === 'portrait'  ? { av: 418, ns: 48, tg: 48, ts: 36, lg: 8,  lh: 1.5  } :
@@ -125,9 +125,11 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     ) : (
       id === 'square'    ? { av: 200, ns: 24, tg: 30, ts: 20, lg: 6,  lh: 1.35 } :
       id === 'portrait'  ? { av: 230, ns: 32, tg: 36, ts: 26, lg: 6,  lh: 1.35 } :
-      id === 'landscape' ? null :
+      id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } :
       id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
-    )
+    ) : n <= 8 ? (
+      id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } : null
+    ) : null
   ) : null
 
   const finalAv = oneSpec ? oneSpec.av : av
