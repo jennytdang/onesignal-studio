@@ -281,13 +281,13 @@ export default function App() {
               <div style={{width:88,height:88,background:template===t.id?T.purple50:T.bgPage,display:'flex',alignItems:'center',justifyContent:'center'}}>
                 {t.thumb ? <img src={t.thumb} style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/> : <div style={{width:40,height:40,borderRadius:2,background:T.border}}/>}
               </div>
-              <div style={{padding:'5px 4px 6px',fontSize:11,fontWeight:500,color:template===t.id?T.purple:T.text,textAlign:'center',lineHeight:1.25,borderTop:`0.5px solid ${T.border}`,fontFamily:"'Epilogue', sans-serif"}}>{t.label}</div>
+              <div style={{padding:'5px 4px 6px',fontSize:11,fontWeight:template===t.id?500:400,color:template===t.id?T.purple:T.text,textAlign:'center',lineHeight:1.25,borderTop:`0.5px solid ${T.border}`,fontFamily:"'Epilogue', sans-serif"}}>{t.label}</div>
             </button>)}
           </div>
           <Divider/>
           <SectionLabel>Canvas Size</SectionLabel>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginBottom:14}}>
-            {Object.values(DIMENSIONS).map(d=><button key={d.id} onClick={()=>setDimensionId(d.id)} style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:'10px 6px',border:`1px solid ${dimensionId===d.id?T.purple:T.border}`,background:dimensionId===d.id?T.purple50:'transparent',borderRadius:2,cursor:'pointer',textAlign:'center',transition:'all 0.15s'}}><span style={{fontSize:12,fontWeight:dimensionId===d.id?600:400,color:dimensionId===d.id?T.purple:T.text,fontFamily:"'Epilogue', sans-serif"}}>{d.sublabel}</span><span style={{fontSize:10,color:dimensionId===d.id?T.purple:T.textMuted,opacity:0.8,fontFamily:"'Nunito Sans', sans-serif"}}>{d.label}</span></button>)}
+            {Object.values(DIMENSIONS).map(d=><button key={d.id} onClick={()=>setDimensionId(d.id)} style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:'10px 6px',border:`1px solid ${dimensionId===d.id?T.purple:T.border}`,background:dimensionId===d.id?T.purple50:'transparent',borderRadius:2,cursor:'pointer',textAlign:'center',transition:'all 0.15s'}}><span style={{fontSize:12,fontWeight:dimensionId===d.id?500:400,color:dimensionId===d.id?T.purple:T.text,fontFamily:"'Epilogue', sans-serif"}}>{d.sublabel}</span><span style={{fontSize:10,color:dimensionId===d.id?T.purple:T.textMuted,opacity:0.8,fontFamily:"'Nunito Sans', sans-serif"}}>{d.label}</span></button>)}
           </div>
           <Divider/>
           <SectionLabel>Background</SectionLabel>
