@@ -191,6 +191,7 @@ export default function App() {
   const [exporting, setExporting] = useState(false)
   const [allFields, setAllFields] = useState({ ...TEMPLATE_DEFAULTS })
   const { btnRef, gridRef } = usePixelTrail()
+  const { btnRef: btnRef2, gridRef: gridRef2 } = usePixelTrail()
 
   const fields = allFields[template]
   const update = useCallback((k, v) => {
@@ -201,8 +202,9 @@ export default function App() {
   const allBgs = [...BACKGROUNDS.solids, ...BACKGROUNDS.gradients]
   const background = allBgs.find(b=>b.id===backgroundId)||BACKGROUNDS.solids[3]
   const totalSlides = template==='newhire'?newHireSlides.length+1:1
-  const { exportJpg, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay:false, newHireSlides, isDark: background.isDark })
+  const { exportJpg, exportPng, exportPdf } = useExport({ template, fields, dimension, background, pixelOverlay:false, newHireSlides, isDark: background.isDark })
   const handleExport = async()=>{setExporting(true);try{template==='newhire'?await exportPdf():await exportJpg()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
+  const handleExportPng = async()=>{setExporting(true);try{await exportPng()}catch(e){console.error(e);alert('Export failed')}finally{setExporting(false)}}
   const handleTemplateSwitch = (id) => { setTemplate(id); setSlideIndex(0) }
   const tmplBtn = (active) => ({ background: active?T.purple50:'transparent', border:`1px solid ${active?T.purple:T.border}`, borderRadius:2, padding:'10px', cursor:'pointer', textAlign:'left', transition:'all 0.15s' })
 
@@ -262,14 +264,22 @@ export default function App() {
             ref={btnRef}
             onClick={exporting?undefined:handleExport}
             disabled={exporting}
-            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
+            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',marginBottom:6}}
           >
             <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
-            <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting...':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</span>
+            <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</span>
           </button>
-          <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px · JPG`}</div>
+          {template!=='newhire'&&<button
+            ref={btnRef2}
+            onClick={exporting?undefined:handleExportPng}
+            disabled={exporting}
+            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
+          >
+            <div ref={gridRef2} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
+            <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'↓ Export PNG'}</span>
+          </button>}
+          <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px`}</div>
         </div>
-      </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
         <div style={{height:44,borderBottom:`1px solid ${T.border}`,background:T.bgSurface,display:'flex',alignItems:'center',padding:'0 20px',flexShrink:0}}>
           <div style={{display:'flex',alignItems:'center',gap:10}}>
