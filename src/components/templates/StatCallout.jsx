@@ -45,7 +45,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <div style={{ display: 'inline-flex', marginBottom: 48, background: 'transparent', border: `1px solid ${pillBorder}`, borderRadius: 99, padding: `${Math.round(height * 0.009)}px ${pillPadH}px`, color: pillText, fontSize: pillSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>
           )}
 {id === 'landscape' ? (
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 48, justifyContent: logoAlign==='center'?'center':'flex-start', width: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 18, justifyContent: logoAlign==='center'?'center':'flex-start', width: '100%' }}>
               <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', flexShrink: 0, textAlign: logoAlign==='center'?'center':'left' }}>{stat || '2×'}</div>
               {statLabel && <div style={{ fontSize: Math.round(height*0.05), fontWeight: 600, color: accentColor, letterSpacing: '-0.01em', wordBreak: 'break-word', overflowWrap: 'break-word', lineHeight: 1.1, flexShrink: 1 }}>{statLabel}</div>}
             </div>
@@ -53,12 +53,12 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <>
               <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', textAlign: logoAlign==='center'?'center':'left' }}>{stat || '2×'}</div>
               {statLabel && (
-                <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left', maxWidth: '100%', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{statLabel}</div>
+                <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: 48, letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left', maxWidth: '100%', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{statLabel}</div>
               )}
             </>
           )}
         </div>
-        <div style={{ maxWidth: logoAlign==='center'?'100%':'80%', display: 'flex', flexDirection: 'column', alignItems: align }}>
+        <div style={{ maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: align }}>
           {subheadline && (
             <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign==='center'?'center':'left' }}>{subheadline}</div>
           )}
