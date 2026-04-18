@@ -100,11 +100,19 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   // Card width constraint prevents avatar from overflowing its column
   const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap, cardWidth)))
 
-  // Final text metrics derived from avatar size
-  const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
-  const ns = Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
-  const ts = Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
-  const lg = Math.max(Math.round(height * 0.004), Math.round(av * 0.04))
+  // For n=1, use exact per-dimension values
+  const oneSpec = n === 1 ? (
+    id === 'square'    ? { av: 300, ns: 32, tg: 28, ts: 28, lg: 8 } :
+    id === 'portrait'  ? { av: 418, ns: 48, tg: 48, ts: 36, lg: 8 } :
+    id === 'landscape' ? { av: 428, ns: 50, tg: 48, ts: 42, lg: 8 } :
+    id === 'story'     ? { av: 500, ns: 56, tg: 48, ts: 48, lg: 8 } : null
+  ) : null
+
+  const finalAv = oneSpec ? oneSpec.av : av
+  const tg = oneSpec ? oneSpec.tg : Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
+  const ns = oneSpec ? oneSpec.ns : Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
+  const ts = oneSpec ? oneSpec.ts : Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
+  const lg = oneSpec ? oneSpec.lg : Math.max(Math.round(height * 0.004), Math.round(av * 0.04))
 
   const showDots = totalSlides > 2
 
@@ -131,10 +139,10 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
                   if (!person) return null
                   return (
                     <div key={ci} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: cardWidth, flexShrink: 0 }}>
-                      <div style={{ width: av, height: av, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}` }}>
+                      <div style={{ width: finalAv, height: finalAv, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}` }}>
                         {person.photo
                           ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          : <div style={{ width: '100%', height: '100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(av * 0.35), fontWeight: 700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily: "'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
+                          : <div style={{ width: '100%', height: '100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(finalAv * 0.35), fontWeight: 700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily: "'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
                         }
                       </div>
                       <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: 1.5, marginTop: tg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{person.name}</div>
