@@ -71,7 +71,7 @@ function CharCount({ value, limit }) {
 }
 
 function SectionLabel({ children }) {
-  return <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:T.textMuted, fontFamily:"'Epilogue', sans-serif", marginBottom:8 }}>{children}</div>
+  return <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#24272B', fontFamily:"'Epilogue', sans-serif", marginBottom:8 }}>{children}</div>
 }
 
 function Input({ label, value, onChange, placeholder, multiline, rows=3, limit }) {
@@ -200,7 +200,7 @@ function PixelPngButton({ onClick, exporting }) {
     const handleEnter = () => {
       btn.style.color = '#fff'
       if (iconRef.current) iconRef.current.style.filter = 'brightness(0) invert(1)'
-      cells.forEach(c => { c.style.opacity = '0'; setTimeout(() => { c.style.opacity = String(Math.random() * 0.35 + 0.05) }, Math.random() * 250) })
+      cells.forEach(c => { c.style.opacity = '0'; setTimeout(() => { c.style.opacity = String(Math.random() * 0.35 + 0.65) }, Math.random() * 250) })
     }
     const handleLeave = () => {
       btn.style.color = '#051B2C'
