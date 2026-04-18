@@ -273,7 +273,7 @@ export default function App() {
             ref={btnRef2}
             onClick={exporting?undefined:handleExportPng}
             disabled={exporting}
-            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
+            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}} onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='#051B2C'}
           >
             <div ref={gridRef2} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
             <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'↓ Export PNG'}</span>
