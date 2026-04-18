@@ -47,8 +47,8 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
   const pillSize     = Math.round(S.pill(width, height))
   const ctaSize      = Math.round(S.cta(width, height))
   const avatarSize   = Math.round(S.avatar(width, height))
-  const authorNameSz = Math.round(S.authorName(width, height))
-  const authorTitleSz= Math.round(S.authorTitle(width, height))
+  const authorNameSz = id==='story'?42:id==='square'?38:Math.round(S.authorName(width, height))
+  const authorTitleSz= id==='story'?36:id==='square'?32:Math.round(S.authorTitle(width, height))
   const iconSize     = Math.round(S.quoteIcon(width, height))
   const borderWidth  = S.quoteBorder(width, height)
   const quoteGap     = S.quoteGap(width, height)
@@ -59,7 +59,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
   const blockAttribution = (
     <div style={{ flexShrink: 0 }}>
       {authorName && <div style={{ fontSize: authorNameSz, fontWeight: 700, color: fg, letterSpacing: '-0.01em', fontFamily: "'Epilogue', sans-serif" }}>{authorName}</div>}
-      {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: 8 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
+      {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: id==='square'?12:8 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
     </div>
   )
 
@@ -76,7 +76,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
       )}
       <div>
         {authorName && <div style={{ fontSize: authorNameSz, fontWeight: 700, color: fg, letterSpacing: '-0.01em', fontFamily: "'Epilogue', sans-serif" }}>{authorName}</div>}
-        {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: 8 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
+        {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: id==='square'?12:8 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
       </div>
     </div>
   )
