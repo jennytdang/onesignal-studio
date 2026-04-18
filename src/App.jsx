@@ -246,7 +246,7 @@ export default function App() {
   const [backgroundId, setBackgroundId] = useState('white')
   const [logoAlign, setLogoAlign] = useState('left')
   const [slideIndex, setSlideIndex] = useState(0)
-  const [newHireSlides, setNewHireSlides] = useState([[emptyPerson(),emptyPerson(),emptyPerson()]])
+  const [newHireSlides, setNewHireSlides] = useState([[{name:'George the Squirrel',title:'Company Mascot',photo:''}]])
   const [exporting, setExporting] = useState(false)
   const [allFields, setAllFields] = useState({ ...TEMPLATE_DEFAULTS })
   const { btnRef, gridRef } = usePixelTrail()
