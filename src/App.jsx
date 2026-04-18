@@ -181,6 +181,43 @@ function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides
   return null
 }
 
+function PixelPngButton({ onClick, exporting, icon }) {
+  const btnRef = useRef(null)
+  const gridRef = useRef(null)
+  useEffect(() => {
+    const btn = btnRef.current
+    const grid = gridRef.current
+    if (!btn || !grid) return
+    grid.innerHTML = ''
+    const cells = []
+    for (let i = 0; i < PX_COLS * PX_ROWS; i++) {
+      const cell = document.createElement('div')
+      cell.style.cssText = 'background:#4E50D1;opacity:0;transition:opacity 0.1s'
+      grid.appendChild(cell)
+      cells.push(cell)
+    }
+    const handleEnter = () => {
+      btn.style.color = '#fff'
+      cells.forEach(c => { c.style.opacity = '0'; setTimeout(() => { c.style.opacity = String(Math.random() * 0.35 + 0.05) }, Math.random() * 250) })
+    }
+    const handleLeave = () => {
+      btn.style.color = '#051B2C'
+      cells.forEach(c => { c.style.opacity = '0' })
+    }
+    btn.addEventListener('mouseenter', handleEnter)
+    btn.addEventListener('mouseleave', handleLeave)
+    return () => { btn.removeEventListener('mouseenter', handleEnter); btn.removeEventListener('mouseleave', handleLeave) }
+  }, [])
+  return (
+    <button ref={btnRef} onClick={exporting?undefined:onClick} disabled={exporting}
+      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}>
+      <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
+      {icon ? <img src={icon} alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0) saturate(100%)',transition:'filter 0.15s'}}/> : <span style={{position:'relative',zIndex:2,fontSize:14}}>↓</span>}
+      <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'Export PNG'}</span>
+    </button>
+  )
+}
+
 export default function App() {
   const [template, setTemplate] = useState('headline')
   const [dimensionId, setDimensionId] = useState('square')
@@ -268,18 +305,7 @@ export default function App() {
             <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
             <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</span>
           </button>
-          {template!=='newhire'&&<button
-            onClick={exporting?undefined:handleExportPng}
-            disabled={exporting}
-            onMouseEnter={e=>{e.currentTarget.style.color='#fff';[...e.currentTarget.querySelectorAll('[data-px]')].forEach(c=>{c.style.opacity='0';setTimeout(()=>{c.style.opacity=String(Math.random()*0.35+0.05)},Math.random()*250)})}}
-            onMouseLeave={e=>{e.currentTarget.style.color='#051B2C';[...e.currentTarget.querySelectorAll('[data-px]')].forEach(c=>{c.style.opacity='0'})}}
-            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}
-          >
-            <div style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}>
-              {Array.from({length:PX_COLS*PX_ROWS}).map((_,i)=><div key={i} data-px="" style={{background:'#4E50D1',opacity:0,transition:'opacity 0.1s'}}/>)}
-            </div>
-            <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'↓ Export PNG'}</span>
-          </button>}
+          {template!=='newhire'&&<PixelPngButton onClick={handleExportPng} exporting={exporting}/>}
         </div>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
