@@ -14,7 +14,7 @@ function TemplateRenderer({ template, fields, dimension, isDark, logoAlign, slid
   if (template === 'newhire') {
     if (slideIndex === 0) return <NewHireCover {...props} />
     const gridPeople = newHireSlides[slideIndex - 1] || []
-    return <NewHireGrid people={gridPeople} dimension={dimension} isDark={isDark} logoAlign={logoAlign} slideIndex={slideIndex} totalSlides={newHireSlides.length + 1} />
+    return <NewHireGrid people={gridPeople} dimension={dimension} isDark={isDark} logoAlign={logoAlign} backgroundId={backgroundId} slideIndex={slideIndex} totalSlides={newHireSlides.length + 1} />
   }
   return null
 }
