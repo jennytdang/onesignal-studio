@@ -36,10 +36,10 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const dateColor = (backgroundId === 'grad-1' || backgroundId === 'grad-4') ? '#24272B' : (backgroundId === 'grad-2' || backgroundId === 'grad-3') ? '#D7D8F5' : isDark ? COLORS.cyan300 : COLORS.purple600
   const pillBorder = isDark ? 'rgba(255,255,255,0.5)' : COLORS.purple600
   const pillText = isDark ? COLORS.white : COLORS.purple600
-  const ctaBg = backgroundId === 'purple600' || backgroundId === 'purple500' ? COLORS.black
+  const ctaBg = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-2' || backgroundId === 'grad-3' ? COLORS.black
     : backgroundId === 'black' ? COLORS.purple600
     : isDark ? COLORS.white : COLORS.black
-  const ctaText = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'black' ? COLORS.white
+  const ctaText = backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-2' || backgroundId === 'grad-3' || backgroundId === 'black' ? COLORS.white
     : isDark ? COLORS.black : COLORS.white
   const dividerColor = isDark ? 'rgba(255,255,255,0.12)' : COLORS.gray100
 
