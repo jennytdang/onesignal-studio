@@ -36,6 +36,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const fgSub = isDark ? 'rgba(255,255,255,0.7)' : COLORS.gray600
   const nameColor = backgroundId === 'white' ? '#4E50D1'
     : ['black','purple600','purple500','grad-2','grad-3'].includes(backgroundId) ? COLORS.white
+    : ['grad-1','grad-4'].includes(backgroundId) ? '#051B2C'
     : isDark ? COLORS.cyan300 : COLORS.blue400
   const logomarkFilter = isDark ? 'brightness(0) invert(1)' : 'none'
 
