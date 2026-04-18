@@ -99,7 +99,7 @@ export const LOGO_ALIGN = { left: 'left', center: 'center' }
 
 export const TEMPLATES = [
   { id: 'headline', label: 'Announce', thumb: '/thumbnail-announce.jpg',       icon: '✦', description: 'Bold statement, minimal layout' },
-  { id: 'stat',     label: 'Stat Callout', thumb: '/thumbnail-stat.jpg',   icon: '2×', description: 'Big number with supporting copy' },
+  { id: 'stat',     label: 'Metric', thumb: '/thumbnail-stat.jpg',   icon: '2×', description: 'Big number with supporting copy' },
   { id: 'quote',    label: 'Quote', thumb: '/thumbnail-quote.jpg',          icon: '"', description: 'Customer or internal quote' },
   { id: 'event',    label: 'Event', thumb: '/thumbnail-event.jpg', icon: '◷', description: 'Date, speakers, optional CTA' },
   { id: 'newhire',  label: 'New Hire', thumb: '/thumbnail-new-hire.jpg', icon: '✦', description: 'Team welcome carousel' },
