@@ -81,6 +81,14 @@ export function useExport({ template, fields, dimension, background, pixelOverla
     link.click()
   }, [captureSlide, template, dimension])
 
+  const exportPng = useCallback(async () => {
+    const canvas = await captureSlide(0)
+    const link = document.createElement('a')
+    link.download = `onesignal-studio-${template}-${dimension.id}.png`
+    link.href = canvas.toDataURL('image/png')
+    link.click()
+  }, [captureSlide, template, dimension])
+
   const exportPdf = useCallback(async () => {
     const { jsPDF } = await import('jspdf')
     const totalSlides = newHireSlides.length + 1
@@ -94,5 +102,5 @@ export function useExport({ template, fields, dimension, background, pixelOverla
     pdf.save('onesignal-new-hire-carousel.pdf')
   }, [captureSlide, newHireSlides, dimension])
 
-  return { exportJpg, exportPdf }
+  return { exportJpg, exportPng, exportPdf }
 }
