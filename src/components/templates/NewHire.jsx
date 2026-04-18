@@ -35,7 +35,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const fg    = isDark ? COLORS.white : COLORS.black
   const fgSub = isDark ? 'rgba(255,255,255,0.7)' : COLORS.gray600
   const nameColor = backgroundId === 'white' ? '#4E50D1'
-    : backgroundId === 'black' || backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-1' || backgroundId === 'grad-2' || backgroundId === 'grad-3' || backgroundId === 'grad-4' ? '#051B2C'
+    : ['black','purple600','purple500','grad-1','grad-2','grad-3','grad-4'].includes(backgroundId) ? '#051B2C'
     : isDark ? COLORS.cyan300 : COLORS.blue400
   const logomarkFilter = isDark ? 'brightness(0) invert(1)' : 'none'
 
@@ -49,8 +49,8 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const logoMB = Math.round(height * 0.025)
 
   const maxPerRow = isLandscape ? 4 : 3
-  const hGap   = isLandscape ? Math.round(width * 0.022)  : Math.round(width * 0.020)
-  const rowGap = isLandscape ? Math.round(height * 0.04)  : Math.round(height * 0.028)
+  const hGap   = isLandscape ? Math.round(width * 0.022) : Math.round(width * 0.020)
+  const rowGap = isLandscape ? Math.round(height * 0.04) : Math.round(height * 0.028)
 
   function makeRows(n, max) {
     if (!isLandscape && n === 5) return [3, 2]
@@ -63,14 +63,10 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const nRows   = rowDist.length
   const maxCols = Math.max(...rowDist)
 
-  // Card width fills the full available width regardless of avatar size
-  const availW = width  - pad * 2
+  const availW = width - pad * 2
   const cardWidth = Math.floor((availW - (maxCols - 1) * hGap) / maxCols)
-
-  // Available height for grid (with generous safety buffer)
   const availH = height - padV * 2 - logoH - logoMB - Math.round(height * 0.055)
 
-  // Single-line card height (avatar + text below, 1.5 line-height, no wrapping)
   function cardH(av) {
     const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
     const ns = Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
@@ -79,98 +75,84 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     return av + tg + Math.ceil(ns * 1.5) + lg + Math.ceil(ts * 1.5)
   }
 
-  // Height binary search: max av where all rows fit in availH
   let lo = 20, hi = Math.max(width, height)
   while (hi - lo > 1) {
     const mid = Math.floor((lo + hi) / 2)
-    const total = nRows * cardH(mid) + (nRows - 1) * rowGap
-    if (total <= availH) lo = mid; else hi = mid
+    if (nRows * cardH(mid) + (nRows - 1) * rowGap <= availH) lo = mid; else hi = mid
   }
   const avH = lo
 
-  // Avatar caps: proportion of canvas height — prevents single-row layouts from being huge
-  const avHeightCap = n <= 1 ? Math.round(height * 0.25)
-    : n <= 2 ? Math.round(height * 0.21)
-    : n <= 3 ? Math.round(height * 0.17)
-    : n <= 4 ? Math.round(height * 0.15)
-    : (n === 5 || n === 6) && !isLandscape ? 224
-    : Infinity
-
-  // Avatar constrained by: height binary search + proportional height cap + card width
-  // Card width constraint prevents avatar from overflowing its column
-  const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap, cardWidth)))
-
-  // For n=1, use exact per-dimension values
-  const oneSpec = (n >= 1 && n <= 8) ? (
+  // Per-count exact specs: { av, ns, tg, ts, lg, lh }
+  const spec =
     n === 1 ? (
-      id === 'square'    ? { av: 300, ns: 32, tg: 28, ts: 28, lg: 8,  lh: 1.5  } :
-      id === 'portrait'  ? { av: 418, ns: 48, tg: 48, ts: 36, lg: 8,  lh: 1.5  } :
-      id === 'landscape' ? { av: 428, ns: 50, tg: 48, ts: 42, lg: 8,  lh: 1.5  } :
-      id === 'story'     ? { av: 500, ns: 56, tg: 48, ts: 48, lg: 8,  lh: 1.5  } : null
+      id === 'square'    ? { av:300, ns:32, tg:28, ts:28, lg:8, lh:1.5  } :
+      id === 'portrait'  ? { av:418, ns:48, tg:48, ts:36, lg:8, lh:1.5  } :
+      id === 'landscape' ? { av:428, ns:50, tg:48, ts:42, lg:8, lh:1.5  } :
+                           { av:500, ns:56, tg:48, ts:48, lg:8, lh:1.5  }
     ) : n === 2 ? (
-      id === 'square'    ? { av: 300, ns: 32, tg: 32, ts: 24, lg: 8,  lh: 1.5  } :
-      id === 'portrait'  ? { av: 418, ns: 34, tg: 32, ts: 28, lg: 8,  lh: 1.5  } :
-      id === 'landscape' ? { av: 428, ns: 44, tg: 32, ts: 36, lg: 8,  lh: 1.5  } :
-      id === 'story'     ? { av: 380, ns: 40, tg: 48, ts: 36, lg: 8,  lh: 1.5  } : null
+      id === 'square'    ? { av:300, ns:32, tg:32, ts:24, lg:8, lh:1.5  } :
+      id === 'portrait'  ? { av:418, ns:34, tg:32, ts:28, lg:8, lh:1.5  } :
+      id === 'landscape' ? { av:428, ns:44, tg:32, ts:36, lg:8, lh:1.5  } :
+                           { av:380, ns:40, tg:48, ts:36, lg:8, lh:1.5  }
     ) : n === 3 ? (
-      id === 'square'    ? { av: 260, ns: 28, tg: 24, ts: 22, lg: 8,  lh: 1.5  } :
-      id === 'portrait'  ? { av: 230, ns: 30, tg: 32, ts: 26, lg: 8,  lh: 1.5  } :
-      id === 'landscape' ? { av: 360, ns: 42, tg: 48, ts: 34, lg: 8,  lh: 1.5  } :
-      id === 'story'     ? { av: 260, ns: 38, tg: 48, ts: 34, lg: 8,  lh: 1.5  } : null
+      id === 'square'    ? { av:260, ns:28, tg:24, ts:22, lg:8, lh:1.5  } :
+      id === 'portrait'  ? { av:230, ns:30, tg:32, ts:26, lg:8, lh:1.5  } :
+      id === 'landscape' ? { av:360, ns:42, tg:48, ts:34, lg:8, lh:1.5  } :
+                           { av:260, ns:38, tg:48, ts:34, lg:8, lh:1.5  }
     ) : n === 4 ? (
-      id === 'square'    ? { av: 200, ns: 26, tg: 36, ts: 22, lg: 6,  lh: 1.35 } :
-      id === 'portrait'  ? { av: 230, ns: 32, tg: 36, ts: 26, lg: 6,  lh: 1.35 } :
-      id === 'landscape' ? { av: 340, ns: 36, tg: 42, ts: 32, lg: 6,  lh: 1.35 } :
-      id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
+      id === 'square'    ? { av:200, ns:26, tg:36, ts:22, lg:6, lh:1.35 } :
+      id === 'portrait'  ? { av:230, ns:32, tg:36, ts:26, lg:6, lh:1.35 } :
+      id === 'landscape' ? { av:340, ns:36, tg:42, ts:32, lg:6, lh:1.35 } :
+                           { av:260, ns:36, tg:36, ts:30, lg:6, lh:1.35 }
     ) : n <= 6 ? (
-      id === 'square'    ? { av: 200, ns: 26, tg: 36, ts: 22, lg: 6,  lh: 1.35 } :
-      id === 'portrait'  ? { av: 230, ns: 32, tg: 36, ts: 26, lg: 6,  lh: 1.35 } :
-      id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } :
-      id === 'story'     ? { av: 260, ns: 36, tg: 36, ts: 30, lg: 6,  lh: 1.35 } : null
+      id === 'square'    ? { av:200, ns:26, tg:36, ts:22, lg:6, lh:1.35 } :
+      id === 'portrait'  ? { av:230, ns:32, tg:36, ts:26, lg:6, lh:1.35 } :
+      id === 'landscape' ? { av:240, ns:32, tg:32, ts:26, lg:6, lh:1.35 } :
+                           { av:260, ns:36, tg:36, ts:30, lg:6, lh:1.35 }
     ) : (
-      id === 'landscape' ? { av: 240, ns: 32, tg: 32, ts: 26, lg: 6,  lh: 1.35 } : null
+      id === 'landscape' ? { av:240, ns:32, tg:32, ts:26, lg:6, lh:1.35 } : null
     )
-  ) : null
-    const finalAv = oneSpec ? oneSpec.av : av
-  const lineH = oneSpec?.lh ?? 1.5
-  const tg = oneSpec ? oneSpec.tg : Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
-  const ns = oneSpec ? oneSpec.ns : Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
-  const ts = oneSpec ? oneSpec.ts : Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
-  const lg = oneSpec ? oneSpec.lg : Math.max(Math.round(height * 0.004), Math.round(av * 0.04))
+
+  const finalAv = spec ? Math.min(spec.av, cardWidth) : Math.min(avH, cardWidth)
+  const lineH = spec?.lh ?? 1.5
+  const tg = spec?.tg ?? Math.max(Math.round(height * 0.008), Math.round(finalAv * 0.10))
+  const ns = spec?.ns ?? Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(finalAv * 0.16)))
+  const ts = spec?.ts ?? Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(finalAv * 0.13)))
+  const lg = spec?.lg ?? Math.max(Math.round(height * 0.004), Math.round(finalAv * 0.04))
 
   const showDots = totalSlides > 2
 
   return (
-    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${padV}px ${pad}px`, overflow: 'hidden' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexShrink: 0, marginBottom: logoMB }}>
-        <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height: logoH, width: 'auto', filter: logomarkFilter }} />
+    <div style={{ width, height, display:'flex', flexDirection:'column', padding:`${padV}px ${pad}px`, overflow:'hidden' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexShrink:0, marginBottom:logoMB }}>
+        <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height:logoH, width:'auto', filter:logomarkFilter }} />
         {showDots && (
-          <div style={{ display: 'flex', gap: Math.round(width * 0.008) }}>
+          <div style={{ display:'flex', gap:Math.round(width*0.008) }}>
             {Array.from({ length: totalSlides - 1 }).map((_, i) => (
-              <div key={i} style={{ width: Math.round(width * 0.010), height: Math.round(width * 0.010), borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)', transform: i + 1 === slideIndex ? 'scale(1.3)' : 'scale(1)', transition: 'transform 0.2s' }} />
+              <div key={i} style={{ width:Math.round(width*0.010), height:Math.round(width*0.010), borderRadius:'50%', background: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)', transform: i+1===slideIndex ? 'scale(1.3)' : 'scale(1)', transition:'transform 0.2s' }} />
             ))}
           </div>
         )}
       </div>
-      <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: rowGap, width: availW }}>
+      <div style={{ flex:1, minHeight:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:rowGap, width:availW }}>
           {(() => {
             let idx = 0
             return rowDist.map((count, ri) => (
-              <div key={ri} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: hGap, width: '100%' }}>
+              <div key={ri} style={{ display:'flex', alignItems:'flex-start', justifyContent:'center', gap:hGap, width:'100%' }}>
                 {Array.from({ length: count }).map((_, ci) => {
                   const person = validPeople[idx++]
                   if (!person) return null
                   return (
-                    <div key={ci} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: cardWidth, flexShrink: 0 }}>
-                      <div style={{ width: finalAv, height: finalAv, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}` }}>
+                    <div key={ci} style={{ display:'flex', flexDirection:'column', alignItems:'center', width:cardWidth, flexShrink:0 }}>
+                      <div style={{ width:finalAv, height:finalAv, borderRadius:'50%', overflow:'hidden', flexShrink:0, border:`2px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}` }}>
                         {person.photo
-                          ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          : <div style={{ width: '100%', height: '100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(finalAv * 0.35), fontWeight: 700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily: "'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
+                          ? <img src={person.photo} alt={person.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                          : <div style={{ width:'100%', height:'100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display:'flex', alignItems:'center', justifyContent:'center', fontSize:Math.round(finalAv*0.35), fontWeight:700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily:"'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
                         }
                       </div>
-                      <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: lineH, marginTop: tg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{person.name}</div>
-                      <div style={{ color: fgSub, fontSize: ts, fontFamily: "'Nunito Sans', sans-serif", lineHeight: lineH, marginTop: lg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
+                      <div style={{ color:nameColor, fontWeight:700, fontSize:ns, fontFamily:"'Epilogue', sans-serif", lineHeight:lineH, marginTop:tg, width:cardWidth, textAlign:'center', whiteSpace:'normal', wordBreak:'break-word' }}>{person.name}</div>
+                      <div style={{ color:fgSub, fontSize:ts, fontFamily:"'Nunito Sans', sans-serif", lineHeight:lineH, marginTop:lg, width:cardWidth, textAlign:'center', whiteSpace:'normal', wordBreak:'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
                     </div>
                   )
                 })}
