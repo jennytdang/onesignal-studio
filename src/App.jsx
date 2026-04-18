@@ -280,6 +280,7 @@ export default function App() {
           </button>}
           <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px`}</div>
         </div>
+      </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
         <div style={{height:44,borderBottom:`1px solid ${T.border}`,background:T.bgSurface,display:'flex',alignItems:'center',padding:'0 20px',flexShrink:0}}>
           <div style={{display:'flex',alignItems:'center',gap:10}}>
