@@ -32,7 +32,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const subSize      = id==='square'?32:id==='portrait'?38:id==='story'?44:40
   const ctaSize      = id==='square'?32:id==='portrait'?38:id==='story'?44:40
   const gap          = id === 'landscape' ? 18 : Math.round(S.gap(width, height))
-  const statFontSize = Math.round(S.statSize(width, height))
+  const statFontSize = id === 'square' ? 220 : Math.round(S.statSize(width, height))
   const ctaPadV = id==='square'?28:id==='portrait'?32:38
   const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
