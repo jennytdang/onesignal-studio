@@ -136,8 +136,8 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
                           : <div style={{ width: '100%', height: '100%', background: isDark ? COLORS.purple600 : COLORS.purple100, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: Math.round(av * 0.35), fontWeight: 700, color: isDark ? COLORS.white : COLORS.purple600, fontFamily: "'Epilogue', sans-serif" }}>{person.name.charAt(0)}</div>
                         }
                       </div>
-                      <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: 1.5, marginTop: tg, width: av, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{person.name}</div>
-                      <div style={{ color: fgSub, fontSize: ts, fontFamily: "'Nunito Sans', sans-serif", lineHeight: 1.5, marginTop: lg, width: av, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
+                      <div style={{ color: nameColor, fontWeight: 700, fontSize: ns, fontFamily: "'Epilogue', sans-serif", lineHeight: 1.5, marginTop: tg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{person.name}</div>
+                      <div style={{ color: fgSub, fontSize: ts, fontFamily: "'Nunito Sans', sans-serif", lineHeight: 1.5, marginTop: lg, width: cardWidth, textAlign: 'center', whiteSpace: 'normal', wordBreak: 'break-word' }}>{[person.title, person.company].filter(Boolean).join(', ')}</div>
                     </div>
                   )
                 })}
