@@ -98,7 +98,6 @@ export default function CanvasPreview({
           <button onClick={() => setSlideIndex(Math.min(totalSlides - 1, slideIndex + 1))} disabled={slideIndex === totalSlides - 1} style={navBtn(slideIndex === totalSlides - 1)}>Next →</button>
         </div>
       )}
-      <div style={{ position: 'absolute', bottom: 12, left: 16, fontSize: 11, color: '#98A1A9', fontFamily: "'Nunito Sans', sans-serif", letterSpacing: '0.04em' }}>{cw} × {ch}</div>
     </div>
   )
 }
