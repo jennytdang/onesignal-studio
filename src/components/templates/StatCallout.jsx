@@ -53,7 +53,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <>
               <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', textAlign: logoAlign==='center'?'center':'left' }}>{stat || '2×'}</div>
               {statLabel && (
-                <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: 48, letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left', maxWidth: '100%', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{statLabel}</div>
+                <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left', maxWidth: '100%', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{statLabel}</div>
               )}
             </>
           )}
@@ -63,7 +63,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.6, color: fgSub, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign==='center'?'center':'left' }}>{subheadline}</div>
           )}
           {cta && (
-            <div style={{ display: 'inline-flex', marginTop: Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
+            <div style={{ display: 'inline-flex', marginTop: id==='landscape'?48:Math.round(height * 0.025), backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
           )}
         </div>
       </div>
