@@ -81,7 +81,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
           {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${ctaPadH}px`, fontSize: ctaFontSize, fontWeight: 700 }}>{cta}</div>}
         </div>
       </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: pad, gap: Math.round(height * 0.045), borderLeft: `1px solid ${dividerColor}` }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${pad}px ${pad}px ${pad}px 0px`, gap: Math.round(height * 0.045) }}>
         {validSpeakers.map((s, i) => <SpeakerCard key={i} speaker={s} isDark={isDark} avatarSz={avatarSz} nameSize={speakerNameSize} subSize={speakerSubSize} gap={speakerGap} nameMarginBottom={speakerNameMargin} />)}
       </div>
     </div>
