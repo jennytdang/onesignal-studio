@@ -113,7 +113,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
       id === 'landscape' ? { av: 428, ns: 44, tg: 32, ts: 36, lg: 8 } :
       id === 'story'     ? { av: 380, ns: 40, tg: 48, ts: 36, lg: 8 } : null
     ) : (
-      id === 'square'    ? { av: 300, ns: 28, tg: 24, ts: 22, lg: 8 } :
+      id === 'square'    ? { av: 260, ns: 28, tg: 24, ts: 22, lg: 8 } :
       id === 'portrait'  ? { av: 230, ns: 30, tg: 32, ts: 26, lg: 8 } :
       id === 'landscape' ? { av: 380, ns: 42, tg: 48, ts: 34, lg: 8 } :
       id === 'story'     ? { av: 260, ns: 38, tg: 48, ts: 34, lg: 8 } : null
