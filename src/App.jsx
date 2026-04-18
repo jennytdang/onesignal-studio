@@ -191,7 +191,6 @@ export default function App() {
   const [exporting, setExporting] = useState(false)
   const [allFields, setAllFields] = useState({ ...TEMPLATE_DEFAULTS })
   const { btnRef, gridRef } = usePixelTrail()
-  const { btnRef: btnRef2, gridRef: gridRef2 } = usePixelTrail()
 
   const fields = allFields[template]
   const update = useCallback((k, v) => {
@@ -270,12 +269,15 @@ export default function App() {
             <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</span>
           </button>
           {template!=='newhire'&&<button
-            ref={btnRef2}
             onClick={exporting?undefined:handleExportPng}
             disabled={exporting}
-            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}} onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='#051B2C'}
+            onMouseEnter={e=>{e.currentTarget.style.color='#fff';[...e.currentTarget.querySelectorAll('[data-px]')].forEach(c=>{c.style.opacity='0';setTimeout(()=>{c.style.opacity=String(Math.random()*0.35+0.05)},Math.random()*250)})}}
+            onMouseLeave={e=>{e.currentTarget.style.color='#051B2C';[...e.currentTarget.querySelectorAll('[data-px]')].forEach(c=>{c.style.opacity='0'})}}
+            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}
           >
-            <div ref={gridRef2} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
+            <div style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}>
+              {Array.from({length:PX_COLS*PX_ROWS}).map((_,i)=><div key={i} data-px="" style={{background:'#4E50D1',opacity:0,transition:'opacity 0.1s'}}/>)}
+            </div>
             <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'↓ Export PNG'}</span>
           </button>}
           <div style={{textAlign:'center',marginTop:6,fontSize:11,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif"}}>{template==='newhire'?`${totalSlides} slides · LinkedIn carousel`:`${dimension.width} × ${dimension.height}px`}</div>
