@@ -102,12 +102,12 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
                            { av:260, ns:38, tg:48, ts:34, lg:8, lh:1.5  }
     ) : n === 4 ? (
       id === 'square'    ? { av:200, ns:26, tg:24, ts:22, lg:6, lh:1.35 } :
-      id === 'portrait'  ? { av:230, ns:32, tg:36, ts:26, lg:6, lh:1.35 } :
+      id === 'portrait'  ? { av:230, ns:30, tg:36, ts:26, lg:6, lh:1.35 } :
       id === 'landscape' ? { av:340, ns:36, tg:42, ts:32, lg:6, lh:1.35 } :
                            { av:260, ns:36, tg:36, ts:30, lg:6, lh:1.35 }
     ) : n <= 6 ? (
       id === 'square'    ? { av:200, ns:26, tg:24, ts:22, lg:6, lh:1.35 } :
-      id === 'portrait'  ? { av:230, ns:32, tg:36, ts:26, lg:6, lh:1.35 } :
+      id === 'portrait'  ? { av:230, ns:30, tg:36, ts:26, lg:6, lh:1.35 } :
       id === 'landscape' ? { av:240, ns:32, tg:32, ts:26, lg:6, lh:1.35 } :
                            { av:260, ns:36, tg:36, ts:30, lg:6, lh:1.35 }
     ) : (
