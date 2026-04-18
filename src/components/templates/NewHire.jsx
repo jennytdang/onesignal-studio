@@ -53,7 +53,6 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const rowGap = isLandscape ? Math.round(height * 0.04)  : Math.round(height * 0.028)
 
   function makeRows(n, max) {
-    if (!isLandscape && n === 4) return [2, 2]
     if (!isLandscape && n === 5) return [3, 2]
     if (n <= max) return [n]
     const rows = []; let left = n
