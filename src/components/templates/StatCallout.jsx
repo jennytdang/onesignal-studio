@@ -51,7 +51,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
             </div>
           ) : (
             <>
-              <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', textAlign: logoAlign==='center'?'center':'left' }}>{stat || '2×'}</div>
+              <div style={{ fontSize: statFontSize, fontWeight: 800, lineHeight: 0.9, color: fg, letterSpacing: '-0.04em', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', textAlign: logoAlign==='center'?'center':'left' }}>{stat || 'XX%'}</div>
               {statLabel && (
                 <div style={{ fontSize: id==='square'?42:id==='portrait'?50:id==='story'?58:Math.round(height*0.0537), fontWeight: 600, color: accentColor, marginTop: Math.round(height * 0.01), letterSpacing: '-0.01em', textAlign: logoAlign==='center'?'center':'left', maxWidth: '100%', wordBreak: 'break-word', overflowWrap: 'break-word' }}>{statLabel}</div>
               )}
