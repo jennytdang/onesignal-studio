@@ -181,9 +181,10 @@ function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides
   return null
 }
 
-function PixelPngButton({ onClick, exporting, icon }) {
+function PixelPngButton({ onClick, exporting }) {
   const btnRef = useRef(null)
   const gridRef = useRef(null)
+  const iconRef = useRef(null)
   useEffect(() => {
     const btn = btnRef.current
     const grid = gridRef.current
@@ -198,10 +199,12 @@ function PixelPngButton({ onClick, exporting, icon }) {
     }
     const handleEnter = () => {
       btn.style.color = '#fff'
+      if (iconRef.current) iconRef.current.style.filter = 'brightness(0) invert(1)'
       cells.forEach(c => { c.style.opacity = '0'; setTimeout(() => { c.style.opacity = String(Math.random() * 0.35 + 0.05) }, Math.random() * 250) })
     }
     const handleLeave = () => {
       btn.style.color = '#051B2C'
+      if (iconRef.current) iconRef.current.style.filter = 'brightness(0)'
       cells.forEach(c => { c.style.opacity = '0' })
     }
     btn.addEventListener('mouseenter', handleEnter)
@@ -212,7 +215,7 @@ function PixelPngButton({ onClick, exporting, icon }) {
     <button ref={btnRef} onClick={exporting?undefined:onClick} disabled={exporting}
       style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}>
       <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
-      {icon ? <img src={icon} alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0) saturate(100%)',transition:'filter 0.15s'}}/> : <span style={{position:'relative',zIndex:2,fontSize:14}}>↓</span>}
+      <img ref={iconRef} src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0)',transition:'filter 0.15s'}}/>
       <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'Export PNG'}</span>
     </button>
   )
@@ -300,10 +303,10 @@ export default function App() {
             ref={btnRef}
             onClick={exporting?undefined:handleExport}
             disabled={exporting}
-            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',marginBottom:6}}
+            style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',marginBottom:6}}
           >
             <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
-            <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':template==='newhire'?'↓ Export PDF Carousel':'↓ Export JPG'}</span>
+            <img src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0) invert(1)'}}/><span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':template==='newhire'?'Export PDF Carousel':'Export JPG'}</span>
           </button>
           {template!=='newhire'&&<PixelPngButton onClick={handleExportPng} exporting={exporting}/>}
         </div>
