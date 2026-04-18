@@ -42,7 +42,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
         {pill && (
           <div style={{ display: 'inline-flex', background: 'transparent', border: `1px solid ${pillBorder}`, borderRadius: 99, padding: `${Math.round(height * 0.009)}px ${Math.round(width * 0.022)}px`, color: pillText, fontSize: pillSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>
         )}
-        <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em', maxWidth: '100%', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign === 'center' ? 'center' : 'left' }}>{headline || 'Your headline here'}</div>
+        <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.01em', maxWidth: '100%', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign === 'center' ? 'center' : 'left' }}>{headline || 'Your headline here'}</div>
         {subheadline && (
           <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.55, color: fgSub, maxWidth: '90%', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign === 'center' ? 'center' : 'left' }}>{subheadline}</div>
         )}
