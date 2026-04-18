@@ -85,7 +85,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   // Per-count exact specs: { av, ns, tg, ts, lg, lh }
   const spec =
     n === 1 ? (
-      id === 'square'    ? { av:300, ns:32, tg:28, ts:28, lg:8, lh:1.5  } :
+      id === 'square'    ? { av:400, ns:38, tg:48, ts:32, lg:8, lh:1.5  } :
       id === 'portrait'  ? { av:418, ns:48, tg:48, ts:36, lg:8, lh:1.5  } :
       id === 'landscape' ? { av:428, ns:50, tg:48, ts:42, lg:8, lh:1.5  } :
                            { av:500, ns:56, tg:48, ts:48, lg:8, lh:1.5  }
