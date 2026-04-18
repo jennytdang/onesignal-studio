@@ -119,6 +119,7 @@ function Divider() { return <div style={{height:1,background:T.border,margin:'14
 
 function CommonFields({ fields, update }) {
   const [pillOpen, setPillOpen] = useState(false)
+  const [pillFocused, setPillFocused] = useState(false)
   return (
     <div style={{marginBottom:12}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:5}}>
@@ -126,7 +127,7 @@ function CommonFields({ fields, update }) {
         <CharCount value={fields.pill} limit={PILL_LIMIT} />
       </div>
       <div style={{position:'relative'}}>
-        <input type="text" value={fields.pill} onChange={e=>update('pill',e.target.value)} placeholder="e.g. Webinar, New Feature…" onFocus={()=>setPillOpen(true)} onBlur={()=>setTimeout(()=>setPillOpen(false),150)} style={{width:'100%',background:T.bgInput,border:`1px solid ${T.border}`,borderRadius:2,padding:'9px 12px',color:T.text,fontSize:13,fontFamily:"'Nunito Sans', sans-serif",outline:'none',boxSizing:'border-box'}}/>
+        <input type="text" value={fields.pill} onChange={e=>update('pill',e.target.value)} placeholder="e.g. Webinar, New Feature…" onFocus={()=>{setPillOpen(true);setPillFocused(true)}} onBlur={()=>{setTimeout(()=>setPillOpen(false),150);setPillFocused(false)}} style={{width:'100%',background:T.bgInput,border:`1px solid ${(fields.pill||'').length>PILL_LIMIT?'#E24B4A':pillFocused?T.borderFocus:T.border}`,borderRadius:2,padding:'9px 12px',color:T.text,fontSize:13,fontFamily:"'Nunito Sans', sans-serif",outline:'none',boxSizing:'border-box'}}/>
         {pillOpen && <div style={{position:'absolute',top:'100%',left:0,right:0,zIndex:50,background:T.bgSurface,border:`1px solid ${T.border}`,borderRadius:2,marginTop:4,overflow:'hidden',boxShadow:'0 4px 16px rgba(5,27,44,0.08)'}}>
           {PILL_PRESETS.filter(p=>!fields.pill||p.toLowerCase().includes(fields.pill.toLowerCase())).map(p=><div key={p} onMouseDown={()=>update('pill',p)} style={{padding:'9px 12px',fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}} onMouseEnter={e=>e.currentTarget.style.background=T.bgHover} onMouseLeave={e=>e.currentTarget.style.background='transparent'}>{p}</div>)}
         </div>}
@@ -310,7 +311,7 @@ export default function App() {
           {template !== 'quote' && template !== 'event' && template !== 'newhire' && (<>
             <Divider/>
             <SectionLabel>Placement</SectionLabel>
-            <div style={{display:'flex',gap:5,marginBottom:14}}>
+            <div style={{display:'flex',gap:6,marginBottom:14}}>
               {['left','center'].map(a=><button key={a} onClick={()=>setLogoAlign(a)} style={{flex:1,padding:'7px 0',fontSize:12,fontFamily:"'Nunito Sans',sans-serif",background:logoAlign===a?T.purple50:'transparent',color:logoAlign===a?T.purple:T.textMuted,border:`1px solid ${logoAlign===a?T.purple:T.border}`,borderRadius:2,cursor:'pointer',textTransform:'capitalize',fontWeight:logoAlign===a?600:400}}>{a}</button>)}
             </div>
           </>)}
