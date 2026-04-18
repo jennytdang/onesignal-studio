@@ -39,27 +39,22 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     : isDark ? COLORS.cyan300 : COLORS.blue400
   const logomarkFilter = isDark ? 'brightness(0) invert(1)' : 'none'
 
-  const allValid = people.filter(p => p.name)
+  const allValid   = people.filter(p => p.name)
   const validPeople = isLandscape ? allValid.slice(0, 8) : allValid
   const n = validPeople.length
 
-  // Padding constants (px at full canvas size)
   const pad  = isLandscape ? Math.round(width * 0.052)  : Math.round(width * 0.074)
   const padV = isLandscape ? Math.round(height * 0.0926) : Math.round(height * 0.074)
-  const logoH = id === 'landscape' ? 80 : Math.round(height * 0.055)
+  const logoH  = id === 'landscape' ? 80 : Math.round(height * 0.055)
   const logoMB = Math.round(height * 0.025)
 
-  // Adaptive grid layout
   const maxPerRow = isLandscape ? 4 : 3
-  const maxAv     = isLandscape ? null : (n <= 1 ? 140 : n <= 2 ? 100 : null)
-  const hGap = isLandscape ? Math.round(width * 0.025)  : Math.round(width * 0.022)
-  const rowGap = isLandscape ? Math.round(height * 0.04) : Math.round(height * 0.03)
+  const hGap   = isLandscape ? Math.round(width * 0.022)  : Math.round(width * 0.020)
+  const rowGap = isLandscape ? Math.round(height * 0.04)  : Math.round(height * 0.028)
 
-  // Distribute into rows
   function makeRows(n, max) {
     if (n <= max) return [n]
-    const rows = []
-    let left = n
+    const rows = []; let left = n
     while (left > 0) { rows.push(Math.min(max, left)); left -= Math.min(max, left) }
     return rows
   }
@@ -67,11 +62,14 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   const nRows   = rowDist.length
   const maxCols = Math.max(...rowDist)
 
-  // Available space for the grid
+  // Card width fills the full available width regardless of avatar size
   const availW = width  - pad * 2
-  const availH = height - padV * 2 - logoH - logoMB - Math.round(height * 0.055)  // safety buffer
+  const cardWidth = Math.floor((availW - (maxCols - 1) * hGap) / maxCols)
 
-  // Single-line card height as function of avatar size (1.5 line-height, no wrapping)
+  // Available height for grid (with generous safety buffer)
+  const availH = height - padV * 2 - logoH - logoMB - Math.round(height * 0.055)
+
+  // Single-line card height (avatar + text below, 1.5 line-height, no wrapping)
   function cardH(av) {
     const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
     const ns = Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
@@ -80,10 +78,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     return av + tg + Math.ceil(ns * 1.5) + lg + Math.ceil(ts * 1.5)
   }
 
-  // Width constraint
-  const avW = (availW - (maxCols - 1) * hGap) / maxCols
-
-  // Height constraint via binary search
+  // Height binary search: max av where all rows fit in availH
   let lo = 20, hi = Math.max(width, height)
   while (hi - lo > 1) {
     const mid = Math.floor((lo + hi) / 2)
@@ -92,21 +87,28 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
   }
   const avH = lo
 
-  const av = Math.max(36, Math.floor(
-    maxAv ? Math.min(avW, avH, maxAv) : Math.min(avW, avH)
-  ))
+  // Avatar caps: proportion of canvas height for aesthetic scale at low counts
+  const avHeightCap = n <= 1 ? Math.round(height * 0.28)
+    : n <= 2 ? Math.round(height * 0.22)
+    : Infinity
 
-  // Final text metrics from chosen av
+  // Avatar is constrained by height binary search + proportional height cap
+  // Card width is SEPARATE — always fills full column width
+  const av = Math.max(36, Math.floor(Math.min(avH, avHeightCap)))
+
+  // Final text metrics derived from avatar size
   const tg = Math.max(Math.round(height * 0.008), Math.round(av * 0.10))
   const ns = Math.max(Math.round(height * 0.013), Math.min(Math.round(height * 0.020), Math.round(av * 0.16)))
   const ts = Math.max(Math.round(height * 0.011), Math.min(Math.round(height * 0.016), Math.round(av * 0.13)))
   const lg = Math.max(Math.round(height * 0.004), Math.round(av * 0.04))
 
+  const showDots = totalSlides > 2
+
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${padV}px ${pad}px`, overflow: 'hidden' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexShrink: 0, marginBottom: logoMB }}>
         <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height: logoH, width: 'auto', filter: logomarkFilter }} />
-        {totalSlides > 1 && (
+        {showDots && (
           <div style={{ display: 'flex', gap: Math.round(width * 0.008) }}>
             {Array.from({ length: totalSlides - 1 }).map((_, i) => (
               <div key={i} style={{ width: Math.round(width * 0.010), height: Math.round(width * 0.010), borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)', transform: i + 1 === slideIndex ? 'scale(1.3)' : 'scale(1)', transition: 'transform 0.2s' }} />
@@ -115,16 +117,16 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
         )}
       </div>
       <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: rowGap }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: rowGap, width: availW }}>
           {(() => {
             let idx = 0
             return rowDist.map((count, ri) => (
-              <div key={ri} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: hGap }}>
+              <div key={ri} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: hGap, width: '100%' }}>
                 {Array.from({ length: count }).map((_, ci) => {
                   const person = validPeople[idx++]
                   if (!person) return null
                   return (
-                    <div key={ci} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: av, flexShrink: 0 }}>
+                    <div key={ci} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: cardWidth, flexShrink: 0 }}>
                       <div style={{ width: av, height: av, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `2px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}` }}>
                         {person.photo
                           ? <img src={person.photo} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
