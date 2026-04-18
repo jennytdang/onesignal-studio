@@ -12,7 +12,7 @@ function CanvasLogomark({ height = 40, isDark = false }) {
   return <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height, width: 'auto', display: 'block', filter: isDark ? 'brightness(0) invert(1)' : 'none' }} />
 }
 
-export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) {
+export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left', backgroundId }) {
   const { headline, subheadline } = fields
   const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
@@ -29,10 +29,12 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left' }) 
   )
 }
 
-export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left' }) {
+export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left', backgroundId }) {
   const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
-  const nameColor = isDark ? COLORS.cyan300 : COLORS.blue400
+  const nameColor = backgroundId === 'white' ? '#4E50D1'
+    : backgroundId === 'black' || backgroundId === 'purple600' || backgroundId === 'purple500' || backgroundId === 'grad-1' || backgroundId === 'grad-2' || backgroundId === 'grad-3' || backgroundId === 'grad-4' ? '#051B2C'
+    : isDark ? COLORS.cyan300 : COLORS.blue400
   const fgSub = isDark ? 'rgba(255,255,255,0.7)' : COLORS.gray600
   const validPeople = people.filter(p => p.name)
   const cols = 3
