@@ -343,9 +343,9 @@ export default function App() {
             </span>
           </div>
           <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:6}}>
-            <div style={{width:1,height:18,background:T.border,marginRight:2}}/>
+            
             <span style={{fontSize:12,color:T.textMuted,fontFamily:"'Nunito Sans', sans-serif",whiteSpace:'nowrap'}}>Need something custom? Our team's got you.</span>
-            <a href="mailto:design@onesignal.com" style={{fontSize:12,color:'#4E50D1',fontFamily:"'Nunito Sans', sans-serif",whiteSpace:'nowrap',textDecoration:'none',display:'flex',alignItems:'center',gap:4}}>
+            <a href="https://form.asana.com/?k=GD8K065cPKVLULgd52q5NA&d=780103692902078" target="_blank" rel="noopener noreferrer" style={{fontSize:12,color:'#4E50D1',fontFamily:"'Nunito Sans', sans-serif",whiteSpace:'nowrap',textDecoration:'none',display:'flex',alignItems:'center',gap:4}}>
               Submit a request
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.25 14.523L23.25 0.75" stroke="#4E50D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M23.25 8.621V0.75H15.25" stroke="#4E50D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M12.125 5.75H1.625C1.39294 5.75 1.17038 5.84219 1.00628 6.00628C0.842187 6.17038 0.75 6.39294 0.75 6.625V22.375C0.75 22.6071 0.842187 22.8296 1.00628 22.9937C1.17038 23.1578 1.39294 23.25 1.625 23.25H17.375C17.6071 23.25 17.8296 23.1578 17.9937 22.9937C18.1578 22.8296 18.25 22.6071 18.25 22.375V11.875" stroke="#4E50D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
