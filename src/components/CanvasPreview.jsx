@@ -12,8 +12,10 @@ function TemplateRenderer({ template, fields, dimension, isDark, logoAlign, slid
   if (template === 'quote')    return <Quote {...props} />
   if (template === 'event')    return <EventPromo {...props} />
   if (template === 'newhire') {
-    if (slideIndex === 0) return <NewHireCover {...props} />
-    const gridPeople = newHireSlides[slideIndex - 1] || []
+    const showIntro = fields.showIntroSlide !== false
+    if (showIntro && slideIndex === 0) return <NewHireCover {...props} />
+    const gridIndex = showIntro ? slideIndex - 1 : slideIndex
+    const gridPeople = newHireSlides[gridIndex] || []
     return <NewHireGrid people={gridPeople} dimension={dimension} isDark={isDark} logoAlign={logoAlign} backgroundId={backgroundId} slideIndex={slideIndex} totalSlides={newHireSlides.length + 1} />
   }
   return null
