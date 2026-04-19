@@ -62,9 +62,9 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const ctaPadH     = id === 'landscape' ? 40 : id === 'portrait' ? 48 : id === 'square' ? 40 : 44
 
   const avatarSz          = id === 'landscape' ? 148 : 112
-  const speakerNameSize   = id === 'landscape' || id === 'story' ? 38 : id === 'portrait' ? 34 : 30
+  const speakerNameSize   = id === 'landscape' || id === 'story' ? 38 : id === 'portrait' ? 34 : 28
   const speakerNameMargin = id === 'landscape' || id === 'story' ? 8  : 6
-  const speakerSubSize    = id === 'landscape' || id === 'story' ? 32 : id === 'portrait' ? 30 : 28
+  const speakerSubSize    = id === 'landscape' || id === 'story' ? 32 : id === 'portrait' ? 30 : 24
   const speakerGap        = id === 'landscape' ? 34 : id === 'square' ? 28 : 32
 
   const validSpeakers = speakers.filter(s => s.name)
