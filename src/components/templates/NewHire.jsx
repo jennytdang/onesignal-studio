@@ -30,7 +30,7 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left', ba
   )
 }
 
-export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left', backgroundId }) {
+export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides, logoAlign = 'left', backgroundId, showIntroSlide, headline }) {
   const { width, height, id } = dimension
   const isLandscape = id === 'landscape'
   const fg    = isDark ? COLORS.white : COLORS.black
@@ -128,6 +128,7 @@ export function NewHireGrid({ people, dimension, isDark, slideIndex, totalSlides
     <div style={{ width, height, display:'flex', flexDirection:'column', padding:`${padV}px ${pad}px`, overflow:'hidden' }}>
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexShrink:0, marginBottom:logoMB }}>
         <img src="/OneSignal-Logomark.svg" alt="OneSignal" style={{ height:logoH, width:'auto', filter:logomarkFilter }} />
+        {showIntroSlide === false && headline && <div style={{ fontSize: Math.round(width*0.048), fontWeight:800, fontFamily:"'Epilogue', sans-serif", lineHeight:1.05, letterSpacing:'-0.02em', color:fg, marginTop:Math.round(height*0.025) }}>{headline}</div>}
         {showDots && (
           <div style={{ display:'flex', gap:Math.round(width*0.008) }}>
             {Array.from({ length: totalSlides - 1 }).map((_, i) => (
