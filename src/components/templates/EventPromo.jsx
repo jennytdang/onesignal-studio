@@ -65,7 +65,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const speakerNameSize   = id === 'landscape' || id === 'story' ? 38 : id === 'portrait' ? 34 : 30
   const speakerNameMargin = id === 'landscape' || id === 'story' ? 8  : 6
   const speakerSubSize    = id === 'landscape' || id === 'story' ? 32 : id === 'portrait' ? 30 : 28
-  const speakerGap        = id === 'landscape' ? 34 : 32
+  const speakerGap        = id === 'landscape' ? 34 : id === 'square' ? 28 : 32
 
   const validSpeakers = speakers.filter(s => s.name)
   const hasSpeakers = validSpeakers.length > 0
@@ -81,7 +81,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
           {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${ctaPadH}px`, fontSize: ctaFontSize, fontWeight: 700 }}>{cta}</div>}
         </div>
       </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${pad}px ${pad}px ${pad}px 0px`, gap: Math.round(height * 0.045) }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${pad}px ${pad}px ${pad}px 0px`, gap: id==='square'?24:Math.round(height * 0.045) }}>
         {validSpeakers.map((s, i) => <SpeakerCard key={i} speaker={s} isDark={isDark} avatarSz={avatarSz} nameSize={speakerNameSize} subSize={speakerSubSize} gap={speakerGap} nameMarginBottom={speakerNameMargin} />)}
       </div>
     </div>
