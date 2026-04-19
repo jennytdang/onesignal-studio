@@ -76,7 +76,7 @@ function SectionLabel({ children }) {
 
 function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, disabled }) {
   const [focused, setFocused] = useState(false)
-  const style = { width:'100%', background:disabled?T.bgHover:T.bgInput, cursor:disabled?'not-allowed':'text', border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
+  const style = { width:'100%', background:disabled?T.bgHover:T.bgInput, color:disabled?'#98A1A9':T.text, cursor:disabled?'not-allowed':'text', border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
   return (
     <div style={{marginBottom:12}}>
       {label && (
