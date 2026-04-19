@@ -61,7 +61,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const ctaPadV     = id === 'landscape' ? 34 : id === 'story' ? 38 : id === 'portrait' ? 32 : 28
   const ctaPadH     = id === 'landscape' ? 40 : id === 'portrait' ? 48 : id === 'square' ? 40 : 44
 
-  const avatarSz          = id === 'landscape' ? 148 : 112
+  const avatarSz          = id === 'landscape' ? 148 : id === 'story' ? 124 : 112
   const speakerNameSize   = id === 'landscape' || id === 'story' ? 38 : id === 'portrait' ? 34 : 28
   const speakerNameMargin = id === 'landscape' || id === 'story' ? 8  : 6
   const speakerSubSize    = id === 'landscape' || id === 'story' ? 32 : id === 'portrait' ? 30 : 24
