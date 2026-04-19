@@ -92,6 +92,7 @@ function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, 
 
 function Toggle({ label, checked, onChange }) {
   return (
+    <><style>{`input::placeholder, textarea::placeholder { color: #98A1A9 !important; }`}</style>
     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
       <span style={{fontSize:13,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>{label}</span>
       <button onClick={()=>onChange(!checked)} style={{width:40,height:22,borderRadius:11,border:'none',cursor:'pointer',background:checked?T.purple:T.border,position:'relative',transition:'background 0.2s',flexShrink:0}}>
@@ -362,5 +363,6 @@ export default function App() {
         <CanvasPreview template={template} fields={fields} dimension={dimension} background={background} pixelOverlay={false} logoAlign={template==='quote'||template==='event'||template==='newhire'?'left':logoAlign} slideIndex={slideIndex} newHireSlides={newHireSlides} setSlideIndex={setSlideIndex} totalSlides={totalSlides}/>
       </div>
     </div>
+    </>
   )
 }
