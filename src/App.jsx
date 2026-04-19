@@ -74,9 +74,9 @@ function SectionLabel({ children }) {
   return <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#24272B', fontFamily:"'Epilogue', sans-serif", marginBottom:8 }}>{children}</div>
 }
 
-function Input({ label, value, onChange, placeholder, multiline, rows=3, limit }) {
+function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, disabled }) {
   const [focused, setFocused] = useState(false)
-  const style = { width:'100%', background:T.bgInput, border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
+  const style = { width:'100%', background:disabled?T.bgHover:T.bgInput, cursor:disabled?'not-allowed':'text', border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', color:T.text, fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
   return (
     <div style={{marginBottom:12}}>
       {label && (
@@ -85,7 +85,7 @@ function Input({ label, value, onChange, placeholder, multiline, rows=3, limit }
           {limit !== undefined && <CharCount value={value} limit={limit} />}
         </div>
       )}
-      {multiline ? <textarea rows={rows} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} style={style}/> : <input type="text" value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} style={style}/>}
+      {multiline ? <textarea rows={rows} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} disabled={disabled} style={style}/> : <input type="text" value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} style={style}/>}
     </div>
   )
 }
@@ -170,7 +170,7 @@ function NewHireFields({ fields, update, newHireSlides, setNewHireSlides, dimens
   const remP=(si,pi)=>{const s=[...newHireSlides];s[si]=s[si].filter((_,j)=>j!==pi);const n=s.filter(x=>x.length>0);setNewHireSlides(n.length>0?n:[[emptyPerson()]])},
   addP=()=>{const s=newHireSlides.length>0?newHireSlides.map(x=>[...x]):[[]];const last=s[s.length-1]||[];if(last.length<9){last.push(emptyPerson());s[s.length-1]=last}else{s.push([emptyPerson()])};setNewHireSlides(s)}
   const total=newHireSlides.flat().filter(p=>p.name).length
-  return (<><SectionLabel>Cover Slide</SectionLabel><div style={{opacity:fields.showIntroSlide===false?0.35:1,pointerEvents:fields.showIntroSlide===false?'none':'auto',transition:'opacity 0.2s'}}><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!"/><Input label="Subheadline" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Welcome to the team!"/></div>
+  return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!" disabled={fields.showIntroSlide===false}/><Input label="Subheadline" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Welcome to the team!" disabled={fields.showIntroSlide===false}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:12,marginBottom:4}}>
           <span style={{fontSize:13,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Show cover</span>
           <button onClick={()=>update('showIntroSlide',fields.showIntroSlide===false?true:false)} style={{width:36,height:20,borderRadius:10,border:'none',cursor:'pointer',background:fields.showIntroSlide===false?'#CBD0D5':T.purple,position:'relative',transition:'background 0.2s',flexShrink:0,padding:0}}>
