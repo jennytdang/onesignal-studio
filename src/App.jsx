@@ -172,7 +172,7 @@ function NewHireFields({ fields, update, newHireSlides, setNewHireSlides, dimens
   const total=newHireSlides.flat().filter(p=>p.name).length
   return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Headline" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!"/><Input label="Subheadline" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Welcome to the team!"/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:12,marginBottom:4}}>
-          <span style={{fontSize:13,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Show intro slide</span>
+          <span style={{fontSize:13,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Show cover</span>
           <button onClick={()=>update('showIntroSlide',fields.showIntroSlide===false?true:false)} style={{width:36,height:20,borderRadius:10,border:'none',cursor:'pointer',background:fields.showIntroSlide===false?'#CBD0D5':T.purple,position:'relative',transition:'background 0.2s',flexShrink:0,padding:0}}>
             <span style={{position:'absolute',top:2,left:fields.showIntroSlide===false?2:18,width:16,height:16,borderRadius:'50%',background:'#fff',transition:'left 0.2s',display:'block'}}/>
           </button>
