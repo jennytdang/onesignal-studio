@@ -13,7 +13,7 @@ function CanvasLogomark({ height = 40, isDark = false }) {
 }
 
 export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left', backgroundId }) {
-  const { headline, subheadline, showHiring } = fields
+  const { headline, subheadline } = fields
   const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
   const logoH = id === 'landscape' ? 80 : Math.round(height * 0.055)
@@ -24,7 +24,7 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left', ba
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: logoAlign === 'center' ? 'center' : 'flex-start', justifyContent: 'center', gap: id==='story'?Math.round(height*0.025):Math.round(height*0.04), textAlign: logoAlign === 'center' ? 'center' : 'left' }}>
         <div style={{ fontSize: id==='landscape'?Math.round(width*0.074):id==='story'?Math.round(width*0.1222):Math.round(width*0.1), fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Meet our newest members!'}</div>
         {subheadline && <div style={{ fontSize: id==='story'?Math.round(width*0.0463):Math.round(width*0.032), fontFamily: "'Epilogue', sans-serif", fontWeight: 600, lineHeight: 1.5, color: fg, opacity: 0.75 }}>{subheadline}</div>}
-        {showHiring && <div style={{ fontSize: Math.round(width*0.022), fontFamily: "'Epilogue', sans-serif", fontWeight: 500, color: fg, opacity: 0.6, marginTop: Math.round(height*0.012) }}>(We're hiring)</div>}
+        
       </div>
     </div>
   )
