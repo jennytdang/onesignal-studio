@@ -9,8 +9,8 @@ function CanvasLogo({ isDark, height = 60 }) {
   )
 }
 
-function QuoteMarkIcon({ size, isDark }) {
-  const fill   = isDark ? '#ffffff' : COLORS.purple600
+function QuoteMarkIcon({ size, isDark, backgroundId }) {
+  const fill   = backgroundId === 'black' ? '#D7D8F5' : isDark ? '#ffffff' : COLORS.purple600
   const style  = isDark ? { opacity: 0.5, mixBlendMode: 'overlay' } : {}
   return (
     <svg width={size} height={size * 0.88} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0, display: 'block', ...style }}>
@@ -100,7 +100,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
           </div>
         ) : (
           <>
-            <QuoteMarkIcon size={iconSize} isDark={isDark} />
+            <QuoteMarkIcon size={iconSize} isDark={isDark} backgroundId={backgroundId} />
             <div style={{ fontSize: quoteSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 700, lineHeight: 1.2, color: fg, whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', width: '100%' }}>{quoteText || 'Add your quote text here.'}</div>
             {attribution}
             {cta && <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='story'?44:32}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>}
