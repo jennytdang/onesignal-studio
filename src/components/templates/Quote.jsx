@@ -10,7 +10,7 @@ function CanvasLogo({ isDark, height = 60 }) {
 }
 
 function QuoteMarkIcon({ size, isDark, backgroundId }) {
-  const fill   = backgroundId === 'black' ? '#D7D8F5' : isDark ? '#ffffff' : COLORS.purple600
+  const fill   = backgroundId === 'black' ? '#9799E4' : isDark ? '#ffffff' : COLORS.purple600
   const style  = backgroundId === 'black' ? {} : isDark ? { opacity: 0.5, mixBlendMode: 'overlay' } : {}
   return (
     <svg width={size} height={size * 0.88} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0, display: 'block', ...style }}>
