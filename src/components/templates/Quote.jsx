@@ -11,7 +11,7 @@ function CanvasLogo({ isDark, height = 60 }) {
 
 function QuoteMarkIcon({ size, isDark, backgroundId }) {
   const fill   = backgroundId === 'black' ? '#D7D8F5' : isDark ? '#ffffff' : COLORS.purple600
-  const style  = isDark ? { opacity: 0.5, mixBlendMode: 'overlay' } : {}
+  const style  = backgroundId === 'black' ? {} : isDark ? { opacity: 0.5, mixBlendMode: 'overlay' } : {}
   return (
     <svg width={size} height={size * 0.88} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0, display: 'block', ...style }}>
       <path d="M9.02488 12.5736V21.5984H0V15.2279C0 12.7505 0.412903 10.4795 1.23871 8.41503C2.06452 6.35051 3.45069 4.34498 5.39723 2.39844L8.75945 5.05281C6.45899 7.58922 5.16129 10.0961 4.86636 12.5736H9.02488ZM23.7124 12.5736V21.5984H14.6876V15.2279C14.6876 12.7505 15.1005 10.4795 15.9263 8.41503C16.7521 6.35051 18.1382 4.34498 20.0848 2.39844L23.447 5.05281C21.1465 7.58922 19.8488 10.0961 19.5539 12.5736H23.7124Z" fill={fill}/>
