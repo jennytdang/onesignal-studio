@@ -320,7 +320,7 @@ export default function App() {
             <Divider/>
             <SectionLabel>Placement</SectionLabel>
             <div style={{display:'flex',gap:6,marginBottom:14}}>
-              {['left','center'].map(a=><button key={a} onClick={()=>setLogoAlign(a)} style={{flex:1,padding:'7px 0',fontSize:12,fontFamily:"'Nunito Sans',sans-serif",background:logoAlign===a?T.purple50:'transparent',color:logoAlign===a?T.purple:T.textMuted,border:`1px solid ${logoAlign===a?T.purple:T.border}`,borderRadius:2,cursor:'pointer',textTransform:'capitalize',fontWeight:logoAlign===a?600:400}}>{a}</button>)}
+              {['left','center'].map(a=><button key={a} onClick={()=>setLogoAlign(a)} style={{flex:1,padding:'7px 0',fontSize:12,fontFamily:"'Epilogue',sans-serif",background:logoAlign===a?T.purple50:'transparent',color:logoAlign===a?T.purple:T.textMuted,border:`1px solid ${logoAlign===a?T.purple:T.border}`,borderRadius:2,cursor:'pointer',textTransform:'capitalize',fontWeight:logoAlign===a?600:400}}>{a}</button>)}
             </div>
           </>)}
           <Divider/>
