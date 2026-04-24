@@ -78,7 +78,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
           {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.012)}px ${pillPadH}px`, color: pillText, fontSize: Math.round(height * 0.024), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
           <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
           {eventDate && <div style={{ fontSize: dateSize, fontWeight: 700, color: dateColor, fontFamily: "'Nunito Sans', sans-serif" }}>{eventDate}{eventLocation ? ` · ${eventLocation}` : ''}</div>}
-          {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${ctaPadH}px`, fontSize: ctaFontSize, fontWeight: 700 }}>{cta}</div>}
+          {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: id==='landscape'?40:0, backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${ctaPadH}px`, fontSize: ctaFontSize, fontWeight: 700 }}>{cta}</div>}
         </div>
       </div>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${pad}px ${pad}px ${pad}px 0px`, gap: id==='square'?24:Math.round(height * 0.045) }}>
