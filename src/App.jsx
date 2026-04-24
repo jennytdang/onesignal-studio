@@ -85,7 +85,7 @@ function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, 
           {limit !== undefined && <CharCount value={value} limit={limit} />}
         </div>
       )}
-      {multiline ? <textarea rows={rows} value={value} onChange={e=>!disabled&&onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} disabled={disabled} style={style}/> : <input type="text" value={value} onChange={e=>!disabled&&onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} disabled={disabled} style={style}/>}
+      {multiline ? <textarea rows={rows} value={value} onChange={e=>!disabled&&(!limit||e.target.value.length<=limit)&&onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} disabled={disabled} style={style}/> : <input type="text" value={value} onChange={e=>!disabled&&(!limit||e.target.value.length<=limit)&&onChange(e.target.value)} placeholder={placeholder} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} disabled={disabled} style={style}/>}
     </div>
   )
 }
