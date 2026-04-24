@@ -77,7 +77,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: Math.round(height * 0.028) }}>
           {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.012)}px ${pillPadH}px`, color: pillText, fontSize: Math.round(height * 0.024), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
           <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
-          {eventDate && <div style={{ fontSize: dateSize, fontWeight: 700, marginTop: id==='story'?48:id==='square'?28:id==='portrait'?32:0, color: dateColor, fontFamily: "'Nunito Sans', sans-serif" }}>{eventDate}{eventLocation ? ` · ${eventLocation}` : ''}</div>}
+          {eventDate && <div style={{ fontSize: dateSize, fontWeight: 700, color: dateColor, fontFamily: "'Nunito Sans', sans-serif" }}>{eventDate}{eventLocation ? ` · ${eventLocation}` : ''}</div>}
           {cta && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', marginTop: id==='landscape'?40:id==='story'?60:id==='square'?40:id==='portrait'?40:0, backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${ctaPadH}px`, fontSize: ctaFontSize, fontWeight: 700 }}>{cta}</div>}
         </div>
       </div>
