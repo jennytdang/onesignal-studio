@@ -50,7 +50,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const headlineSize = id === 'landscape' ? Math.round(height * 0.0870)
     : id === 'story'   ? Math.round(width * 0.0907)
     : id === 'portrait' ? 48
-    : 80)
+    : 80
 
   const dateSize = id === 'landscape' ? Math.round(height * 0.0370)
     : id === 'story'   ? Math.round(width * 0.0407)
