@@ -90,7 +90,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.035) }}>
       <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: id==='story'?44:id==='square'?12:id==='portrait'?38:Math.round(height * 0.028) }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: id==='story'?44:id==='square'?24:id==='portrait'?38:Math.round(height * 0.028) }}>
         {pill && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', border: `1.5px solid ${pillBorder}`, borderRadius: 6, padding: `${Math.round(height * 0.009)}px ${pillPadH}px`, color: pillText, fontSize: Math.round(width * 0.022), fontFamily: "'Nunito Sans', sans-serif", fontWeight: 600 }}>{pill}</div>}
         <div style={{ fontSize: headlineSize, fontWeight: 800, lineHeight: 1.05, color: fg, letterSpacing: '-0.02em' }}>{headline || 'Event Title'}</div>
         {eventDate && <div style={{ fontSize: dateSize, fontWeight: 700, color: dateColor, fontFamily: "'Nunito Sans', sans-serif" }}>{eventDate}{eventLocation ? ` · ${eventLocation}` : ''}</div>}
