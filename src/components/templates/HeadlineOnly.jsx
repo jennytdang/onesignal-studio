@@ -36,7 +36,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
   const pillPadH = id==='landscape'?32:Math.round(width*0.022)
 
   return (
-    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.035) }}>
+    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: id==='square'?22:Math.round(height * 0.035) }}>
       <CanvasLogo isDark={isDark} height={logoH} align={logoAlign} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap, alignItems: align, overflow: 'hidden', minHeight: 0 }}>
         {pill && (
@@ -47,7 +47,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
           <div style={{ fontSize: subSize, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, lineHeight: 1.55, color: fgSub, maxWidth: '90%', whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word', textAlign: logoAlign === 'center' ? 'center' : 'left' }}>{subheadline}</div>
         )}
         {cta && (
-          <div style={{ display: 'inline-flex', backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
+          <div style={{ display: 'inline-flex', marginTop: id==='square'?30:0, backgroundColor: ctaBg, color: ctaText, borderRadius: 8, padding: `${ctaPadV}px ${id==='square'?40:id==='portrait'?48:44}px`, fontSize: ctaSize, fontWeight: 700, fontFamily: "'Epilogue', sans-serif" }}>{cta}</div>
         )}
       </div>
     </div>
