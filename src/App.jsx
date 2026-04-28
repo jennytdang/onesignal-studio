@@ -74,14 +74,26 @@ function SectionLabel({ children }) {
   return <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#24272B', fontFamily:"'Epilogue', sans-serif", marginBottom:8 }}>{children}</div>
 }
 
-function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, disabled }) {
+function Tooltip({ text }) {
+  const [show, setShow] = useState(false)
+  return (
+    <span style={{position:'relative',display:'inline-flex',alignItems:'center',marginLeft:4}} onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}>
+      <span style={{width:14,height:14,borderRadius:'50%',background:'#F1EFE8',border:'0.5px solid #B4B2A9',color:'#888780',fontSize:'8.5px',fontStyle:'italic',display:'flex',alignItems:'center',justifyContent:'center',cursor:'default',flexShrink:0,fontFamily:"'Nunito Sans',sans-serif",lineHeight:1}}>i</span>
+      {show && <span style={{position:'absolute',left:20,top:'50%',transform:'translateY(-50%)',width:188,borderRadius:6,padding:'8px 10px',fontSize:12,fontFamily:"'Nunito Sans',sans-serif",lineHeight:1.5,zIndex:100,background:'#24272B',color:'#ffffff',pointerEvents:'none',whiteSpace:'normal'}}>
+        <span style={{position:'absolute',left:-4,top:'50%',transform:'translateY(-50%)',width:0,height:0,borderTop:'4px solid transparent',borderBottom:'4px solid transparent',borderRight:'4px solid #24272B'}}/>
+        {text}
+      </span>}
+    </span>
+  )
+}
+function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, disabled, tooltip }) {
   const [focused, setFocused] = useState(false)
   const style = { width:'100%', background:disabled?T.bgHover:T.bgInput, color:disabled?'#98A1A9':T.text, WebkitTextFillColor:disabled?'#98A1A9':T.text, opacity:1, cursor:disabled?'not-allowed':'text', border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
   return (
     <div style={{marginBottom:12}}>
       {label && (
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:5}}>
-          <div style={{fontSize:12,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>{label}</div>
+          <div style={{fontSize:12,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif",display:'flex',alignItems:'center'}}>{label}{tooltip&&<Tooltip text={tooltip}/>}</div>
           {limit !== undefined && <CharCount value={value} limit={limit} />}
         </div>
       )}
@@ -123,7 +135,7 @@ function CommonFields({ fields, update }) {
   return (
     <div style={{marginBottom:12}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:5}}>
-        <div style={{fontSize:12,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Eyebrow text <span style={{color:T.textMuted}}>(optional)</span></div>
+        <div style={{fontSize:12,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Eyebrow text <span style={{color:T.textMuted}}>(optional)</span><Tooltip text="Short label that appears above your headline." /></div>
         <CharCount value={fields.pill} limit={PILL_LIMIT} />
       </div>
       <div style={{position:'relative'}}>
@@ -136,8 +148,8 @@ function CommonFields({ fields, update }) {
   )
 }
 
-function HeadlineFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Title *" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Your bold headline"/><Input label="Description" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Supporting copy" multiline rows={2}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Learn more" limit={CTA_LIMIT}/></>) }
-function StatFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Metric" value={fields.stat} onChange={v=>update('stat',v)} placeholder="XX%" limit={STAT_LIMIT}/><Input label="Metric Label" value={fields.statLabel} onChange={v=>update('statLabel',v)} placeholder="e.g. faster delivery" limit={STAT_LABEL_LIMIT}/><Input label="Supporting Copy" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Context for the stat…" multiline rows={3}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read the report" limit={CTA_LIMIT}/></>) }
+function HeadlineFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Title *" tooltip="Lead with the big idea. Use sentence case." value={fields.headline} onChange={v=>update('headline',v)} placeholder="Your bold headline"/><Input label="Description" tooltip="One or two supporting sentences. Keep it scannable, less is more on social." value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Supporting copy" multiline rows={2}/><Input label="CTA Button" tooltip="Use sentence case and an action verb." value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Learn more" limit={CTA_LIMIT}/></>) }
+function StatFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Metric" tooltip="The big number or stat, keep it short and punchy." value={fields.stat} onChange={v=>update('stat',v)} placeholder="XX%" limit={STAT_LIMIT}/><Input label="Metric Label" tooltip="Describes what the metric means." value={fields.statLabel} onChange={v=>update('statLabel',v)} placeholder="e.g. faster delivery" limit={STAT_LABEL_LIMIT}/><Input label="Supporting Copy" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Context for the stat…" multiline rows={3}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read the report" limit={CTA_LIMIT}/></>) }
 
 function QuoteFields({ fields, update }) {
   return (<>
@@ -170,7 +182,7 @@ function NewHireFields({ fields, update, newHireSlides, setNewHireSlides, dimens
   const remP=(si,pi)=>{const s=[...newHireSlides];s[si]=s[si].filter((_,j)=>j!==pi);const n=s.filter(x=>x.length>0);setNewHireSlides(n.length>0?n:[[emptyPerson()]])},
   addP=()=>{const s=newHireSlides.length>0?newHireSlides.map(x=>[...x]):[[]];const last=s[s.length-1]||[];if(last.length<9){last.push(emptyPerson());s[s.length-1]=last}else{s.push([emptyPerson()])};setNewHireSlides(s)}
   const total=newHireSlides.flat().filter(p=>p.name).length
-  return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Title" value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!" disabled={fields.showIntroSlide===false}/><Input label="Description" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Welcome to the team!" disabled={fields.showIntroSlide===false}/>
+  return (<><SectionLabel>Cover Slide</SectionLabel><Input label="Title" tooltip="Lead with the big idea. Use sentence case." value={fields.headline} onChange={v=>update('headline',v)} placeholder="Meet our newest members!" disabled={fields.showIntroSlide===false}/><Input label="Description" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Welcome to the team!" disabled={fields.showIntroSlide===false}/>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:12,marginBottom:4}}>
           <span style={{fontSize:13,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Show cover</span>
           <button onClick={()=>update('showIntroSlide',fields.showIntroSlide===false?true:false)} style={{width:36,height:20,borderRadius:10,border:'none',cursor:'pointer',background:fields.showIntroSlide===false?'#CBD0D5':T.purple,position:'relative',transition:'background 0.2s',flexShrink:0,padding:0}}>
