@@ -75,17 +75,24 @@ function SectionLabel({ children }) {
 }
 
 function Tooltip({ text }) {
-  const [show, setShow] = useState(false)
+  const [pos, setPos] = useState(null)
+  const iconRef = React.useRef(null)
+  const show = (e) => {
+    const r = iconRef.current.getBoundingClientRect()
+    setPos({ top: r.top + r.height/2, left: r.right + 8 })
+  }
+  const hide = () => setPos(null)
   return (
-    <span style={{position:'relative',display:'inline-flex',alignItems:'center',marginLeft:4}} onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}>
-      <span style={{width:14,height:14,borderRadius:'50%',background:'#F1EFE8',border:'0.5px solid #B4B2A9',color:'#888780',fontSize:'8.5px',fontStyle:'italic',display:'flex',alignItems:'center',justifyContent:'center',cursor:'default',flexShrink:0,fontFamily:"'Nunito Sans',sans-serif",lineHeight:1}}>i</span>
-      {show && <span style={{position:'absolute',left:20,top:'50%',transform:'translateY(-50%)',width:188,borderRadius:6,padding:'8px 10px',fontSize:12,fontFamily:"'Nunito Sans',sans-serif",lineHeight:1.5,zIndex:100,background:'#24272B',color:'#ffffff',pointerEvents:'none',whiteSpace:'normal'}}>
+    <span style={{position:'relative',display:'inline-flex',alignItems:'center',marginLeft:4}} onMouseEnter={show} onMouseLeave={hide}>
+      <span ref={iconRef} style={{width:14,height:14,borderRadius:'50%',background:'#F3F4F5',color:'#888780',fontSize:'8.5px',fontStyle:'normal',fontWeight:400,display:'flex',alignItems:'center',justifyContent:'center',cursor:'default',flexShrink:0,fontFamily:"'Nunito Sans',sans-serif",lineHeight:1}}>i</span>
+      {pos && <span style={{position:'fixed',left:pos.left,top:pos.top,transform:'translateY(-50%)',width:188,borderRadius:6,padding:'8px 10px',fontSize:12,fontFamily:"'Nunito Sans',sans-serif",lineHeight:1.5,zIndex:9999,background:'#24272B',color:'#ffffff',pointerEvents:'none',whiteSpace:'normal'}}>
         <span style={{position:'absolute',left:-4,top:'50%',transform:'translateY(-50%)',width:0,height:0,borderTop:'4px solid transparent',borderBottom:'4px solid transparent',borderRight:'4px solid #24272B'}}/>
         {text}
       </span>}
     </span>
   )
 }
+
 function Input({ label, value, onChange, placeholder, multiline, rows=3, limit, disabled, tooltip }) {
   const [focused, setFocused] = useState(false)
   const style = { width:'100%', background:disabled?T.bgHover:T.bgInput, color:disabled?'#98A1A9':T.text, WebkitTextFillColor:disabled?'#98A1A9':T.text, opacity:1, cursor:disabled?'not-allowed':'text', border:`1px solid ${limit&&(value||'').length>limit?'#E24B4A':focused?T.borderFocus:T.border}`, borderRadius:2, padding:'9px 12px', fontSize:13, fontFamily:"'Nunito Sans', sans-serif", outline:'none', resize:multiline?'vertical':'none', lineHeight:1.5, boxSizing:'border-box', transition:'border-color 0.15s' }
