@@ -26,7 +26,7 @@ export default function HeadlineOnly({ fields, dimension, isDark, logoAlign = 'l
   const align  = logoAlign === 'center' ? 'center' : 'flex-start'
 
   const pad           = Math.round(S.pad(width, height))
-  const logoH         = Math.round(S.logo(width, height))
+  const logoH         = id === 'portrait' ? 74 : Math.round(S.logo(width, height))
   const headlineSize  = Math.round(S.headline(width, height))
   const subSize       = Math.round(S.sub(width, height))
   const pillSize      = Math.round(S.pill(width, height))
