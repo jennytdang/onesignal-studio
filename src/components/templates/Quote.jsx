@@ -42,7 +42,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
   })()
 
   const pad          = Math.round(S.pad(width, height))
-  const logoH        = Math.round(S.logo(width, height))
+  const logoH        = id === 'portrait' ? 74 : Math.round(S.logo(width, height))
   const quoteSize    = Math.round(S.quoteSize(width, height))
   const pillSize     = Math.round(S.pill(width, height))
   const ctaSize      = Math.round(S.cta(width, height))
