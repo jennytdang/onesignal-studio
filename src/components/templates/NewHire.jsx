@@ -17,7 +17,7 @@ export function NewHireCover({ fields, dimension, isDark, logoAlign = 'left', ba
   const subColor = backgroundId==='black'?'#9799E4':['purple500','purple600'].includes(backgroundId)?'#D7D8F5':backgroundId==='white'?'#4E50D1':['grad-2','grad-3'].includes(backgroundId)?'#D7D8F5':['grad-1','grad-4'].includes(backgroundId)?'#4E50D1':fg
   const { width, height, id } = dimension
   const fg = isDark ? COLORS.white : COLORS.black
-  const logoH = id === 'landscape' ? 80 : Math.round(height * 0.055)
+  const logoH = id === 'landscape' ? 80 : id === 'square' ? 62 : Math.round(height * 0.055)
 
   return (
     <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: `${id==='landscape'?Math.round(height*0.0926):id==='story'?Math.round(height*0.052):Math.round(height*0.074)}px ${id==='landscape'?Math.round(width*0.052):id==='story'?Math.round(width*0.0815):Math.round(width*0.074)}px`, fontFamily: "'Epilogue', sans-serif", gap: Math.round(height * 0.05) }}>
