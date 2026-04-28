@@ -27,7 +27,7 @@ export default function StatCallout({ fields, dimension, isDark, logoAlign = 'le
   const align       = logoAlign === 'center' ? 'center' : 'flex-start'
 
   const pad          = Math.round(S.pad(width, height))
-  const logoH        = id === 'portrait' ? 74 : Math.round(S.logo(width, height))
+  const logoH        = id === 'portrait' ? 74 : id === 'square' ? 62 : Math.round(S.logo(width, height))
   const pillSize     = Math.round(S.pill(width, height))
   const subSize      = id==='square'?32:id==='portrait'?38:id==='story'?44:40
   const ctaSize      = id==='square'?32:id==='portrait'?38:id==='story'?44:40
