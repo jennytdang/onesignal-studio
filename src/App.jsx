@@ -76,7 +76,7 @@ function SectionLabel({ children }) {
 
 function Tooltip({ text }) {
   const [pos, setPos] = useState(null)
-  const iconRef = React.useRef(null)
+  const iconRef = useRef(null)
   const show = (e) => {
     const r = iconRef.current.getBoundingClientRect()
     setPos({ top: r.top + r.height/2, left: r.right + 8 })
