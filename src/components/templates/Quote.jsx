@@ -82,7 +82,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
   )
 
   return (
-    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: id==='square'?0:Math.round(height * 0.04) }}>
+    <div style={{ width, height, display: 'flex', flexDirection: 'column', padding: pad, fontFamily: "'Epilogue', sans-serif", gap: (id==='square'||id==='landscape')?0:Math.round(height * 0.04) }}>
       <CanvasLogo isDark={isDark} height={logoH} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap, alignItems: 'flex-start', overflow: 'hidden', minHeight: 0 }}>
         {pill && (
