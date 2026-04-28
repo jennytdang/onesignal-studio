@@ -76,7 +76,7 @@ export default function Quote({ fields, dimension, isDark, logoAlign = 'left', b
       )}
       <div>
         {authorName && <div style={{ fontSize: authorNameSz, fontWeight: 700, color: fg, letterSpacing: '-0.01em', fontFamily: "'Epilogue', sans-serif" }}>{authorName}</div>}
-        {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: id==='square'?12:8 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
+        {(authorTitle || authorCompany) && <div style={{ fontSize: authorTitleSz, fontFamily: "'Nunito Sans', sans-serif", fontWeight: 400, color: fgSub, marginTop: id==='landscape'?12:id==='square'?12:8 }}>{[authorTitle, authorCompany].filter(Boolean).join(', ')}</div>}
       </div>
     </div>
   )
