@@ -44,7 +44,7 @@ export default function EventPromo({ fields, dimension, isDark, logoAlign = 'lef
   const dividerColor = isDark ? 'rgba(255,255,255,0.12)' : COLORS.gray100
 
   const pad = isLandscape ? Math.round(height * 0.0926) : Math.round(width * 0.074)
-  const logoH = isLandscape ? 80 : Math.round(height * 0.055)
+  const logoH = isLandscape ? 80 : id === 'square' ? 62 : Math.round(height * 0.055)
   const pillPadH = isLandscape ? 32 : Math.round(width * 0.022)
 
   const headlineSize = id === 'landscape' ? Math.round(height * 0.0870)
