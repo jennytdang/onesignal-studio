@@ -142,7 +142,7 @@ function CommonFields({ fields, update }) {
   return (
     <div style={{marginBottom:12}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:5}}>
-        <div style={{fontSize:12,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Eyebrow text <span style={{color:T.textMuted}}>(optional)</span><Tooltip text="Short label that appears above your headline." /></div>
+        <div style={{fontSize:12,color:T.textSub,fontFamily:"'Nunito Sans', sans-serif"}}>Eyebrow text <span style={{color:T.textMuted}}>(optional)</span></div>
         <CharCount value={fields.pill} limit={PILL_LIMIT} />
       </div>
       <div style={{position:'relative'}}>
@@ -155,8 +155,8 @@ function CommonFields({ fields, update }) {
   )
 }
 
-function HeadlineFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Title *" tooltip="Lead with the big idea. Use sentence case." value={fields.headline} onChange={v=>update('headline',v)} placeholder="Your bold headline"/><Input label="Description" tooltip="One or two supporting sentences. Keep it scannable, less is more on social." value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Supporting copy" multiline rows={2}/><Input label="CTA Button" tooltip="Use sentence case and an action verb." value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Learn more" limit={CTA_LIMIT}/></>) }
-function StatFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Metric" tooltip="The big number or stat, keep it short and punchy." value={fields.stat} onChange={v=>update('stat',v)} placeholder="XX%" limit={STAT_LIMIT}/><Input label="Metric Label" tooltip="Describes what the metric means." value={fields.statLabel} onChange={v=>update('statLabel',v)} placeholder="e.g. faster delivery" limit={STAT_LABEL_LIMIT}/><Input label="Supporting Copy" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Context for the stat…" multiline rows={3}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read the report" limit={CTA_LIMIT}/></>) }
+function HeadlineFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Title *" tooltip="Lead with the big idea. Use sentence case." value={fields.headline} onChange={v=>update('headline',v)} placeholder="Your bold headline"/><Input label="Description" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Supporting copy" multiline rows={2}/><Input label="CTA Button" tooltip="Use sentence case and an action verb." value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Learn more" limit={CTA_LIMIT}/></>) }
+function StatFields({ fields, update }) { return (<><CommonFields fields={fields} update={update}/><Input label="Metric" value={fields.stat} onChange={v=>update('stat',v)} placeholder="XX%" limit={STAT_LIMIT}/><Input label="Metric Label" value={fields.statLabel} onChange={v=>update('statLabel',v)} placeholder="e.g. faster delivery" limit={STAT_LABEL_LIMIT}/><Input label="Supporting Copy" value={fields.subheadline} onChange={v=>update('subheadline',v)} placeholder="Context for the stat…" multiline rows={3}/><Input label="CTA Button" value={fields.cta} onChange={v=>update('cta',v)} placeholder="e.g. Read the report" limit={CTA_LIMIT}/></>) }
 
 function QuoteFields({ fields, update }) {
   return (<>
