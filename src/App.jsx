@@ -33,7 +33,7 @@ function usePixelTrail() {
     for (let r = 0; r < PX_ROWS; r++) {
       for (let c = 0; c < PX_COLS; c++) {
         const el = document.createElement('div')
-        el.style.cssText = 'background:#4E50D1;opacity:0;transition-property:opacity;transition-duration:0s;transition-delay:0s;'
+        el.style.cssText = 'background:#ffffff;opacity:0;transition-property:opacity;transition-duration:0s;transition-delay:0s;'
         grid.appendChild(el)
         cells.push({ el, cx:(c+0.5)/PX_COLS, cy:(r+0.5)/PX_ROWS })
       }
@@ -208,6 +208,46 @@ function FieldsPanel({ template, fields, update, newHireSlides, setNewHireSlides
   return null
 }
 
+function FormatDropdown({ exportFormat, setExportFormat, formatOpen, setFormatOpen }) {
+  const btnRef = useRef(null)
+  const [dropPos, setDropPos] = useState(null)
+  const toggle = () => {
+    if (!formatOpen) {
+      const r = btnRef.current.getBoundingClientRect()
+      // If not enough space below, open upward
+      const spaceBelow = window.innerHeight - r.bottom
+      const dropH = 90
+      if (spaceBelow < dropH) {
+        setDropPos({ left: r.left, bottom: window.innerHeight - r.top + 4, top: 'auto', width: r.width })
+      } else {
+        setDropPos({ left: r.left, top: r.bottom + 4, bottom: 'auto', width: r.width })
+      }
+    }
+    setFormatOpen(o => !o)
+  }
+  useEffect(() => {
+    if (!formatOpen) setDropPos(null)
+  }, [formatOpen])
+  return (
+    <div style={{marginBottom:8}}>
+      <button ref={btnRef} onClick={toggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'var(--bg)',border:`0.5px solid ${T.border}`,borderRadius:4,fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}}>
+        <span>{exportFormat}</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{transform:formatOpen?'rotate(180deg)':'none',transition:'transform 0.15s'}}><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      {formatOpen && dropPos && <div style={{position:'fixed',left:dropPos.left,top:dropPos.top,bottom:dropPos.bottom,width:dropPos.width,background:T.bg,border:`0.5px solid ${T.border}`,borderRadius:4,zIndex:9999,overflow:'hidden',boxShadow:'0 4px 12px rgba(0,0,0,0.12)'}}>
+        {['PNG','JPG'].map(fmt=>(
+          <div key={fmt} onClick={()=>{setExportFormat(fmt);setFormatOpen(false);}} style={{padding:'9px 12px',cursor:'pointer',background:exportFormat===fmt?T.bgHover:T.bg,display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:13,color:T.text,fontFamily:"'Nunito Sans', sans-serif"}}>
+            <div>
+              <div style={{fontWeight:500}}>{fmt}</div>
+              <div style={{fontSize:11,color:T.textMuted}}>{fmt==='PNG'?'Lossless, supports transparency':'Smaller file, best for photos'}</div>
+            </div>
+            {exportFormat===fmt&&<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.purple} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+          </div>
+        ))}
+      </div>}
+    </div>
+  )
+}
 function PixelPngButton({ onClick, exporting }) {
   const btnRef = useRef(null)
   const gridRef = useRef(null)
@@ -232,8 +272,8 @@ function PixelPngButton({ onClick, exporting }) {
       const ey = (e.clientY - rect.top) / rect.height
       const dists = cells.map(({cx,cy}) => Math.sqrt((cx-ex)**2+(cy-ey)**2))
       const maxD = Math.max(...dists)
-      btn.style.color = '#fff'
-      if (iconRef.current) iconRef.current.style.filter = 'brightness(0) invert(1)'
+      btn.style.color = '#051B2C'
+      if (iconRef.current) iconRef.current.style.filter = 'brightness(0)'
       cells.forEach(({el},i) => {
         const base = (dists[i]/maxD) * PX_MAX_DELAY
         const noise = (Math.random()-0.5) * PX_MAX_DELAY * 0.5
@@ -244,8 +284,8 @@ function PixelPngButton({ onClick, exporting }) {
       })
     }
     const onLeave = () => {
-      btn.style.color = '#051B2C'
-      if (iconRef.current) iconRef.current.style.filter = 'brightness(0)'
+      btn.style.color = '#ffffff'
+      if (iconRef.current) iconRef.current.style.filter = 'brightness(0) invert(1)'
       cells.forEach(({el}) => {
         el.style.transitionDuration = '0s'
         el.style.transitionDelay = '0s'
@@ -258,7 +298,7 @@ function PixelPngButton({ onClick, exporting }) {
   }, [])
   return (
     <button ref={btnRef} onClick={exporting?undefined:onClick} disabled={exporting}
-      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:'#FFFFFF',color:'#051B2C',border:'1px solid #051B2C',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}>
+      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:'#4E50D1',color:'#ffffff',border:'1px solid #4E50D1',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}>
       <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
       <img ref={iconRef} src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0)',transition:'filter 0.15s'}}/>
       <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'Download'}</span>
@@ -349,25 +389,9 @@ export default function App() {
         </div>
         <div style={{padding:14,borderTop:`1px solid ${T.border}`}}>
           {template!=='newhire'&&<>
-            <div style={{position:'relative',marginBottom:8}}>
-              <button onClick={()=>setFormatOpen(o=>!o)} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:T.bg,border:`0.5px solid ${T.border}`,borderRadius:4,fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}}>
-                <span>{exportFormat}</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{transform:formatOpen?'rotate(180deg)':'rotate(0deg)',transition:'transform 0.15s'}}><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              {formatOpen&&<div style={{position:'absolute',top:'calc(100% + 4px)',left:0,right:0,background:T.bg,border:`0.5px solid ${T.border}`,borderRadius:4,zIndex:50,overflow:'hidden'}}>
-                {['PNG','JPG'].map(fmt=>(
-                  <div key={fmt} onClick={()=>{setExportFormat(fmt);setFormatOpen(false);}} style={{padding:'9px 12px',cursor:'pointer',background:exportFormat===fmt?T.bgHover:T.bg,display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:13,color:T.text,fontFamily:"'Nunito Sans', sans-serif"}}>
-                    <div>
-                      <div style={{fontWeight:500}}>{fmt}</div>
-                      <div style={{fontSize:11,color:T.textMuted}}>{fmt==='PNG'?'Lossless, supports transparency':'Smaller file, best for photos'}</div>
-                    </div>
-                    {exportFormat===fmt&&<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.purple} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                  </div>
-                ))}
-              </div>}
-            </div>
+            <FormatDropdown exportFormat={exportFormat} setExportFormat={setExportFormat} formatOpen={formatOpen} setFormatOpen={setFormatOpen}/>
             <PixelPngButton onClick={handleDownload} exporting={exporting}/>
-          </>}
+          </>}}
         </div>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
