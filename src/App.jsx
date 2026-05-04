@@ -391,7 +391,7 @@ export default function App() {
           {template!=='newhire'&&<>
             <FormatDropdown exportFormat={exportFormat} setExportFormat={setExportFormat} formatOpen={formatOpen} setFormatOpen={setFormatOpen}/>
             <PixelPngButton onClick={handleDownload} exporting={exporting}/>
-          </>}}
+          </>}
         </div>
       </div>
       <div style={{flex:1,display:'flex',flexDirection:'column',background:T.bgPage,overflow:'hidden'}}>
