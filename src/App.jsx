@@ -230,7 +230,7 @@ function FormatDropdown({ exportFormat, setExportFormat, formatOpen, setFormatOp
   }, [formatOpen])
   return (
     <div style={{marginBottom:8}}>
-      <button ref={btnRef} onClick={toggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'var(--bg)',border:'1px solid #051B2C',borderRadius:4,fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}}>
+      <button ref={btnRef} onClick={toggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'var(--bg)',border:'1px solid #C7CCD1',borderRadius:4,fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}}>
         <span>{exportFormat}</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke='#051B2C' strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{transform:formatOpen?'rotate(180deg)':'none',transition:'transform 0.15s'}}><polyline points="6 9 12 15 18 9"/></svg>
       </button>
