@@ -230,13 +230,13 @@ function FormatDropdown({ exportFormat, setExportFormat, formatOpen, setFormatOp
   }, [formatOpen])
   return (
     <div style={{marginBottom:8}}>
-      <button ref={btnRef} onClick={toggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'var(--bg)',border:`0.5px solid ${T.border}`,borderRadius:4,fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}}>
+      <button ref={btnRef} onClick={toggle} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 12px',background:'var(--bg)',border:'1px solid #051B2C',borderRadius:4,fontSize:13,color:T.text,cursor:'pointer',fontFamily:"'Nunito Sans', sans-serif"}}>
         <span>{exportFormat}</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{transform:formatOpen?'rotate(180deg)':'none',transition:'transform 0.15s'}}><polyline points="6 9 12 15 18 9"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke='#051B2C' strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{transform:formatOpen?'rotate(180deg)':'none',transition:'transform 0.15s'}}><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       {formatOpen && dropPos && <div style={{position:'fixed',left:dropPos.left,top:dropPos.top,bottom:dropPos.bottom,width:dropPos.width,background:T.bg,border:`0.5px solid ${T.border}`,borderRadius:4,zIndex:9999,overflow:'hidden',boxShadow:'0 4px 12px rgba(0,0,0,0.12)'}}>
         {['PNG','JPG'].map(fmt=>(
-          <div key={fmt} onClick={()=>{setExportFormat(fmt);setFormatOpen(false);}} style={{padding:'9px 12px',cursor:'pointer',background:exportFormat===fmt?T.bgHover:T.bg,display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:13,color:T.text,fontFamily:"'Nunito Sans', sans-serif"}}>
+          <div key={fmt} onClick={()=>{setExportFormat(fmt);setFormatOpen(false);}} style={{padding:'9px 12px',cursor:'pointer',background:exportFormat===fmt?'#F3F3FC':T.bg,display:'flex',alignItems:'center',justifyContent:'space-between',fontSize:13,color:T.text,fontFamily:"'Nunito Sans', sans-serif"}}>
             <div>
               <div style={{fontWeight:500}}>{fmt}</div>
               <div style={{fontSize:11,color:T.textMuted}}>{fmt==='PNG'?'Lossless, supports transparency':'Smaller file, best for photos'}</div>
