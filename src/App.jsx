@@ -300,7 +300,7 @@ function PixelPngButton({ onClick, exporting }) {
     <button ref={btnRef} onClick={exporting?undefined:onClick} disabled={exporting}
       style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:'#4E50D1',color:'#ffffff',border:'1px solid #4E50D1',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}>
       <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
-      <img ref={iconRef} src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0)',transition:'filter 0.15s'}}/>
+      <img ref={iconRef} src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0) invert(1)',transition:'filter 0.15s'}}/>
       <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'Download'}</span>
     </button>
   )
@@ -388,6 +388,11 @@ export default function App() {
           <FieldsPanel template={template} fields={fields} update={update} dimension={dimension} newHireSlides={newHireSlides} setNewHireSlides={setNewHireSlides}/>
         </div>
         <div style={{padding:14,borderTop:`1px solid ${T.border}`}}>
+          {template==='newhire'&&<button
+            onClick={exporting?undefined:handleExport}
+            disabled={exporting}
+            style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:exporting?T.border:'#051B2C',color:exporting?T.textMuted:'#fff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif"}}
+          ><img src="/download-icon.svg" alt="" style={{width:14,height:14,filter:'brightness(0) invert(1)'}}/><span>{exporting?'Exporting…':'Export PDF Carousel'}</span></button>}
           {template!=='newhire'&&<>
             <FormatDropdown exportFormat={exportFormat} setExportFormat={setExportFormat} formatOpen={formatOpen} setFormatOpen={setFormatOpen}/>
             <PixelPngButton onClick={handleDownload} exporting={exporting}/>
