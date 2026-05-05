@@ -310,7 +310,7 @@ function PixelPngButton({ onClick, exporting }) {
       ref={btnRef}
       onClick={exporting ? undefined : onClick}
       disabled={exporting}
-      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:exporting?'#98A1A9':'#4E50D1',color:exporting?'#ffffff':'#ffffff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
+      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:exporting?'#98A1A9':'#051B2C',color:exporting?'#ffffff':'#ffffff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
     >
       <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
       <img ref={iconRef} src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0) invert(1)',transition:'filter 0.15s'}}/>
