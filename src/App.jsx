@@ -258,23 +258,29 @@ function PixelPngButton({ onClick, exporting }) {
     if (!btn || !grid) return
     grid.innerHTML = ''
     const cells = []
-    for (let r = 0; r < PX_ROWS; r++) {
-      for (let c = 0; c < PX_COLS; c++) {
-        const el = document.createElement('div')
-        el.style.cssText = 'background:#4E50D1;opacity:0;transition-property:opacity;transition-duration:0s;transition-delay:0s;'
-        grid.appendChild(el)
-        cells.push({ el, cx: (c+0.5)/PX_COLS, cy: (r+0.5)/PX_ROWS })
-      }
+    for (let i = 0; i < PX_COLS * PX_ROWS; i++) {
+      const el = document.createElement('div')
+      el.style.cssText = 'background:#ffffff;opacity:0;transition-property:opacity;transition-duration:0s;transition-delay:0s;'
+      grid.appendChild(el)
+      cells.push({ el })
+    }
+    const getCellCenters = () => {
+      const gr = grid.getBoundingClientRect()
+      const cw = gr.width / PX_COLS
+      const ch = gr.height / PX_ROWS
+      return cells.map((_, i) => ({
+        x: gr.left + (i % PX_COLS + 0.5) * cw,
+        y: gr.top + (Math.floor(i / PX_COLS) + 0.5) * ch
+      }))
     }
     const onEnter = (e) => {
-      const rect = btn.getBoundingClientRect()
-      const ex = (e.clientX - rect.left) / rect.width
-      const ey = (e.clientY - rect.top) / rect.height
-      const dists = cells.map(({cx,cy}) => Math.sqrt((cx-ex)**2+(cy-ey)**2))
+      const centers = getCellCenters()
+      const ex = e.clientX, ey = e.clientY
+      const dists = centers.map(c => Math.sqrt((c.x-ex)**2+(c.y-ey)**2))
       const maxD = Math.max(...dists)
       btn.style.color = '#051B2C'
       if (iconRef.current) iconRef.current.style.filter = 'brightness(0)'
-      cells.forEach(({el},i) => {
+      cells.forEach(({el}, i) => {
         const base = (dists[i]/maxD) * PX_MAX_DELAY
         const noise = (Math.random()-0.5) * PX_MAX_DELAY * 0.5
         const delay = Math.max(0, Math.min(PX_MAX_DELAY+30, base+noise))
@@ -287,26 +293,31 @@ function PixelPngButton({ onClick, exporting }) {
       btn.style.color = '#ffffff'
       if (iconRef.current) iconRef.current.style.filter = 'brightness(0) invert(1)'
       cells.forEach(({el}) => {
-        el.style.transitionDuration = '0s'
-        el.style.transitionDelay = '0s'
+        el.style.transitionDuration = '120ms'
+        el.style.transitionDelay = '0ms'
         el.style.opacity = '0'
       })
     }
     btn.addEventListener('mouseenter', onEnter)
     btn.addEventListener('mouseleave', onLeave)
-    return () => { btn.removeEventListener('mouseenter', onEnter); btn.removeEventListener('mouseleave', onLeave) }
+    return () => {
+      btn.removeEventListener('mouseenter', onEnter)
+      btn.removeEventListener('mouseleave', onLeave)
+    }
   }, [])
   return (
-    <button ref={btnRef} onClick={exporting?undefined:onClick} disabled={exporting}
-      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:'#4E50D1',color:'#ffffff',border:'1px solid #4E50D1',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate',transition:'color 0.15s'}}>
+    <button
+      ref={btnRef}
+      onClick={exporting ? undefined : onClick}
+      disabled={exporting}
+      style={{width:'100%',position:'relative',display:'flex',alignItems:'center',justifyContent:'center',gap:6,background:exporting?'#98A1A9':'#4E50D1',color:exporting?'#ffffff':'#ffffff',border:'none',borderRadius:4,padding:'12px 0',fontSize:14,fontWeight:700,cursor:exporting?'wait':'pointer',fontFamily:"'Epilogue', sans-serif",letterSpacing:'-0.01em',overflow:'hidden',isolation:'isolate'}}
+    >
       <div ref={gridRef} style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:`repeat(${PX_COLS},1fr)`,gridTemplateRows:`repeat(${PX_ROWS},1fr)`,pointerEvents:'none',zIndex:1}}/>
       <img ref={iconRef} src="/download-icon.svg" alt="" style={{width:14,height:14,position:'relative',zIndex:2,filter:'brightness(0) invert(1)',transition:'filter 0.15s'}}/>
       <span style={{position:'relative',zIndex:2}}>{exporting?'Exporting…':'Download'}</span>
     </button>
   )
 }
-
-
 export default function App() {
   const [template, setTemplate] = useState('headline')
   const [dimensionId, setDimensionId] = useState('square')
